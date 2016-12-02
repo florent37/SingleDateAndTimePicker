@@ -18,6 +18,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
     public static final boolean IS_CURVED_DEFAULT = false;
     public static final boolean CAN_BE_ON_PAST_DEFAULT = false;
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
+    private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
 
     private WheelDayPicker daysPicker;
     private WheelMinutePicker minutesPicker;
@@ -30,6 +31,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
     private int textSize;
     private boolean isCyclic;
     private boolean isCurved;
+    private int visibleItemCount;
 
     private boolean canBeOnPast;
 
@@ -110,6 +112,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
                 wheelPicker.setItemTextSize(textSize);
                 wheelPicker.setCyclic(isCyclic);
                 wheelPicker.setCurved(isCurved);
+                wheelPicker.setVisibleItemCount(visibleItemCount);
             }
         }
     }
@@ -180,6 +183,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
         isCurved = a.getBoolean(R.styleable.SingleDayAndDatePicker_picker_curved, IS_CURVED_DEFAULT);
         isCyclic = a.getBoolean(R.styleable.SingleDayAndDatePicker_picker_cyclic, IS_CYCLIC_DEFAULT);
         canBeOnPast = a.getBoolean(R.styleable.SingleDayAndDatePicker_picker_canBeOnPast, CAN_BE_ON_PAST_DEFAULT);
+        visibleItemCount = a.getInt(R.styleable.SingleDayAndDatePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT);
 
         a.recycle();
     }

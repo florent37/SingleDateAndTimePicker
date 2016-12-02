@@ -33,5 +33,6 @@
         <attr name="picker_curved" format="boolean"/>
         <attr name="picker_cyclic" format="boolean"/>
         <attr name="picker_canBeOnPast" format="boolean"/>
+        <attr name="picker_visibleItemCount" format="integer" />
     </declare-styleable>
 </resources>
