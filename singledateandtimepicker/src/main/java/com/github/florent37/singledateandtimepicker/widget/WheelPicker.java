@@ -520,7 +520,7 @@ public abstract class WheelPicker extends View implements Runnable {
         }
     }
 
-    public void scrollTo(int itemPosition) {
+    public void scrollTo(final int itemPosition) {
         final int position = (scrollOffsetY + (currentItemPosition - itemPosition) * mItemHeight) % data.size();
 
         ValueAnimator va = ValueAnimator.ofFloat(scrollOffsetY, position);
@@ -531,6 +531,13 @@ public abstract class WheelPicker extends View implements Runnable {
                 invalidate();
             }
         });
+        //va.addListener(new AnimatorListenerAdapter() {
+        //    @Override
+        //    public void onAnimationEnd(Animator animation) {
+        //        currentItemPosition = itemPosition;
+        //        onItemSelected();
+        //    }
+        //});
         va.start();
     }
 
@@ -542,7 +549,7 @@ public abstract class WheelPicker extends View implements Runnable {
             int position = (-scrollOffsetY / mItemHeight + selectedItemPosition) % data.size();
             position = position < 0 ? position + data.size() : position;
             currentItemPosition = position;
-            onItemSelected(position);
+            onItemSelected();
             if (null != onWheelChangeListener) {
                 onWheelChangeListener.onWheelSelected(position);
                 onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_IDLE);
@@ -558,7 +565,8 @@ public abstract class WheelPicker extends View implements Runnable {
         }
     }
 
-    private final void onItemSelected(int position) {
+    private final void onItemSelected() {
+        int position = currentItemPosition;
         final Object item = this.data.get(position);
         if (null != onItemSelectedListener) {
             onItemSelectedListener.onItemSelected(this, item, position);

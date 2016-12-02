@@ -130,7 +130,13 @@ public class SingleDayAndDatePicker extends LinearLayout {
 
     private boolean isInPast(Date date) {
         final Calendar todayCalendar = Calendar.getInstance();
+        todayCalendar.set(Calendar.MILLISECOND, 0);
+        todayCalendar.set(Calendar.SECOND, 0);
+
         final Calendar dateCalendar = Calendar.getInstance();
+        dateCalendar.set(Calendar.MILLISECOND, 0);
+        dateCalendar.set(Calendar.SECOND, 0);
+
         dateCalendar.setTime(date);
         return dateCalendar.before(todayCalendar);
     }
