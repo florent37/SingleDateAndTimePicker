@@ -8,8 +8,8 @@ import java.util.List;
 
 public class WheelHourPicker extends WheelPicker {
 
-    public static final int MIN_HOUR = 1;
-    public static final int MAX_HOUR = 24;
+    public static final int MIN_HOUR = 0;
+    public static final int MAX_HOUR = 23;
     public static final int STEP_HOUR = 1;
 
     private OnHourSelectedListener hoursSelectedListener;

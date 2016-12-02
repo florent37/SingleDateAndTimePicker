@@ -143,7 +143,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
         final Calendar calendar = Calendar.getInstance();
         final Date dayDate = daysPicker.getCurrentDate();
         calendar.setTime(dayDate);
-        calendar.set(Calendar.HOUR, hour);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
         final Date time = calendar.getTime();
