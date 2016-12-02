@@ -1,5 +1,6 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Camera;
@@ -18,10 +19,10 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
+import com.github.florent37.singledateandtimepicker.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.github.florent37.singledateandtimepicker.R;
 
 public abstract class WheelPicker extends View implements Runnable {
 
@@ -101,12 +102,13 @@ public abstract class WheelPicker extends View implements Runnable {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WheelPicker);
         int idData = a.getResourceId(R.styleable.WheelPicker_wheel_data, 0);
-        if(idData == 0){
+        if (idData == 0) {
             data = new ArrayList();
         } else {
             data = Arrays.asList(getResources().getStringArray(idData));
         }
-        mItemTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_size, getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
+        mItemTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_size,
+            getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
         mVisibleItemCount = a.getInt(R.styleable.WheelPicker_wheel_visible_item_count, 7);
         selectedItemPosition = a.getInt(R.styleable.WheelPicker_wheel_selected_item_position, 0);
         hasSameWidth = a.getBoolean(R.styleable.WheelPicker_wheel_same_width, false);
@@ -481,8 +483,7 @@ public abstract class WheelPicker extends View implements Runnable {
                     scroller.setFinalY(
                         scroller.getFinalY() + computeDistanceToEndPoint(scroller.getFinalY() % mItemHeight));
                 } else {
-                    scroller.startScroll(0, scrollOffsetY, 0,
-                        computeDistanceToEndPoint(scrollOffsetY % mItemHeight));
+                    scroller.startScroll(0, scrollOffsetY, 0, computeDistanceToEndPoint(scrollOffsetY % mItemHeight));
                 }
                 // Correct coordinates
                 if (!isCyclic) {
@@ -520,7 +521,17 @@ public abstract class WheelPicker extends View implements Runnable {
     }
 
     public void scrollTo(int itemPosition) {
-        
+        final int position = (scrollOffsetY + (currentItemPosition - itemPosition) * mItemHeight) % data.size();
+
+        ValueAnimator va = ValueAnimator.ofFloat(scrollOffsetY, position);
+        va.setDuration(300);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                scrollOffsetY = (int)((float)animation.getAnimatedValue());
+                invalidate();
+            }
+        });
+        va.start();
     }
 
     @Override

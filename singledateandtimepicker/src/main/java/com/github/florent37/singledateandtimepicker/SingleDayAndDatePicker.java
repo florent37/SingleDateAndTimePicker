@@ -17,6 +17,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
     public static final boolean IS_CYCLIC_DEFAULT = true;
     public static final boolean IS_CURVED_DEFAULT = false;
     public static final boolean CAN_BE_ON_PAST_DEFAULT = false;
+    public static final int DELAY_BEFORE_CHECK_PAST = 200;
 
     private WheelDayPicker daysPicker;
     private WheelMinutePicker minutesPicker;
@@ -49,14 +50,6 @@ public class SingleDayAndDatePicker extends LinearLayout {
         minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
         hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
 
-        for (WheelPicker wheelPicker : Arrays.asList(daysPicker, minutesPicker, hoursPicker)) {
-            wheelPicker.setItemTextColor(textColor);
-            wheelPicker.setSelectedItemTextColor(selectedTextColor);
-            wheelPicker.setItemTextSize(textSize);
-            wheelPicker.setCyclic(isCyclic);
-            wheelPicker.setCurved(isCurved);
-        }
-
         daysPicker.setOnDaySelectedListener(new WheelDayPicker.OnDaySelectedListener() {
             @Override
             public void onDaySelected(WheelDayPicker picker, int position, String name, Date date) {
@@ -80,6 +73,45 @@ public class SingleDayAndDatePicker extends LinearLayout {
                 checkInPast(picker);
             }
         });
+
+        updatePicker();
+    }
+
+    public void setCurved(boolean curved) {
+        isCurved = curved;
+        updatePicker();
+    }
+
+    public void setCyclic(boolean cyclic) {
+        isCyclic = cyclic;
+        updatePicker();
+    }
+
+    public void setTextSize(int textSize) {
+        this.textSize = textSize;
+        updatePicker();
+    }
+
+    public void setSelectedTextColor(int selectedTextColor) {
+        this.selectedTextColor = selectedTextColor;
+        updatePicker();
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+        updatePicker();
+    }
+
+    private void updatePicker(){
+        if(daysPicker != null && minutesPicker != null && hoursPicker != null) {
+            for (WheelPicker wheelPicker : Arrays.asList(daysPicker, minutesPicker, hoursPicker)) {
+                wheelPicker.setItemTextColor(textColor);
+                wheelPicker.setSelectedItemTextColor(selectedTextColor);
+                wheelPicker.setItemTextSize(textSize);
+                wheelPicker.setCyclic(isCyclic);
+                wheelPicker.setCurved(isCurved);
+            }
+        }
     }
 
     private void checkInPast(final WheelPicker picker) {
@@ -90,7 +122,7 @@ public class SingleDayAndDatePicker extends LinearLayout {
                     picker.scrollTo(picker.getDefaultItemPosition());
                 }
             }
-        }, 400);
+        }, DELAY_BEFORE_CHECK_PAST);
     }
 
     private boolean isInPast(Date date) {
