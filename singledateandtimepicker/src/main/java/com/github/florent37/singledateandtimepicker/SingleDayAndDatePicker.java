@@ -122,7 +122,9 @@ public class SingleDayAndDatePicker extends LinearLayout {
             @Override
             public void run() {
                 if (!canBeOnPast && isInPast(getDate())) {
-                    picker.scrollTo(picker.getDefaultItemPosition());
+                    daysPicker.scrollTo(daysPicker.getDefaultItemPosition());
+                    minutesPicker.scrollTo(minutesPicker.getDefaultItemPosition());
+                    hoursPicker.scrollTo(hoursPicker.getDefaultItemPosition());
                 }
             }
         }, DELAY_BEFORE_CHECK_PAST);

@@ -521,24 +521,26 @@ public abstract class WheelPicker extends View implements Runnable {
     }
 
     public void scrollTo(final int itemPosition) {
-        final int position = (scrollOffsetY + (currentItemPosition - itemPosition) * mItemHeight) % data.size();
+        if(itemPosition != currentItemPosition) {
+            final int position = scrollOffsetY + ((currentItemPosition - itemPosition) * mItemHeight) % data.size();
 
-        ValueAnimator va = ValueAnimator.ofFloat(scrollOffsetY, position);
-        va.setDuration(300);
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                scrollOffsetY = (int)((float)animation.getAnimatedValue());
-                invalidate();
-            }
-        });
-        //va.addListener(new AnimatorListenerAdapter() {
-        //    @Override
-        //    public void onAnimationEnd(Animator animation) {
-        //        currentItemPosition = itemPosition;
-        //        onItemSelected();
-        //    }
-        //});
-        va.start();
+            ValueAnimator va = ValueAnimator.ofInt(scrollOffsetY, position);
+            va.setDuration(300);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    scrollOffsetY = (int) animation.getAnimatedValue();
+                    invalidate();
+                }
+            });
+            //va.addListener(new AnimatorListenerAdapter() {
+            //    @Override
+            //    public void onAnimationEnd(Animator animation) {
+            //        currentItemPosition = itemPosition;
+            //        onItemSelected();
+            //    }
+            //});
+            va.start();
+        }
     }
 
     @Override
