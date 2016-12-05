@@ -1,0 +1,116 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/aller"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/double_date_picker_button_background_selector"
+                android:text="aller"
+                android:textColor="@color/double_date_picker_button_text_selector"
+                />
+            <Button
+                android:id="@+id/retour"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/double_date_picker_button_background_selector"
+                android:text="retour"
+                android:textColor="@color/double_date_picker_button_text_selector"
+                />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:id="@+id/tab0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <com.github.florent37.singledateandtimepicker.SingleDayAndDatePicker
+                    android:id="@+id/picker_aller"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_weight="1"
+                    app:picker_canBeOnPast="false"
+                    app:picker_curved="false"
+                    app:picker_cyclic="true"
+                    app:picker_visibleItemCount="5"
+                    />
+
+                <Button
+                    android:id="@+id/allerOk"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:text="ok"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/colorPrimary"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tab1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <com.github.florent37.singledateandtimepicker.SingleDayAndDatePicker
+                    android:id="@+id/picker_retour"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    app:picker_canBeOnPast="false"
+                    app:picker_curved="false"
+                    app:picker_cyclic="true"
+                    app:picker_visibleItemCount="5"
+                    />
+
+
+                <Button
+                    android:id="@+id/retourOk"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_weight="1"
+                    android:text="ok"
+                    android:textColor="@android:color/white"
+                    app:backgroundTint="@color/colorPrimary"
+                    />
+
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>
