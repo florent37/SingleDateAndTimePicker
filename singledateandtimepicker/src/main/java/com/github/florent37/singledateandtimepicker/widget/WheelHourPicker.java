@@ -47,7 +47,7 @@ public class WheelHourPicker extends WheelPicker {
     }
 
     private void updateDefaultHour() {
-        setSelectedItemPosition(defaultHour - 1);
+        setSelectedItemPosition(defaultHour);
     }
 
     @Override
