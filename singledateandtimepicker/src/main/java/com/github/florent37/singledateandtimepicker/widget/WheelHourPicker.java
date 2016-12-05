@@ -16,6 +16,8 @@ public class WheelHourPicker extends WheelPicker {
 
     private int defaultHour;
 
+    private WheelPicker.Adapter adapter;
+
     public WheelHourPicker(Context context) {
         this(context, null);
     }
@@ -28,7 +30,9 @@ public class WheelHourPicker extends WheelPicker {
         final List<String> hours = new ArrayList<>();
         for (int hour = MIN_HOUR; hour <= MAX_HOUR; hour += STEP_HOUR)
             hours.add(String.format(format, hour));
-        super.setData(hours);
+
+        adapter = new Adapter(hours);
+        setAdapter(adapter);
 
         defaultHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
@@ -44,11 +48,6 @@ public class WheelHourPicker extends WheelPicker {
 
     private void updateDefaultHour() {
         setSelectedItemPosition(defaultHour - 1);
-    }
-
-    @Override
-    public void setData(List data) {
-        throw new UnsupportedOperationException("You can not invoke setData in WheelHourPicker");
     }
 
     @Override
@@ -70,7 +69,7 @@ public class WheelHourPicker extends WheelPicker {
     }
 
     public int getCurrentHour() {
-        return convertItemToMinute(getData().get(getCurrentItemPosition()));
+        return convertItemToMinute(adapter.getItem(getCurrentItemPosition()));
     }
 
     public interface OnHourSelectedListener {

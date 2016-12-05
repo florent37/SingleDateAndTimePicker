@@ -13,6 +13,8 @@ public class WheelMinutePicker extends WheelPicker {
 
     private int defaultMinute;
 
+    private WheelPicker.Adapter adapter;
+
     private OnMinuteSelectedListener onMinuteSelectedListener;
 
     public WheelMinutePicker(Context context) {
@@ -22,12 +24,14 @@ public class WheelMinutePicker extends WheelPicker {
     public WheelMinutePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+
         final String format = "%1$02d"; // two digits
 
         List<String> minutes = new ArrayList<>();
         for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += STEP_MINUTES)
             minutes.add(String.format(format, min));
-        super.setData(minutes);
+        adapter = new Adapter(minutes);
+        setAdapter(adapter);
 
         defaultMinute = Calendar.getInstance().get(Calendar.MINUTE);
 
@@ -46,9 +50,9 @@ public class WheelMinutePicker extends WheelPicker {
     }
 
     private int findIndexOfMinute(int minute) {
-        final List data = getData();
-        for (int i = 0; i < data.size(); ++i) {
-            final String object = (String) data.get(i);
+        final int itemCount = adapter.getItemCount();
+        for (int i = 0; i < itemCount; ++i) {
+            final String object = adapter.getItemText(i);
             final Integer value = Integer.valueOf(object);
             if (minute < value) {
                 return i - 1;
@@ -76,7 +80,7 @@ public class WheelMinutePicker extends WheelPicker {
     }
 
     public int getCurrentMinute() {
-        return convertItemToMinute(getData().get(getCurrentItemPosition()));
+        return convertItemToMinute(adapter.getItem(getCurrentItemPosition()));
     }
 
     public interface OnMinuteSelectedListener {

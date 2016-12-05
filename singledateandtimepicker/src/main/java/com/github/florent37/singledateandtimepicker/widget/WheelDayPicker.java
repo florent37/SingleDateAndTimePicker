@@ -24,6 +24,8 @@ public class WheelDayPicker extends WheelPicker {
 
     private OnDaySelectedListener onDaySelectedListener;
 
+    WheelPicker.Adapter adapter;
+
     public WheelDayPicker(Context context) {
         this(context, null);
     }
@@ -32,6 +34,8 @@ public class WheelDayPicker extends WheelPicker {
         super(context, attrs);
 
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM", getCurrentLocale());
+        this.adapter = new Adapter();
+        setAdapter(adapter);
 
         updateDays();
 
@@ -85,7 +89,7 @@ public class WheelDayPicker extends WheelPicker {
             data.add(simpleDateFormat.format(instance.getTime()));
         }
 
-        super.setData(data);
+        adapter.setData(data);
     }
 
     public void setOnDaySelectedListener(OnDaySelectedListener onDaySelectedListener) {
@@ -107,7 +111,7 @@ public class WheelDayPicker extends WheelPicker {
 
     private Date convertItemToDate(int itemPosition){
         Date date = null;
-        String itemText = (String)getData().get(itemPosition);
+        String itemText = adapter.getItemText(itemPosition);
         final Calendar todayCalendar = Calendar.getInstance();
         if(itemPosition == todayPosition){
             date = todayCalendar.getTime();
@@ -134,7 +138,7 @@ public class WheelDayPicker extends WheelPicker {
     }
 
     public String getCurrentDay() {
-        return String.valueOf(getData().get(getCurrentItemPosition()));
+        return adapter.getItemText(getCurrentItemPosition());
     }
 
     public interface OnDaySelectedListener {

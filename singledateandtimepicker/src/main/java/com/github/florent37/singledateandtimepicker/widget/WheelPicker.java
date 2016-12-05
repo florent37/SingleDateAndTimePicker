@@ -1,5 +1,7 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,10 +23,9 @@ import android.view.ViewConfiguration;
 import android.widget.Scroller;
 import com.github.florent37.singledateandtimepicker.R;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public abstract class WheelPicker extends View implements Runnable {
+public abstract class WheelPicker extends View {
 
     public static final int SCROLL_STATE_IDLE = 0;
     public static final int SCROLL_STATE_DRAGGING = 1;
@@ -49,9 +50,7 @@ public abstract class WheelPicker extends View implements Runnable {
 
     private Camera camera;
     private Matrix matrixRotate, matrixDepth;
-
-    private List data;
-
+    private BaseAdapter adapter;
     private String maxWidthText;
 
     private int mVisibleItemCount, mDrawnItemCount;
@@ -66,17 +65,13 @@ public abstract class WheelPicker extends View implements Runnable {
     private int mItemAlign;
     private int mItemHeight, mHalfItemHeight;
     private int mHalfWheelHeight;
-
     private int selectedItemPosition;
     private int currentItemPosition;
-
     private int minFlingY, maxFlingY;
     private int minimumVelocity = 50, maximumVelocity = 8000;
-
     private int wheelCenterX, wheelCenterY;
     private int drawnCenterX, drawnCenterY;
     private int scrollOffsetY;
-
     private int textMaxWidthPosition;
     private int lastPointY;
     private int downPointY;
@@ -84,7 +79,6 @@ public abstract class WheelPicker extends View implements Runnable {
 
     private boolean hasSameWidth;
     private boolean hasIndicator;
-
     private boolean hasCurtain;
     private boolean hasAtmospheric;
     private boolean isCyclic;
@@ -92,21 +86,44 @@ public abstract class WheelPicker extends View implements Runnable {
 
     private boolean isClick;
     private boolean isForceFinishScroll;
-
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (null == adapter) return;
+            final int itemCount = adapter.getItemCount();
+            if (itemCount == 0) return;
+            if (scroller.isFinished() && !isForceFinishScroll) {
+                if (mItemHeight == 0) return;
+                int position = (-scrollOffsetY / mItemHeight + selectedItemPosition) % itemCount;
+                position = position < 0 ? position + itemCount : position;
+                currentItemPosition = position;
+                onItemSelected();
+                if (null != onWheelChangeListener) {
+                    onWheelChangeListener.onWheelSelected(position);
+                    onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_IDLE);
+                }
+            }
+            if (scroller.computeScrollOffset()) {
+                if (null != onWheelChangeListener) {
+                    onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_SCROLLING);
+                }
+                scrollOffsetY = scroller.getCurrY();
+                postInvalidate();
+                handler.postDelayed(this, 16);
+            }
+        }
+    };
     public WheelPicker(Context context) {
         this(context, null);
     }
 
     public WheelPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        adapter = new Adapter();
+
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WheelPicker);
-        int idData = a.getResourceId(R.styleable.WheelPicker_wheel_data, 0);
-        if (idData == 0) {
-            data = new ArrayList();
-        } else {
-            data = Arrays.asList(getResources().getStringArray(idData));
-        }
+
         mItemTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_size,
             getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
         mVisibleItemCount = a.getInt(R.styleable.WheelPicker_wheel_visible_item_count, 7);
@@ -171,14 +188,15 @@ public abstract class WheelPicker extends View implements Runnable {
     private void computeTextSize() {
         mTextMaxWidth = mTextMaxHeight = 0;
         if (hasSameWidth) {
-            mTextMaxWidth = (int) paint.measureText(String.valueOf(data.get(0)));
+            mTextMaxWidth = (int) paint.measureText(adapter.getItemText(0));
         } else if (isPosInRang(textMaxWidthPosition)) {
-            mTextMaxWidth = (int) paint.measureText(String.valueOf(data.get(textMaxWidthPosition)));
+            mTextMaxWidth = (int) paint.measureText(adapter.getItemText(textMaxWidthPosition));
         } else if (!TextUtils.isEmpty(maxWidthText)) {
             mTextMaxWidth = (int) paint.measureText(maxWidthText);
         } else {
-            for (Object obj : data) {
-                String text = String.valueOf(obj);
+            final int itemCount = adapter.getItemCount();
+            for (int i = 0; i < itemCount; ++i) {
+                String text = adapter.getItemText(i);
                 int width = (int) paint.measureText(text);
                 mTextMaxWidth = Math.max(mTextMaxWidth, width);
             }
@@ -285,7 +303,7 @@ public abstract class WheelPicker extends View implements Runnable {
 
     private void computeFlingLimitY() {
         int currentItemOffset = selectedItemPosition * mItemHeight;
-        minFlingY = isCyclic ? Integer.MIN_VALUE : -mItemHeight * (data.size() - 1) + currentItemOffset;
+        minFlingY = isCyclic ? Integer.MIN_VALUE : -mItemHeight * (adapter.getItemCount() - 1) + currentItemOffset;
         maxFlingY = isCyclic ? Integer.MAX_VALUE : currentItemOffset;
     }
 
@@ -316,11 +334,12 @@ public abstract class WheelPicker extends View implements Runnable {
             drawnDataPos++, drawnOffsetPos++) {
             String data = "";
             if (isCyclic) {
-                int actualPos = drawnDataPos % this.data.size();
-                actualPos = actualPos < 0 ? (actualPos + this.data.size()) : actualPos;
-                data = String.valueOf(this.data.get(actualPos));
+                final int itemCount = this.adapter.getItemCount();
+                int actualPos = drawnDataPos % itemCount;
+                actualPos = actualPos < 0 ? (actualPos + itemCount) : actualPos;
+                data = adapter.getItemText(actualPos);
             } else {
-                if (isPosInRang(drawnDataPos)) data = String.valueOf(this.data.get(drawnDataPos));
+                if (isPosInRang(drawnDataPos)) data = adapter.getItemText(drawnDataPos);
             }
             paint.setColor(mItemTextColor);
             paint.setStyle(Paint.Style.FILL);
@@ -418,7 +437,7 @@ public abstract class WheelPicker extends View implements Runnable {
     }
 
     private boolean isPosInRang(int position) {
-        return position >= 0 && position < data.size();
+        return position >= 0 && position < adapter.getItemCount();
     }
 
     private int computeSpace(int degree) {
@@ -491,7 +510,7 @@ public abstract class WheelPicker extends View implements Runnable {
                         scroller.setFinalY(maxFlingY);
                     } else if (scroller.getFinalY() < minFlingY) scroller.setFinalY(minFlingY);
                 }
-                handler.post(this);
+                handler.post(runnable);
                 if (null != tracker) {
                     tracker.recycle();
                     tracker = null;
@@ -521,10 +540,11 @@ public abstract class WheelPicker extends View implements Runnable {
     }
 
     public void scrollTo(final int itemPosition) {
-        if(itemPosition != currentItemPosition) {
-            final int position = scrollOffsetY + ((currentItemPosition - itemPosition) * mItemHeight) % data.size();
+        if (itemPosition != currentItemPosition) {
+            final int differencesLines = currentItemPosition - itemPosition;
+            final int newScrollOffsetY = scrollOffsetY + (differencesLines * mItemHeight); // % adapter.getItemCount();
 
-            ValueAnimator va = ValueAnimator.ofInt(scrollOffsetY, position);
+            ValueAnimator va = ValueAnimator.ofInt(scrollOffsetY, newScrollOffsetY);
             va.setDuration(300);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -532,44 +552,20 @@ public abstract class WheelPicker extends View implements Runnable {
                     invalidate();
                 }
             });
-            //va.addListener(new AnimatorListenerAdapter() {
-            //    @Override
-            //    public void onAnimationEnd(Animator animation) {
-            //        currentItemPosition = itemPosition;
-            //        onItemSelected();
-            //    }
-            //});
+            va.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    currentItemPosition = itemPosition;
+                    onItemSelected();
+                }
+            });
             va.start();
-        }
-    }
-
-    @Override
-    public void run() {
-        if (null == data || data.size() == 0) return;
-        if (scroller.isFinished() && !isForceFinishScroll) {
-            if (mItemHeight == 0) return;
-            int position = (-scrollOffsetY / mItemHeight + selectedItemPosition) % data.size();
-            position = position < 0 ? position + data.size() : position;
-            currentItemPosition = position;
-            onItemSelected();
-            if (null != onWheelChangeListener) {
-                onWheelChangeListener.onWheelSelected(position);
-                onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_IDLE);
-            }
-        }
-        if (scroller.computeScrollOffset()) {
-            if (null != onWheelChangeListener) {
-                onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_SCROLLING);
-            }
-            scrollOffsetY = scroller.getCurrY();
-            postInvalidate();
-            handler.postDelayed(this, 16);
         }
     }
 
     private final void onItemSelected() {
         int position = currentItemPosition;
-        final Object item = this.data.get(position);
+        final Object item = this.adapter.getItem(position);
         if (null != onItemSelectedListener) {
             onItemSelectedListener.onItemSelected(this, item, position);
         }
@@ -607,7 +603,7 @@ public abstract class WheelPicker extends View implements Runnable {
     }
 
     public void setSelectedItemPosition(int position) {
-        position = Math.min(position, data.size() - 1);
+        position = Math.min(position, adapter.getItemCount() - 1);
         position = Math.max(position, 0);
         selectedItemPosition = position;
         currentItemPosition = position;
@@ -623,16 +619,14 @@ public abstract class WheelPicker extends View implements Runnable {
 
     public abstract int getDefaultItemPosition();
 
-    public List getData() {
-        return data;
+    public void setAdapter(Adapter adapter) {
+        this.adapter = adapter;
+        notifyDatasetChanged();
     }
 
-    protected void setData(List data) {
-        if (null == data) throw new NullPointerException("WheelPicker's data can not be null!");
-        this.data = data;
-
-        if (selectedItemPosition > data.size() - 1 || currentItemPosition > data.size() - 1) {
-            selectedItemPosition = currentItemPosition = data.size() - 1;
+    public void notifyDatasetChanged() {
+        if (selectedItemPosition > adapter.getItemCount() - 1 || currentItemPosition > adapter.getItemCount() - 1) {
+            selectedItemPosition = currentItemPosition = adapter.getItemCount() - 1;
         } else {
             selectedItemPosition = currentItemPosition;
         }
@@ -677,7 +671,7 @@ public abstract class WheelPicker extends View implements Runnable {
     public void setMaximumWidthTextPosition(int position) {
         if (!isPosInRang(position)) {
             throw new ArrayIndexOutOfBoundsException("Maximum width text Position must in [0, " +
-                data.size() + "), but current is " + position);
+                adapter.getItemCount() + "), but current is " + position);
         }
         textMaxWidthPosition = position;
         computeTextSize();
@@ -816,6 +810,15 @@ public abstract class WheelPicker extends View implements Runnable {
         invalidate();
     }
 
+    public interface BaseAdapter {
+
+        int getItemCount();
+
+        Object getItem(int position);
+
+        String getItemText(int position);
+    }
+
     public interface OnItemSelectedListener {
         void onItemSelected(WheelPicker picker, Object data, int position);
     }
@@ -863,5 +866,42 @@ public abstract class WheelPicker extends View implements Runnable {
          * Express WheelPicker in state of scrolling
          */
         void onWheelScrollStateChanged(int state);
+    }
+
+    public static class Adapter implements BaseAdapter {
+        private List data;
+
+        public Adapter() {
+            this(new ArrayList());
+        }
+
+        public Adapter(List data) {
+            this.data = new ArrayList();
+            this.data.addAll(data);
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return data.get(position);
+        }
+
+        @Override
+        public String getItemText(int position) {
+            return String.valueOf(data.get(position));
+        }
+
+        public void setData(List data) {
+            this.data.clear();
+            this.data.addAll(data);
+        }
+
+        public void addData(List data) {
+            this.data.addAll(data);
+        }
     }
 }
