@@ -111,7 +111,7 @@ public abstract class WheelPicker extends View {
                 scrollOffsetY = scroller.getCurrY();
 
                 int position = (-scrollOffsetY / mItemHeight + selectedItemPosition) % itemCount;
-                if(onItemSelectedListener != null) {
+                if (onItemSelectedListener != null) {
                     onItemSelectedListener.onCurrentItemOfScroll(WheelPicker.this, position);
                 }
                 onItemCurrentScroll(position, adapter.getItem(position));
@@ -121,6 +121,7 @@ public abstract class WheelPicker extends View {
             }
         }
     };
+
     public WheelPicker(Context context) {
         this(context, null);
     }
@@ -128,7 +129,6 @@ public abstract class WheelPicker extends View {
     public WheelPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
         adapter = new Adapter();
-
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WheelPicker);
 
@@ -581,6 +581,7 @@ public abstract class WheelPicker extends View {
     }
 
     protected abstract void onItemSelected(int position, Object item);
+
     protected abstract void onItemCurrentScroll(int position, Object item);
 
     public int getVisibleItemCount() {
@@ -898,7 +899,8 @@ public abstract class WheelPicker extends View {
 
         @Override
         public Object getItem(int position) {
-            return data.get(position % getItemCount());
+            final int itemCount = getItemCount();
+            return data.get((position + itemCount) % itemCount);
         }
 
         @Override
