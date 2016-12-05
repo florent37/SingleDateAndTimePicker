@@ -52,6 +52,11 @@ public class WheelDayPicker extends WheelPicker {
     }
 
     @Override
+    protected void onItemCurrentScroll(int position, Object item) {
+
+    }
+
+    @Override
     public int getDefaultItemPosition() {
         return defaultIndex;
     }

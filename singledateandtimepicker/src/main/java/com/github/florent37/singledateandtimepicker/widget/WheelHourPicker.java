@@ -16,6 +16,8 @@ public class WheelHourPicker extends WheelPicker {
 
     private int defaultHour;
 
+    private int lastScrollPosition;
+
     private WheelPicker.Adapter adapter;
 
     public WheelHourPicker(Context context) {
@@ -42,7 +44,23 @@ public class WheelHourPicker extends WheelPicker {
     @Override
     protected void onItemSelected(int position, Object item) {
         if(hoursSelectedListener != null){
-            hoursSelectedListener.onHourSelected(this, position, convertItemToMinute(item));
+            hoursSelectedListener.onHourSelected(this, position, convertItemToHour(item));
+        }
+    }
+
+    @Override
+    protected void onItemCurrentScroll(int position, Object item) {
+        if(hoursSelectedListener != null){
+            hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
+        }
+
+        if(lastScrollPosition != position) {
+            hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
+            if(lastScrollPosition == 23 && position == 0)
+                if (hoursSelectedListener != null) {
+                    hoursSelectedListener.onHourCurrentNewDay(this);
+                }
+            lastScrollPosition = position;
         }
     }
 
@@ -64,15 +82,17 @@ public class WheelHourPicker extends WheelPicker {
         updateDefaultHour();
     }
 
-    private int convertItemToMinute(Object item){
+    private int convertItemToHour(Object item){
         return Integer.valueOf(String.valueOf(item));
     }
 
     public int getCurrentHour() {
-        return convertItemToMinute(adapter.getItem(getCurrentItemPosition()));
+        return convertItemToHour(adapter.getItem(getCurrentItemPosition()));
     }
 
     public interface OnHourSelectedListener {
         void onHourSelected(WheelHourPicker picker, int position, int hours);
+        void onHourCurrentScrolled(WheelHourPicker picker, int position, int hours);
+        void onHourCurrentNewDay(WheelHourPicker picker);
     }
 }

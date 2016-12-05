@@ -107,7 +107,15 @@ public abstract class WheelPicker extends View {
                 if (null != onWheelChangeListener) {
                     onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_SCROLLING);
                 }
+
                 scrollOffsetY = scroller.getCurrY();
+
+                int position = (-scrollOffsetY / mItemHeight + selectedItemPosition) % itemCount;
+                if(onItemSelectedListener != null) {
+                    onItemSelectedListener.onCurrentItemOfScroll(WheelPicker.this, position);
+                }
+                onItemCurrentScroll(position, adapter.getItem(position));
+
                 postInvalidate();
                 handler.postDelayed(this, 16);
             }
@@ -573,6 +581,7 @@ public abstract class WheelPicker extends View {
     }
 
     protected abstract void onItemSelected(int position, Object item);
+    protected abstract void onItemCurrentScroll(int position, Object item);
 
     public int getVisibleItemCount() {
         return mVisibleItemCount;
@@ -821,6 +830,8 @@ public abstract class WheelPicker extends View {
 
     public interface OnItemSelectedListener {
         void onItemSelected(WheelPicker picker, Object data, int position);
+
+        void onCurrentItemOfScroll(WheelPicker picker, int position);
     }
 
     public interface OnWheelChangeListener {
@@ -887,7 +898,7 @@ public abstract class WheelPicker extends View {
 
         @Override
         public Object getItem(int position) {
-            return data.get(position);
+            return data.get(position % getItemCount());
         }
 
         @Override

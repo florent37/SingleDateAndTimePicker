@@ -66,6 +66,16 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 updateListener();
                 checkInPast(picker);
             }
+
+            @Override
+            public void onMinuteCurrentScrolled(WheelMinutePicker picker, int position, int minutes) {
+
+            }
+
+            @Override
+            public void onMinuteScrolledNewHour(WheelMinutePicker picker) {
+                hoursPicker.scrollTo(hoursPicker.getCurrentItemPosition()+1);
+            }
         });
 
         hoursPicker.setOnHourSelectedListener(new WheelHourPicker.OnHourSelectedListener() {
@@ -73,6 +83,16 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void onHourSelected(WheelHourPicker picker, int position, int hours) {
                 updateListener();
                 checkInPast(picker);
+            }
+
+            @Override
+            public void onHourCurrentScrolled(WheelHourPicker picker, int position, int hours) {
+
+            }
+
+            @Override
+            public void onHourCurrentNewDay(WheelHourPicker picker) {
+                daysPicker.scrollTo(daysPicker.getCurrentItemPosition() + 1);
             }
         });
 

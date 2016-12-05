@@ -15,6 +15,8 @@ public class WheelMinutePicker extends WheelPicker {
 
     private WheelPicker.Adapter adapter;
 
+    int lastScrollPosition;
+
     private OnMinuteSelectedListener onMinuteSelectedListener;
 
     public WheelMinutePicker(Context context) {
@@ -46,6 +48,18 @@ public class WheelMinutePicker extends WheelPicker {
     protected void onItemSelected(int position, Object item) {
         if (onMinuteSelectedListener != null) {
             onMinuteSelectedListener.onMinuteSelected(this, position, convertItemToMinute(item));
+        }
+    }
+
+    @Override
+    protected void onItemCurrentScroll(int position, Object item) {
+        if(lastScrollPosition != position) {
+            onMinuteSelectedListener.onMinuteCurrentScrolled(this, position, convertItemToMinute(item));
+            if(lastScrollPosition == 11 && position == 0)
+            if (onMinuteSelectedListener != null) {
+                onMinuteSelectedListener.onMinuteScrolledNewHour(this);
+            }
+            lastScrollPosition = position;
         }
     }
 
@@ -85,5 +99,7 @@ public class WheelMinutePicker extends WheelPicker {
 
     public interface OnMinuteSelectedListener {
         void onMinuteSelected(WheelMinutePicker picker, int position, int minutes);
+        void onMinuteCurrentScrolled(WheelMinutePicker picker, int position, int minutes);
+        void onMinuteScrolledNewHour(WheelMinutePicker picker);
     }
 }
