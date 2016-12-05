@@ -61,7 +61,9 @@
                     app:picker_canBeOnPast="false"
                     app:picker_curved="false"
                     app:picker_cyclic="true"
+                    app:picker_textSize="20sp"
                     app:picker_visibleItemCount="5"
+                    app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 
                 <Button
@@ -73,7 +75,7 @@
                     android:layout_marginRight="50dp"
                     android:text="ok"
                     android:textColor="@android:color/white"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/picker_button_background_selected"
                     />
 
             </LinearLayout>
@@ -92,7 +94,9 @@
                     app:picker_canBeOnPast="false"
                     app:picker_curved="false"
                     app:picker_cyclic="true"
+                    app:picker_textSize="20sp"
                     app:picker_visibleItemCount="5"
+                    app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 
 
@@ -106,7 +110,7 @@
                     android:layout_weight="1"
                     android:text="ok"
                     android:textColor="@android:color/white"
-                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTint="@color/picker_button_background_selected"
                     />
 
             </LinearLayout>

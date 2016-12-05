@@ -3,10 +3,10 @@ package com.github.florent37.sample.singledateandtimepicker;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import android.widget.Toast;
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.github.florent37.singledateandtimepicker.bottomsheet.DatePickerBottomSheet;
+import com.github.florent37.singledateandtimepicker.bottomsheet.DoubleDatePickerBottomSheet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +14,6 @@ import java.util.Locale;
 
 public class MainActivityWithDoublePicker extends AppCompatActivity {
 
-    @Bind(R.id.clickMe) TextView clickMe;
-
-    DoubleDatePickerDialog doubleDatePicker;
     SimpleDateFormat simpleDateFormat;
 
     @Override
@@ -26,26 +23,29 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         ButterKnife.bind(this);
 
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());
+    }
 
-        doubleDatePicker = new DoubleDatePickerDialog(this).setListener(new DoubleDatePickerDialog.Listener() {
+    @OnClick(R.id.singleText)
+    public void simpleClicked(final TextView textView) {
+        new DatePickerBottomSheet(this).setListener(new DatePickerBottomSheet.Listener() {
+            @Override
+            public void onDateSelected(Date date) {
+                textView.setText(simpleDateFormat.format(date));
+            }
+        }).display();
+    }
+
+    @OnClick(R.id.doubleText)
+    public void doubleClicked(final TextView textView) {
+        new DoubleDatePickerBottomSheet(this).setListener(new DoubleDatePickerBottomSheet.Listener() {
             @Override
             public void onDateSelected(List<Date> dates) {
                 final StringBuilder stringBuilder = new StringBuilder();
-                for(Date date : dates){
+                for (Date date : dates) {
                     stringBuilder.append(simpleDateFormat.format(date)).append("\n");
                 }
-                clickMe.setText(stringBuilder.toString());
+                textView.setText(stringBuilder.toString());
             }
-
-        });
-    }
-
-    @OnClick(R.id.clickMe)
-    public void onClickMe() {
-        doubleDatePicker.display();
-    }
-
-    private void display(String toDisplay) {
-        Toast.makeText(this, toDisplay, Toast.LENGTH_SHORT).show();
+        }).display();
     }
 }
