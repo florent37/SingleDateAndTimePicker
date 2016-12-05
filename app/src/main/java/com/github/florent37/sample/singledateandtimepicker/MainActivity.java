@@ -3,7 +3,7 @@ package com.github.florent37.sample.singledateandtimepicker;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
-import com.github.florent37.singledateandtimepicker.SingleDayAndDatePicker;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SingleDayAndDatePicker singleDayAndDatePicker = (SingleDayAndDatePicker) findViewById(R.id.single_day_picker);
-        singleDayAndDatePicker.setListener(new SingleDayAndDatePicker.Listener() {
+        SingleDateAndTimePicker singleDateAndTimePicker = (SingleDateAndTimePicker) findViewById(R.id.single_day_picker);
+        singleDateAndTimePicker.setListener(new SingleDateAndTimePicker.Listener() {
             @Override
             public void onDateChanged(String displayed, Date date) {
                 display(displayed);

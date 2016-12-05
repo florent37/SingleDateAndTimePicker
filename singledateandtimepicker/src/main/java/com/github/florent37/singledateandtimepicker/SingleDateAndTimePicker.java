@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-public class SingleDayAndDatePicker extends LinearLayout {
+public class SingleDateAndTimePicker extends LinearLayout {
 
     public static final boolean IS_CYCLIC_DEFAULT = true;
     public static final boolean IS_CURVED_DEFAULT = false;
@@ -35,15 +35,15 @@ public class SingleDayAndDatePicker extends LinearLayout {
 
     private boolean canBeOnPast;
 
-    public SingleDayAndDatePicker(Context context) {
+    public SingleDateAndTimePicker(Context context) {
         this(context, null);
     }
 
-    public SingleDayAndDatePicker(Context context, AttributeSet attrs) {
+    public SingleDateAndTimePicker(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SingleDayAndDatePicker(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SingleDateAndTimePicker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
         inflate(context, R.layout.single_day_picker, this);
@@ -180,18 +180,18 @@ public class SingleDayAndDatePicker extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SingleDayAndDatePicker);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SingleDateAndTimePicker);
 
-        textColor = a.getColor(R.styleable.SingleDayAndDatePicker_picker_textColor,
+        textColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_textColor,
             getResources().getColor(R.color.picker_default_text_color));
-        selectedTextColor = a.getColor(R.styleable.SingleDayAndDatePicker_picker_selectedTextColor,
+        selectedTextColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectedTextColor,
             getResources().getColor(R.color.picker_default_selected_text_color));
-        textSize = a.getDimensionPixelSize(R.styleable.SingleDayAndDatePicker_picker_textSize,
+        textSize = a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize,
             getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
-        isCurved = a.getBoolean(R.styleable.SingleDayAndDatePicker_picker_curved, IS_CURVED_DEFAULT);
-        isCyclic = a.getBoolean(R.styleable.SingleDayAndDatePicker_picker_cyclic, IS_CYCLIC_DEFAULT);
-        canBeOnPast = a.getBoolean(R.styleable.SingleDayAndDatePicker_picker_canBeOnPast, CAN_BE_ON_PAST_DEFAULT);
-        visibleItemCount = a.getInt(R.styleable.SingleDayAndDatePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT);
+        isCurved = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT);
+        isCyclic = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT);
+        canBeOnPast = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_canBeOnPast, CAN_BE_ON_PAST_DEFAULT);
+        visibleItemCount = a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT);
 
         a.recycle();
     }

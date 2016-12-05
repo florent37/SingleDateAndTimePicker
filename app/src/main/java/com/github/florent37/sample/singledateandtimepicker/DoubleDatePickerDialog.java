@@ -8,7 +8,7 @@ import android.widget.Button;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.github.florent37.singledateandtimepicker.SingleDayAndDatePicker;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -25,8 +25,8 @@ public class DoubleDatePickerDialog {
     @Bind(R.id.aller) Button aller;
     @Bind(R.id.retour) Button retour;
 
-    @Bind(R.id.picker_aller) SingleDayAndDatePicker pickerAller;
-    @Bind(R.id.picker_retour) SingleDayAndDatePicker pickerRetour;
+    @Bind(R.id.picker_aller) SingleDateAndTimePicker pickerAller;
+    @Bind(R.id.picker_retour) SingleDateAndTimePicker pickerRetour;
 
     @Bind(R.id.tab0) View tab0;
     @Bind(R.id.tab1) View tab1;

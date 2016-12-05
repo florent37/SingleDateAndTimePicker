@@ -53,7 +53,7 @@
                 android:orientation="vertical"
                 >
 
-                <com.github.florent37.singledateandtimepicker.SingleDayAndDatePicker
+                <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
                     android:id="@+id/picker_aller"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
@@ -85,7 +85,7 @@
                 android:orientation="vertical"
                 >
 
-                <com.github.florent37.singledateandtimepicker.SingleDayAndDatePicker
+                <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
                     android:id="@+id/picker_retour"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
