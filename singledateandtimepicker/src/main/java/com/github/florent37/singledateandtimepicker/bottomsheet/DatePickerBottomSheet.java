@@ -41,6 +41,12 @@ public class DatePickerBottomSheet {
                 close();
             }
         });
+        view.findViewById(R.id.sheetContentLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void onClose() {

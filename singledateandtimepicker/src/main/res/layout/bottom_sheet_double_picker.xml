@@ -7,6 +7,7 @@
     >
 
     <LinearLayout
+        android:id="@+id/sheetContentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -22,21 +23,21 @@
             >
 
             <Button
-                android:id="@+id/aller"
+                android:id="@+id/buttonTab0"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/double_date_picker_button_background_selector"
-                android:text="aller"
+                android:text="0"
                 android:textColor="@color/double_date_picker_button_text_selector"
                 />
             <Button
-                android:id="@+id/retour"
+                android:id="@+id/buttonTab1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/double_date_picker_button_background_selector"
-                android:text="retour"
+                android:text="1"
                 android:textColor="@color/double_date_picker_button_text_selector"
                 />
 
@@ -46,15 +47,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/tab0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 >
 
                 <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
-                    android:id="@+id/picker_aller"
+                    android:id="@+id/picker_tab_0"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     android:layout_weight="1"
@@ -66,29 +66,16 @@
                     app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 
-                <Button
-                    android:id="@+id/allerOk"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:text="ok"
-                    android:textColor="@android:color/white"
-                    app:backgroundTint="@color/picker_button_background_selected"
-                    />
+            </FrameLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/tab1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 >
 
                 <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
-                    android:id="@+id/picker_retour"
+                    android:id="@+id/picker_tab_1"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     app:picker_canBeOnPast="false"
@@ -100,21 +87,19 @@
                     />
 
 
-                <Button
-                    android:id="@+id/retourOk"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_weight="1"
-                    android:text="ok"
-                    android:textColor="@android:color/white"
-                    app:backgroundTint="@color/picker_button_background_selected"
-                    />
-
-            </LinearLayout>
+            </FrameLayout>
         </FrameLayout>
+
+        <Button
+            android:id="@+id/buttonOk"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="@android:string/ok"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:textColor="@color/picker_button_background_selected"
+            />
 
     </LinearLayout>
 </FrameLayout>

@@ -7,6 +7,7 @@
     >
 
     <LinearLayout
+        android:id="@+id/sheetContentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -26,9 +27,10 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="right|center_vertical"
                 android:gravity="center"
-                android:paddingLeft="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingLeft="20dp"
                 android:paddingRight="25dp"
-                android:text="ok"
+                android:text="@android:string/ok"
                 android:textAllCaps="true"
                 android:textColor="@color/picker_button_background_selected"
                 android:textStyle="bold"

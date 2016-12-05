@@ -46,7 +46,7 @@ public class BottomSheetHelper {
                         WindowManager.LayoutParams.MATCH_PARENT,
                         WindowManager.LayoutParams.MATCH_PARENT,
                         // Display it on top of other application windows, but only for the current user
-                        WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG,
+                        WindowManager.LayoutParams.TYPE_TOAST,
                         // Don't let it grab the input focus
                         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                         // Make the underlying application window visible through any transparent parts

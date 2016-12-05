@@ -37,7 +37,10 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.doubleText)
     public void doubleClicked(final TextView textView) {
-        new DoubleDatePickerBottomSheet(this).setListener(new DoubleDatePickerBottomSheet.Listener() {
+        new DoubleDatePickerBottomSheet(this)
+            .setTab0Text("Aller")
+            .setTab1Text("Retour")
+            .setListener(new DoubleDatePickerBottomSheet.Listener() {
             @Override
             public void onDateSelected(List<Date> dates) {
                 final StringBuilder stringBuilder = new StringBuilder();
