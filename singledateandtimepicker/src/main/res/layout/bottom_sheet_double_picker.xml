@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:id="@+id/sheetContentLayout"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:background="@android:color/white"
         android:elevation="4dp"
         android:orientation="vertical"
