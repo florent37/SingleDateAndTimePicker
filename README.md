@@ -36,7 +36,7 @@ new DoubleDatePickerBottomSheet(this)
 
 ## Include in a layout
 
-[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/layout.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/layout_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```xml
 <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
