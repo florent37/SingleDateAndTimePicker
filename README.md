@@ -1,5 +1,35 @@
 # SingleDateAndTimePicker
 
+
+
+```java
+new DatePickerBottomSheet(this)
+            .setTitle("My title")
+            .setListener(new DatePickerBottomSheet.Listener() {
+                @Override
+                public void onDateSelected(Date date) {
+                
+                }
+            }
+        ).display();
+```
+
+## Select 2 dates
+
+```java
+new DoubleDatePickerBottomSheet(this)
+            .setTitle("My title")
+            .setTab0Text("First tab")
+            .setTab1Text("Second Tab")
+            .setListener(new DoubleDatePickerBottomSheet.Listener() {
+                @Override
+                public void onDateSelected(List<Date> dates) {
+                
+                }
+            }
+        ).display();
+```
+
 #Credits
 
 Author: Florent Champigny [http://www.florentchampigny.com/](http://www.florentchampigny.com/)
