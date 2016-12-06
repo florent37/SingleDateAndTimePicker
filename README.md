@@ -1,6 +1,6 @@
-# SingleDateAndDayPicker
+# SingleDateAndTimePicker
 
-[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndDayPicker/master/media/simple_small.png)](https://www.github.com/florent37/SingleDateAndDayPicker)
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/simple_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 # Usage
 
@@ -18,7 +18,7 @@ new DatePickerBottomSheet(this)
 
 ## Select 2 dates
 
-[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndDayPicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndDayPicker)
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
 new DoubleDatePickerBottomSheet(this)
@@ -32,6 +32,21 @@ new DoubleDatePickerBottomSheet(this)
                 }
             }
         ).display();
+```
+
+## Include in a layout
+
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+
+```xml
+<com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        app:picker_curved="true"
+        app:picker_cyclic="true"
+        app:picker_canBeOnPast="false"
+        app:picker_visibleItemCount="7"
+        />
 ```
 
 #Credits
