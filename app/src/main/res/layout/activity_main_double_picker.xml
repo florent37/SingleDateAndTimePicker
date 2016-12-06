@@ -25,7 +25,7 @@
         <LinearLayout
             android:id="@+id/singleLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             >
@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="15sp"
                 android:text="Click me to open single dialog"
                 android:textColor="@color/textColor"
                 />
@@ -52,7 +53,7 @@
         <LinearLayout
             android:id="@+id/doubleLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             >
@@ -70,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textSize="15sp"
                 android:text="Click me to open single dialog"
                 android:textColor="@color/textColor"
                 />

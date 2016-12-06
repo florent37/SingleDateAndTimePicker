@@ -1,7 +1,9 @@
 package com.github.florent37.singledateandtimepicker.bottomsheet;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.TextView;
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import java.util.Date;
@@ -11,6 +13,9 @@ public class DatePickerBottomSheet {
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
+
+    @Nullable
+    private String title;
 
     public DatePickerBottomSheet(Context context) {
         this.bottomSheetHelper = new BottomSheetHelper(context, R.layout.bottom_sheet_picker);
@@ -47,6 +52,11 @@ public class DatePickerBottomSheet {
 
             }
         });
+
+        TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
+        if(titleTextView != null){
+            titleTextView.setText(title);
+        }
     }
 
     private void onClose() {
@@ -57,6 +67,11 @@ public class DatePickerBottomSheet {
 
     public DatePickerBottomSheet setListener(Listener listener) {
         this.listener = listener;
+        return this;
+    }
+
+    public DatePickerBottomSheet setTitle(@Nullable String title) {
+        this.title = title;
         return this;
     }
 

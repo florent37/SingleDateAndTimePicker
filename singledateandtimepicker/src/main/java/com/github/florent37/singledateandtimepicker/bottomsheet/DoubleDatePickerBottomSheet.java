@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
+import android.widget.TextView;
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import java.util.Arrays;
@@ -15,16 +15,16 @@ public class DoubleDatePickerBottomSheet {
 
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
-    private Button buttonTab0;
-    private Button buttonTab1;
-    private Button buttonOk;
+    private TextView buttonTab0;
+    private TextView buttonTab1;
+    private TextView buttonOk;
     private SingleDateAndTimePicker pickerTab0;
     private SingleDateAndTimePicker pickerTab1;
     private View tab0;
     private View tab1;
 
     @Nullable
-    private String tab0Text, tab1Text;
+    private String tab0Text, tab1Text, title;
     @Nullable
     private String buttonOkText;
 
@@ -49,12 +49,17 @@ public class DoubleDatePickerBottomSheet {
     }
 
     private void init(View view) {
-        buttonTab0 = (Button) view.findViewById(R.id.buttonTab0);
-        buttonTab1 = (Button) view.findViewById(R.id.buttonTab1);
+        buttonTab0 = (TextView) view.findViewById(R.id.buttonTab0);
+        buttonTab1 = (TextView) view.findViewById(R.id.buttonTab1);
         pickerTab0 = (SingleDateAndTimePicker) view.findViewById(R.id.picker_tab_0);
         pickerTab1 = (SingleDateAndTimePicker) view.findViewById(R.id.picker_tab_1);
         tab0 = view.findViewById(R.id.tab0);
         tab1 = view.findViewById(R.id.tab1);
+
+        TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
+        if(titleTextView != null){
+            titleTextView.setText(title);
+        }
 
         view.findViewById(R.id.sheetContentLayout).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +99,7 @@ public class DoubleDatePickerBottomSheet {
             }
         });
 
-        buttonOk = (Button) view.findViewById(R.id.buttonOk);
+        buttonOk = (TextView) view.findViewById(R.id.buttonOk);
 
         if(buttonOkText != null){
             buttonOk.setText(buttonOkText);
@@ -125,6 +130,11 @@ public class DoubleDatePickerBottomSheet {
 
     public DoubleDatePickerBottomSheet setButtonOkText(@Nullable String buttonOkText) {
         this.buttonOkText = buttonOkText;
+        return this;
+    }
+
+    public DoubleDatePickerBottomSheet setTitle(@Nullable String title) {
+        this.title = title;
         return this;
     }
 

@@ -1,6 +1,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +16,25 @@
         android:elevation="4dp"
         android:orientation="vertical"
         >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/picker_background"
+            >
+
+            <TextView
+                android:id="@+id/sheetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:text="The title"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                />
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +66,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             >
             <FrameLayout
                 android:id="@+id/tab0"
@@ -90,16 +111,28 @@
             </FrameLayout>
         </FrameLayout>
 
-        <Button
-            android:id="@+id/buttonOk"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="@android:string/ok"
-            android:background="@color/picker_background"
-            android:textColor="@android:color/white"
-            />
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/buttonOk"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:gravity="center"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:paddingLeft="20dp"
+                android:paddingRight="25dp"
+                android:text="@android:string/ok"
+                android:textAllCaps="true"
+                android:textColor="@color/picker_background"
+                android:textStyle="bold"
+                />
+
+        </FrameLayout>
 
     </LinearLayout>
 </FrameLayout>

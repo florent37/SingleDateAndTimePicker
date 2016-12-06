@@ -31,17 +31,21 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
-        new DatePickerBottomSheet(this).setListener(new DatePickerBottomSheet.Listener() {
+        new DatePickerBottomSheet(this)
+            .setTitle("Simple")
+            .setListener(new DatePickerBottomSheet.Listener() {
             @Override
             public void onDateSelected(Date date) {
                 singleText.setText(simpleDateFormat.format(date));
             }
-        }).display();
+        })
+            .display();
     }
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
         new DoubleDatePickerBottomSheet(this)
+            .setTitle("Double")
             .setTab0Text("Aller")
             .setTab1Text("Retour")
             .setListener(new DoubleDatePickerBottomSheet.Listener() {
