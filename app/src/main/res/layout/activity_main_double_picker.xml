@@ -3,29 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     android:orientation="vertical"
-    android:gravity="center"
     >
 
-    <TextView
-        android:id="@+id/singleText"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Click me to open single dialog"
-        android:layout_gravity="center"
-        android:layout_margin="30dp"
-        android:textColor="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        app:title="Picker"
+        app:titleTextColor="@android:color/white"
         />
 
-    <TextView
-        android:id="@+id/doubleText"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:text="Click me to open single dialog"
-        android:layout_gravity="center"
-        android:textColor="?attr/colorPrimary"
-        />
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/singleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_event_available_black_24dp"
+                />
+
+            <TextView
+                android:id="@+id/singleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Click me to open single dialog"
+                android:textColor="@color/textColor"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/doubleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_event_available_black_24dp"
+                />
+
+            <TextView
+                android:id="@+id/doubleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Click me to open single dialog"
+                android:textColor="@color/textColor"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

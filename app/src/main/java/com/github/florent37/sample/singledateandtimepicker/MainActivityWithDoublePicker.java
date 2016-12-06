@@ -3,6 +3,7 @@ package com.github.florent37.sample.singledateandtimepicker;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.github.florent37.singledateandtimepicker.bottomsheet.DatePickerBottomSheet;
@@ -13,6 +14,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivityWithDoublePicker extends AppCompatActivity {
+
+    @Bind(R.id.doubleText) TextView doubleText;
+    @Bind(R.id.singleText) TextView singleText;
 
     SimpleDateFormat simpleDateFormat;
 
@@ -25,18 +29,18 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());
     }
 
-    @OnClick(R.id.singleText)
-    public void simpleClicked(final TextView textView) {
+    @OnClick(R.id.singleLayout)
+    public void simpleClicked() {
         new DatePickerBottomSheet(this).setListener(new DatePickerBottomSheet.Listener() {
             @Override
             public void onDateSelected(Date date) {
-                textView.setText(simpleDateFormat.format(date));
+                singleText.setText(simpleDateFormat.format(date));
             }
         }).display();
     }
 
-    @OnClick(R.id.doubleText)
-    public void doubleClicked(final TextView textView) {
+    @OnClick(R.id.doubleLayout)
+    public void doubleClicked() {
         new DoubleDatePickerBottomSheet(this)
             .setTab0Text("Aller")
             .setTab1Text("Retour")
@@ -47,7 +51,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 for (Date date : dates) {
                     stringBuilder.append(simpleDateFormat.format(date)).append("\n");
                 }
-                textView.setText(stringBuilder.toString());
+                doubleText.setText(stringBuilder.toString());
             }
         }).display();
     }

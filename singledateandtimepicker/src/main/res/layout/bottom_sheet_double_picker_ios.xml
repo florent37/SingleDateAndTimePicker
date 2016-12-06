@@ -27,18 +27,18 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/double_date_picker_button_background_selector"
+                android:background="@drawable/double_date_picker_button_background_selector_ios"
                 android:text="0"
-                android:textColor="@color/double_date_picker_button_text_selector"
+                android:textColor="@color/double_date_picker_button_text_selector_ios"
                 />
             <Button
                 android:id="@+id/buttonTab1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/double_date_picker_button_background_selector"
+                android:background="@drawable/double_date_picker_button_background_selector_ios"
                 android:text="1"
-                android:textColor="@color/double_date_picker_button_text_selector"
+                android:textColor="@color/double_date_picker_button_text_selector_ios"
                 />
 
         </LinearLayout>
@@ -63,7 +63,7 @@
                     app:picker_cyclic="true"
                     app:picker_textSize="20sp"
                     app:picker_visibleItemCount="5"
-                    app:picker_selectedTextColor="@color/picker_background"
+                    app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 
             </FrameLayout>
@@ -83,7 +83,7 @@
                     app:picker_cyclic="true"
                     app:picker_textSize="20sp"
                     app:picker_visibleItemCount="5"
-                    app:picker_selectedTextColor="@color/picker_background"
+                    app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 
 
@@ -97,8 +97,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:text="@android:string/ok"
-            android:background="@color/picker_background"
-            android:textColor="@android:color/white"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:textColor="@color/picker_button_background_selected"
             />
 
     </LinearLayout>

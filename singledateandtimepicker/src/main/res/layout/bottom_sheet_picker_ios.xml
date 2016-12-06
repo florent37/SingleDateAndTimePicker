@@ -19,7 +19,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/picker_background"
             >
 
             <TextView
@@ -33,7 +32,7 @@
                 android:paddingRight="25dp"
                 android:text="@android:string/ok"
                 android:textAllCaps="true"
-                android:textColor="@android:color/white"
+                android:textColor="@color/picker_button_background_selected"
                 android:textStyle="bold"
                 />
 
@@ -47,7 +46,7 @@
             app:picker_canBeOnPast="false"
             app:picker_curved="false"
             app:picker_cyclic="true"
-            app:picker_selectedTextColor="@color/picker_background"
+            app:picker_selectedTextColor="@color/picker_button_background_selected"
             app:picker_textSize="20sp"
             app:picker_visibleItemCount="5"
             />
