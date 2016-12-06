@@ -1,6 +1,8 @@
-# SingleDateAndTimePicker
+# SingleDateAndDayPicker
 
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndDayPicker/master/media/simple_small.png)](https://www.github.com/florent37/SingleDateAndDayPicker)
 
+# Usage
 
 ```java
 new DatePickerBottomSheet(this)
@@ -15,6 +17,8 @@ new DatePickerBottomSheet(this)
 ```
 
 ## Select 2 dates
+
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndDayPicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndDayPicker)
 
 ```java
 new DoubleDatePickerBottomSheet(this)
