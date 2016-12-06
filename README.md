@@ -51,6 +51,20 @@ new DoubleDatePickerBottomSheet(this)
         />
 ```
 
+# iOS like :P
+
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/ios_simple_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+
+```java
+new DatePickerBottomSheet(this, true)
+```
+
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/ios_double_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+
+```java
+new DoubleDatePickerBottomSheet(this, true)
+```
+
 #Credits
 
 Author: Florent Champigny [http://www.florentchampigny.com/](http://www.florentchampigny.com/)

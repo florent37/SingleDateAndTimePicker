@@ -31,7 +31,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
-        new DatePickerBottomSheet(this)
+        new DatePickerBottomSheet(this, true)
             .setTitle("Simple")
             .setListener(new DatePickerBottomSheet.Listener() {
             @Override
@@ -44,7 +44,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
-        new DoubleDatePickerBottomSheet(this)
+        new DoubleDatePickerBottomSheet(this, true)
             .setTitle("Double")
             .setTab0Text("Aller")
             .setTab1Text("Retour")
