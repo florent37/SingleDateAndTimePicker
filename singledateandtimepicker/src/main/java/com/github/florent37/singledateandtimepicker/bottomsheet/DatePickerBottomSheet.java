@@ -18,7 +18,12 @@ public class DatePickerBottomSheet {
     private String title;
 
     public DatePickerBottomSheet(Context context) {
-        this.bottomSheetHelper = new BottomSheetHelper(context, R.layout.bottom_sheet_picker);
+        this(context, false);
+    }
+
+    public DatePickerBottomSheet(Context context, boolean iosTheme) {
+        final int layout = iosTheme ? R.layout.bottom_sheet_picker_ios : R.layout.bottom_sheet_picker;
+        this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override

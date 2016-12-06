@@ -59,10 +59,10 @@
                     android:layout_height="230dp"
                     android:layout_weight="1"
                     app:picker_canBeOnPast="false"
-                    app:picker_curved="false"
+                    app:picker_curved="true"
                     app:picker_cyclic="true"
                     app:picker_textSize="20sp"
-                    app:picker_visibleItemCount="5"
+                    app:picker_visibleItemCount="7"
                     app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 
@@ -79,10 +79,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
                     app:picker_canBeOnPast="false"
-                    app:picker_curved="false"
+                    app:picker_curved="true"
                     app:picker_cyclic="true"
                     app:picker_textSize="20sp"
-                    app:picker_visibleItemCount="5"
+                    app:picker_visibleItemCount="7"
                     app:picker_selectedTextColor="@color/picker_button_background_selected"
                     />
 

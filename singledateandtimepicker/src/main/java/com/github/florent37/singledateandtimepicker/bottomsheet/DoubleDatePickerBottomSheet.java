@@ -29,7 +29,12 @@ public class DoubleDatePickerBottomSheet {
     private String buttonOkText;
 
     public DoubleDatePickerBottomSheet(Context context) {
-        this.bottomSheetHelper = new BottomSheetHelper(context, R.layout.bottom_sheet_double_picker);
+        this(context, false);
+    }
+
+    public DoubleDatePickerBottomSheet(Context context, boolean iosTheme) {
+        final int layout = iosTheme ? R.layout.bottom_sheet_double_picker_ios : R.layout.bottom_sheet_double_picker;
+        this.bottomSheetHelper = new BottomSheetHelper(context, layout);
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override
             public void onOpen() {
