@@ -2,7 +2,7 @@
 
 You can now select a date and a time with only one widget !
 
-[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/simple_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/sample.gif)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 # Usage
 
@@ -21,7 +21,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
 
 ## Select 2 dates
 
-[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/double_small_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
 new DoubleDateAndTimePickerDialog.Builder(context)
