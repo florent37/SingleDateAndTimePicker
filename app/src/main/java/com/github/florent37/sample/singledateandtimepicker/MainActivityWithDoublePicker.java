@@ -6,8 +6,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.github.florent37.singledateandtimepicker.bottomsheet.DatePickerBottomSheet;
-import com.github.florent37.singledateandtimepicker.bottomsheet.DoubleDatePickerBottomSheet;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,9 +31,9 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
-        new DatePickerBottomSheet(this, true)
+        new SingleDateAndTimePickerDialog(this, true)
             .setTitle("Simple")
-            .setListener(new DatePickerBottomSheet.Listener() {
+            .setListener(new SingleDateAndTimePickerDialog.Listener() {
             @Override
             public void onDateSelected(Date date) {
                 singleText.setText(simpleDateFormat.format(date));
@@ -44,11 +44,11 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
-        new DoubleDatePickerBottomSheet(this, true)
+        new DoubleDateAndTimePickerDialog(this, true)
             .setTitle("Double")
             .setTab0Text("Aller")
             .setTab1Text("Retour")
-            .setListener(new DoubleDatePickerBottomSheet.Listener() {
+            .setListener(new DoubleDateAndTimePickerDialog.Listener() {
             @Override
             public void onDateSelected(List<Date> dates) {
                 final StringBuilder stringBuilder = new StringBuilder();

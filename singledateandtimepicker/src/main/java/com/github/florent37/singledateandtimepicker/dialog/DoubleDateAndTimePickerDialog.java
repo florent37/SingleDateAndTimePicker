@@ -1,4 +1,4 @@
-package com.github.florent37.singledateandtimepicker.bottomsheet;
+package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class DoubleDatePickerBottomSheet {
+public class DoubleDateAndTimePickerDialog {
 
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
@@ -28,11 +28,11 @@ public class DoubleDatePickerBottomSheet {
     @Nullable
     private String buttonOkText;
 
-    public DoubleDatePickerBottomSheet(Context context) {
+    public DoubleDateAndTimePickerDialog(Context context) {
         this(context, false);
     }
 
-    public DoubleDatePickerBottomSheet(Context context, boolean iosTheme) {
+    public DoubleDateAndTimePickerDialog(Context context, boolean iosTheme) {
         final int layout = iosTheme ? R.layout.bottom_sheet_double_picker_ios : R.layout.bottom_sheet_double_picker;
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
@@ -48,7 +48,7 @@ public class DoubleDatePickerBottomSheet {
 
             @Override
             public void onClose() {
-                DoubleDatePickerBottomSheet.this.onClose();
+                DoubleDateAndTimePickerDialog.this.onClose();
             }
         });
     }
@@ -123,22 +123,22 @@ public class DoubleDatePickerBottomSheet {
 
     }
 
-    public DoubleDatePickerBottomSheet setTab0Text(String tab0Text) {
+    public DoubleDateAndTimePickerDialog setTab0Text(String tab0Text) {
         this.tab0Text = tab0Text;
         return this;
     }
 
-    public DoubleDatePickerBottomSheet setTab1Text(String tab1Text) {
+    public DoubleDateAndTimePickerDialog setTab1Text(String tab1Text) {
         this.tab1Text = tab1Text;
         return this;
     }
 
-    public DoubleDatePickerBottomSheet setButtonOkText(@Nullable String buttonOkText) {
+    public DoubleDateAndTimePickerDialog setButtonOkText(@Nullable String buttonOkText) {
         this.buttonOkText = buttonOkText;
         return this;
     }
 
-    public DoubleDatePickerBottomSheet setTitle(@Nullable String title) {
+    public DoubleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
         return this;
     }
@@ -149,7 +149,7 @@ public class DoubleDatePickerBottomSheet {
         }
     }
 
-    public DoubleDatePickerBottomSheet setListener(Listener listener) {
+    public DoubleDateAndTimePickerDialog setListener(Listener listener) {
         this.listener = listener;
         return this;
     }

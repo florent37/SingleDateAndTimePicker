@@ -7,8 +7,8 @@ You can now select a date and a time with only one widget !
 # Usage
 
 ```java
-new DatePickerBottomSheet(this)
-            .setTitle("My title")
+new SingleDateAndTimePickerDialog(this)
+            .setTitle("Single")
             .setListener(new DatePickerBottomSheet.Listener() {
                 @Override
                 public void onDateSelected(Date date) {
@@ -23,10 +23,10 @@ new DatePickerBottomSheet(this)
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
-new DoubleDatePickerBottomSheet(this)
-            .setTitle("My title")
-            .setTab0Text("First tab")
-            .setTab1Text("Second Tab")
+new DoubleDateAndTimePickerDialog(this)
+            .setTitle("Double")
+            .setTab0Text("Aller")
+            .setTab1Text("Retour")
             .setListener(new DoubleDatePickerBottomSheet.Listener() {
                 @Override
                 public void onDateSelected(List<Date> dates) {
@@ -56,13 +56,13 @@ new DoubleDatePickerBottomSheet(this)
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/ios_simple_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
-new DatePickerBottomSheet(this, true)
+new SingleDateAndTimePickerDialog(this, true)
 ```
 
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/ios_double_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
-new DoubleDatePickerBottomSheet(this, true)
+new DoubleDateAndTimePickerDialog(this, true)
 ```
 
 #Credits

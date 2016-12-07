@@ -1,4 +1,4 @@
-package com.github.florent37.singledateandtimepicker.bottomsheet;
+package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

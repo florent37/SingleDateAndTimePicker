@@ -1,4 +1,4 @@
-package com.github.florent37.singledateandtimepicker.bottomsheet;
+package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import java.util.Date;
 
-public class DatePickerBottomSheet {
+public class SingleDateAndTimePickerDialog {
 
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
@@ -17,11 +17,11 @@ public class DatePickerBottomSheet {
     @Nullable
     private String title;
 
-    public DatePickerBottomSheet(Context context) {
+    public SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
     }
 
-    public DatePickerBottomSheet(Context context, boolean iosTheme) {
+    public SingleDateAndTimePickerDialog(Context context, boolean iosTheme) {
         final int layout = iosTheme ? R.layout.bottom_sheet_picker_ios : R.layout.bottom_sheet_picker;
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
@@ -38,7 +38,7 @@ public class DatePickerBottomSheet {
 
             @Override
             public void onClose() {
-                DatePickerBottomSheet.this.onClose();
+                SingleDateAndTimePickerDialog.this.onClose();
             }
         });
     }
@@ -70,12 +70,12 @@ public class DatePickerBottomSheet {
         }
     }
 
-    public DatePickerBottomSheet setListener(Listener listener) {
+    public SingleDateAndTimePickerDialog setListener(Listener listener) {
         this.listener = listener;
         return this;
     }
 
-    public DatePickerBottomSheet setTitle(@Nullable String title) {
+    public SingleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
         return this;
     }
