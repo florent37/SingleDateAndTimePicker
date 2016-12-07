@@ -31,24 +31,28 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
-        new SingleDateAndTimePickerDialog(this, true)
-            .setTitle("Simple")
-            .setListener(new SingleDateAndTimePickerDialog.Listener() {
-            @Override
-            public void onDateSelected(Date date) {
-                singleText.setText(simpleDateFormat.format(date));
-            }
-        })
+        new SingleDateAndTimePickerDialog.Builder(this)
+            //.bottomSheet()
+            //.curved()
+            .title("Simple")
+            .listener(new SingleDateAndTimePickerDialog.Listener() {
+                @Override
+                public void onDateSelected(Date date) {
+                    singleText.setText(simpleDateFormat.format(date));
+                }
+            })
             .display();
     }
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
-        new DoubleDateAndTimePickerDialog(this, true)
-            .setTitle("Double")
-            .setTab0Text("Aller")
-            .setTab1Text("Retour")
-            .setListener(new DoubleDateAndTimePickerDialog.Listener() {
+        new DoubleDateAndTimePickerDialog.Builder(this)
+            //.bottomSheet()
+            //.curved()
+            .title("Double")
+            .tab0Text("Aller")
+            .tab1Text("Retour")
+            .listener(new DoubleDateAndTimePickerDialog.Listener() {
             @Override
             public void onDateSelected(List<Date> dates) {
                 final StringBuilder stringBuilder = new StringBuilder();

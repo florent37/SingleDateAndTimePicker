@@ -124,6 +124,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         updatePicker();
     }
 
+
+    public void setVisibleItemCount(int visibleItemCount) {
+        this.visibleItemCount = visibleItemCount;
+        updatePicker();
+    }
+
     private void updatePicker(){
         if(daysPicker != null && minutesPicker != null && hoursPicker != null) {
             for (WheelPicker wheelPicker : Arrays.asList(daysPicker, minutesPicker, hoursPicker)) {

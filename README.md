@@ -7,15 +7,16 @@ You can now select a date and a time with only one widget !
 # Usage
 
 ```java
-new SingleDateAndTimePickerDialog(this)
-            .setTitle("Single")
-            .setListener(new DatePickerBottomSheet.Listener() {
+new SingleDateAndTimePickerDialog.Builder(context)
+            //.bottomSheet()
+            //.curved()
+            .title("Simple")
+            .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override
                 public void onDateSelected(Date date) {
-                
+                    singleText.setText(simpleDateFormat.format(date));
                 }
-            }
-        ).display();
+            }).display();
 ```
 
 ## Select 2 dates
@@ -23,17 +24,22 @@ new SingleDateAndTimePickerDialog(this)
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/double_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
-new DoubleDateAndTimePickerDialog(this)
-            .setTitle("Double")
-            .setTab0Text("Aller")
-            .setTab1Text("Retour")
-            .setListener(new DoubleDatePickerBottomSheet.Listener() {
-                @Override
-                public void onDateSelected(List<Date> dates) {
-                
+new DoubleDateAndTimePickerDialog.Builder(context)
+            //.bottomSheet()
+            //.curved()
+            .title("Double")
+            .tab0Text("Aller")
+            .tab1Text("Retour")
+            .listener(new DoubleDateAndTimePickerDialog.Listener() {
+            @Override
+            public void onDateSelected(List<Date> dates) {
+                final StringBuilder stringBuilder = new StringBuilder();
+                for (Date date : dates) {
+                    stringBuilder.append(simpleDateFormat.format(date)).append("\n");
                 }
+                doubleText.setText(stringBuilder.toString());
             }
-        ).display();
+        }).display();
 ```
 
 ## Include in a layout
@@ -56,13 +62,17 @@ new DoubleDateAndTimePickerDialog(this)
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/ios_simple_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
-new SingleDateAndTimePickerDialog(this, true)
+new SingleDateAndTimePickerDialog.Builder(context)
+                                    .bottomSheet()
+                                    .curved()
 ```
 
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/ios_double_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 ```java
-new DoubleDateAndTimePickerDialog(this, true)
+new DoubleDateAndTimePickerDialog.Builder(context)
+                                    .bottomSheet()
+                                    .curved()
 ```
 
 #Credits

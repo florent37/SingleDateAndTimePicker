@@ -14,15 +14,16 @@ public class SingleDateAndTimePickerDialog {
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
 
-    @Nullable
-    private String title;
+    @Nullable private String title;
 
-    public SingleDateAndTimePickerDialog(Context context) {
+    private boolean curved = false;
+
+    private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
     }
 
-    public SingleDateAndTimePickerDialog(Context context, boolean iosTheme) {
-        final int layout = iosTheme ? R.layout.bottom_sheet_picker_ios : R.layout.bottom_sheet_picker;
+    private SingleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
+        final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet : R.layout.bottom_sheet_picker;
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
@@ -59,8 +60,16 @@ public class SingleDateAndTimePickerDialog {
         });
 
         TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
-        if(titleTextView != null){
+        if (titleTextView != null) {
             titleTextView.setText(title);
+        }
+
+        if (curved) {
+            picker.setCurved(true);
+            picker.setVisibleItemCount(7);
+        } else {
+            picker.setCurved(false);
+            picker.setVisibleItemCount(5);
         }
     }
 
@@ -72,6 +81,11 @@ public class SingleDateAndTimePickerDialog {
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
         this.listener = listener;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setCurved(boolean curved) {
+        this.curved = curved;
         return this;
     }
 
@@ -90,5 +104,52 @@ public class SingleDateAndTimePickerDialog {
 
     public interface Listener {
         void onDateSelected(Date date);
+    }
+
+    public static class Builder {
+        private final Context context;
+
+        @Nullable private Listener listener;
+
+        @Nullable private String title;
+
+        private boolean bottomSheet;
+
+        private boolean curved;
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder title(@Nullable String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder bottomSheet() {
+            this.bottomSheet = true;
+            return this;
+        }
+
+        public Builder curved() {
+            this.curved = true;
+            return this;
+        }
+
+        public Builder listener(@Nullable Listener listener) {
+            this.listener = listener;
+            return this;
+        }
+
+        public SingleDateAndTimePickerDialog build() {
+            return new SingleDateAndTimePickerDialog(context, bottomSheet).setTitle(title)
+                .setListener(listener)
+                .setCurved(curved);
+        }
+
+        public void display() {
+            final SingleDateAndTimePickerDialog dialog = build();
+            dialog.display();
+        }
     }
 }
