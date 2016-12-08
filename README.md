@@ -2,7 +2,7 @@
 
 You can now select a date and a time with only one widget !
 
-[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/video.gif)](https://www.github.com/florent37/SingleDateAndTimePicker)
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/new_video.gif)](https://www.github.com/florent37/SingleDateAndTimePicker)
 
 # Usage
 
@@ -14,7 +14,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override
                 public void onDateSelected(Date date) {
-                    singleText.setText(simpleDateFormat.format(date));
+                    
                 }
             }).display();
 ```
@@ -28,17 +28,13 @@ new DoubleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
             .title("Double")
-            .tab0Text("Aller")
-            .tab1Text("Retour")
+            .tab0Text("Depart")
+            .tab1Text("Return")
             .listener(new DoubleDateAndTimePickerDialog.Listener() {
-            @Override
-            public void onDateSelected(List<Date> dates) {
-                final StringBuilder stringBuilder = new StringBuilder();
-                for (Date date : dates) {
-                    stringBuilder.append(simpleDateFormat.format(date)).append("\n");
+                @Override
+                public void onDateSelected(List<Date> dates) {
+                
                 }
-                doubleText.setText(stringBuilder.toString());
-            }
         }).display();
 ```
 

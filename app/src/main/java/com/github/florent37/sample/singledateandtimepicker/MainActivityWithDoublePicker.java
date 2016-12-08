@@ -50,8 +50,8 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
             //.bottomSheet()
             //.curved()
             .title("Double")
-            .tab0Text("Aller")
-            .tab1Text("Retour")
+            .tab0Text("Depart")
+            .tab1Text("Return")
             .listener(new DoubleDateAndTimePickerDialog.Listener() {
             @Override
             public void onDateSelected(List<Date> dates) {

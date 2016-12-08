@@ -34,7 +34,7 @@ ext {
     libraryName = 'SingleDateAndTimePicker'
     artifact = 'singledateandtimepicker'
 
-    libraryDescription = 'ArcLayout'
+    libraryDescription = 'SingleDateAndTimePicker'
 
     siteUrl = 'https://github.com/florent37/SingleDateAndTimePicker'
     gitUrl = 'https://github.com/florent37/SingleDateAndTimePicker.git'
