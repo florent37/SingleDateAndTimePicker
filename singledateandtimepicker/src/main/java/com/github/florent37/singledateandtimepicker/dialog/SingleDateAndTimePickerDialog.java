@@ -4,8 +4,10 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+
 import java.util.Date;
 
 public class SingleDateAndTimePickerDialog {
@@ -14,7 +16,8 @@ public class SingleDateAndTimePickerDialog {
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
 
-    @Nullable private String title;
+    @Nullable
+    private String title;
 
     private boolean curved = false;
 
@@ -109,9 +112,11 @@ public class SingleDateAndTimePickerDialog {
     public static class Builder {
         private final Context context;
 
-        @Nullable private Listener listener;
+        @Nullable
+        private Listener listener;
 
-        @Nullable private String title;
+        @Nullable
+        private String title;
 
         private boolean bottomSheet;
 
@@ -143,8 +148,8 @@ public class SingleDateAndTimePickerDialog {
 
         public SingleDateAndTimePickerDialog build() {
             return new SingleDateAndTimePickerDialog(context, bottomSheet).setTitle(title)
-                .setListener(listener)
-                .setCurved(curved);
+                    .setListener(listener)
+                    .setCurved(curved);
         }
 
         public void display() {

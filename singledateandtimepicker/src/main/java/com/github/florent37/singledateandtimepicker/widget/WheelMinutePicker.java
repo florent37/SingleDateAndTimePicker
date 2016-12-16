@@ -2,8 +2,10 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class WheelMinutePicker extends WheelPicker {
@@ -26,12 +28,9 @@ public class WheelMinutePicker extends WheelPicker {
     public WheelMinutePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-
-        final String format = "%1$02d"; // two digits
-
         List<String> minutes = new ArrayList<>();
         for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += STEP_MINUTES)
-            minutes.add(String.format(format, min));
+            minutes.add(getFormattedValue(min));
         adapter = new Adapter(minutes);
         setAdapter(adapter);
 
@@ -53,12 +52,12 @@ public class WheelMinutePicker extends WheelPicker {
 
     @Override
     protected void onItemCurrentScroll(int position, Object item) {
-        if(lastScrollPosition != position) {
+        if (lastScrollPosition != position) {
             onMinuteSelectedListener.onMinuteCurrentScrolled(this, position, convertItemToMinute(item));
-            if(lastScrollPosition == 11 && position == 0)
-            if (onMinuteSelectedListener != null) {
-                onMinuteSelectedListener.onMinuteScrolledNewHour(this);
-            }
+            if (lastScrollPosition == 11 && position == 0)
+                if (onMinuteSelectedListener != null) {
+                    onMinuteSelectedListener.onMinuteScrolledNewHour(this);
+                }
             lastScrollPosition = position;
         }
     }
@@ -73,6 +72,16 @@ public class WheelMinutePicker extends WheelPicker {
             }
         }
         return 0;
+    }
+
+    protected String getFormattedValue(Object value) {
+        Object valueItem = value;
+        if (value instanceof Date) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime((Date) value);
+            valueItem = instance.get(Calendar.MINUTE);
+        }
+        return String.format(getCurrentLocale(), FORMAT, valueItem);
     }
 
     private void updateDefaultMinute() {
@@ -99,7 +108,9 @@ public class WheelMinutePicker extends WheelPicker {
 
     public interface OnMinuteSelectedListener {
         void onMinuteSelected(WheelMinutePicker picker, int position, int minutes);
+
         void onMinuteCurrentScrolled(WheelMinutePicker picker, int position, int minutes);
+
         void onMinuteScrolledNewHour(WheelMinutePicker picker);
     }
 }

@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+
 import com.github.florent37.singledateandtimepicker.R;
 
 import static android.content.Context.WINDOW_SERVICE;
@@ -32,7 +33,7 @@ public class BottomSheetHelper {
         this.handler = new Handler(Looper.getMainLooper());
     }
 
-    private void init(){
+    private void init() {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -42,22 +43,22 @@ public class BottomSheetHelper {
                     view = LayoutInflater.from(context).inflate(layoutId, null);
 
                     WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
-                        // Shrink the window to wrap the content rather than filling the screen
-                        WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.MATCH_PARENT,
-                        // Display it on top of other application windows, but only for the current user
-                        WindowManager.LayoutParams.TYPE_TOAST,
-                        // Don't let it grab the input focus
-                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                        // Make the underlying application window visible through any transparent parts
-                        PixelFormat.TRANSLUCENT);
+                            // Shrink the window to wrap the content rather than filling the screen
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            // Display it on top of other application windows, but only for the current user
+                            WindowManager.LayoutParams.TYPE_TOAST,
+                            // Don't let it grab the input focus
+                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                            // Make the underlying application window visible through any transparent parts
+                            PixelFormat.TRANSLUCENT);
 
                     if ((layoutParams.softInputMode
-                        & WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION) == 0) {
+                            & WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION) == 0) {
                         WindowManager.LayoutParams nl = new WindowManager.LayoutParams();
                         nl.copyFrom(layoutParams);
                         nl.softInputMode |=
-                            WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;
+                                WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;
                         layoutParams = nl;
                     }
 
@@ -70,7 +71,7 @@ public class BottomSheetHelper {
                         }
                     });
 
-                    if(listener != null){
+                    if (listener != null) {
                         listener.onLoaded(view);
                     }
                 }
@@ -89,7 +90,7 @@ public class BottomSheetHelper {
             @Override
             public void run() {
                 final ObjectAnimator objectAnimator =
-                    ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getHeight(), 0);
+                        ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getHeight(), 0);
                 objectAnimator.addListener(new AnimatorListenerAdapter() {
 
                     @Override
@@ -109,7 +110,7 @@ public class BottomSheetHelper {
             @Override
             public void run() {
                 final ObjectAnimator objectAnimator =
-                    ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0, view.getHeight());
+                        ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0, view.getHeight());
                 objectAnimator.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -125,7 +126,7 @@ public class BottomSheetHelper {
         }, 200);
     }
 
-    private void remove(){
+    private void remove() {
         windowManager.removeView(view);
     }
 
