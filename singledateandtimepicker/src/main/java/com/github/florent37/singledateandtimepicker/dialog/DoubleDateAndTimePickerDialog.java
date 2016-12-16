@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +25,10 @@ public class DoubleDateAndTimePickerDialog {
     private View tab0;
     private View tab1;
 
-    @Nullable private String tab0Text, tab1Text, title;
-    @Nullable private String buttonOkText;
+    @Nullable
+    private String tab0Text, tab1Text, title;
+    @Nullable
+    private String buttonOkText;
 
     private boolean curved = false;
 
@@ -210,14 +214,19 @@ public class DoubleDateAndTimePickerDialog {
     public static class Builder {
 
         private final Context context;
-        @Nullable private DoubleDateAndTimePickerDialog.Listener listener;
+        @Nullable
+        private DoubleDateAndTimePickerDialog.Listener listener;
         private boolean bottomSheet;
         private boolean curved;
 
-        @Nullable private String tab0Text;
-        @Nullable private String tab1Text;
-        @Nullable private String title;
-        @Nullable private String buttonOkText;
+        @Nullable
+        private String tab0Text;
+        @Nullable
+        private String tab1Text;
+        @Nullable
+        private String title;
+        @Nullable
+        private String buttonOkText;
 
         public Builder(Context context) {
             this.context = context;
@@ -239,7 +248,7 @@ public class DoubleDateAndTimePickerDialog {
         }
 
         public DoubleDateAndTimePickerDialog.Builder listener(
-            @Nullable DoubleDateAndTimePickerDialog.Listener listener) {
+                @Nullable DoubleDateAndTimePickerDialog.Listener listener) {
             this.listener = listener;
             return this;
         }
@@ -261,12 +270,12 @@ public class DoubleDateAndTimePickerDialog {
 
         public DoubleDateAndTimePickerDialog build() {
             return new DoubleDateAndTimePickerDialog(context, bottomSheet)
-                .setTitle(title)
-                .setListener(listener)
-                .setCurved(curved)
-                .setButtonOkText(buttonOkText)
-                .setTab0Text(tab0Text)
-                .setTab1Text(tab1Text);
+                    .setTitle(title)
+                    .setListener(listener)
+                    .setCurved(curved)
+                    .setButtonOkText(buttonOkText)
+                    .setTab0Text(tab0Text)
+                    .setTab1Text(tab1Text);
         }
 
         public void display() {

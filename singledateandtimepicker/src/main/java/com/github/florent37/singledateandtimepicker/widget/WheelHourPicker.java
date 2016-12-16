@@ -2,8 +2,10 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class WheelHourPicker extends WheelPicker {
@@ -27,11 +29,9 @@ public class WheelHourPicker extends WheelPicker {
     public WheelHourPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        final String format = "%1$02d"; // two digits
-
         final List<String> hours = new ArrayList<>();
         for (int hour = MIN_HOUR; hour <= MAX_HOUR; hour += STEP_HOUR)
-            hours.add(String.format(format, hour));
+            hours.add(getFormattedValue(hour));
 
         adapter = new Adapter(hours);
         setAdapter(adapter);
@@ -43,25 +43,35 @@ public class WheelHourPicker extends WheelPicker {
 
     @Override
     protected void onItemSelected(int position, Object item) {
-        if(hoursSelectedListener != null){
+        if (hoursSelectedListener != null) {
             hoursSelectedListener.onHourSelected(this, position, convertItemToHour(item));
         }
     }
 
     @Override
     protected void onItemCurrentScroll(int position, Object item) {
-        if(hoursSelectedListener != null){
+        if (hoursSelectedListener != null) {
             hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
         }
 
-        if(lastScrollPosition != position) {
+        if (lastScrollPosition != position) {
             hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
-            if(lastScrollPosition == 23 && position == 0)
+            if (lastScrollPosition == 23 && position == 0)
                 if (hoursSelectedListener != null) {
                     hoursSelectedListener.onHourCurrentNewDay(this);
                 }
             lastScrollPosition = position;
         }
+    }
+
+    protected String getFormattedValue(Object value) {
+        Object valueItem = value;
+        if (value instanceof Date) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime((Date) value);
+            valueItem = instance.get(Calendar.HOUR_OF_DAY);
+        }
+        return String.format(getCurrentLocale(), FORMAT, valueItem);
     }
 
     private void updateDefaultHour() {
@@ -82,7 +92,7 @@ public class WheelHourPicker extends WheelPicker {
         updateDefaultHour();
     }
 
-    private int convertItemToHour(Object item){
+    private int convertItemToHour(Object item) {
         return Integer.valueOf(String.valueOf(item));
     }
 
@@ -92,7 +102,9 @@ public class WheelHourPicker extends WheelPicker {
 
     public interface OnHourSelectedListener {
         void onHourSelected(WheelHourPicker picker, int position, int hours);
+
         void onHourCurrentScrolled(WheelHourPicker picker, int position, int hours);
+
         void onHourCurrentNewDay(WheelHourPicker picker);
     }
 }
