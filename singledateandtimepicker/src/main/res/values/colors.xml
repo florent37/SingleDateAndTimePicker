@@ -6,4 +6,5 @@
     <color name="picker_button_background_innactive">#BDBDBD</color>
     <color name="picker_default_text_color">#999</color>
     <color name="picker_default_selected_text_color">@android:color/black</color>
+    <color name="picker_default_selector_color">#646464</color>
 </resources>

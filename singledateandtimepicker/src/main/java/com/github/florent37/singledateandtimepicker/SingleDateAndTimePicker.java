@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.github.florent37.singledateandtimepicker.widget.WheelDayPicker;
@@ -31,10 +32,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private int textColor;
     private int selectedTextColor;
     private int textSize;
+    private int selectorColor;
     private boolean isCyclic;
     private boolean isCurved;
     private int visibleItemCount;
-
+    private View dtSelector;
     private boolean canBeOnPast;
 
     public SingleDateAndTimePicker(Context context) {
@@ -53,6 +55,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         daysPicker = (WheelDayPicker) findViewById(R.id.daysPicker);
         minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
         hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
+        dtSelector = findViewById(R.id.dtSelector);
 
         daysPicker.setOnDaySelectedListener(new WheelDayPicker.OnDaySelectedListener() {
             @Override
@@ -99,6 +102,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         });
 
         updatePicker();
+        updateViews();
     }
 
     public void setCurved(boolean curved) {
@@ -126,7 +130,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         updatePicker();
     }
 
-
+    public void setSelectorColor(int selectorColor) {
+        this.selectorColor = selectorColor;
+        updateViews();
+    }
     public void setVisibleItemCount(int visibleItemCount) {
         this.visibleItemCount = visibleItemCount;
         updatePicker();
@@ -143,6 +150,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 wheelPicker.setVisibleItemCount(visibleItemCount);
             }
         }
+    }
+
+    private void updateViews(){
+        dtSelector.setBackgroundColor(selectorColor);
     }
 
     private void checkInPast(final WheelPicker picker) {
@@ -233,6 +244,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 getResources().getColor(R.color.picker_default_text_color));
         selectedTextColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectedTextColor,
                 getResources().getColor(R.color.picker_default_selected_text_color));
+        selectorColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectorColor,
+                getResources().getColor(R.color.picker_default_selector_color));
         textSize = a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize,
                 getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
         isCurved = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT);
