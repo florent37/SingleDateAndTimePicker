@@ -220,6 +220,7 @@ public class DoubleDateAndTimePickerDialog {
         private DoubleDateAndTimePickerDialog.Listener listener;
         private boolean bottomSheet;
         private boolean curved;
+        private DoubleDateAndTimePickerDialog dialog;
 
         @Nullable
         private String tab0Text;
@@ -281,8 +282,13 @@ public class DoubleDateAndTimePickerDialog {
         }
 
         public void display() {
-            final DoubleDateAndTimePickerDialog dialog = build();
+            dialog = build();
             dialog.display();
+        }
+
+        public void close() {
+            if(dialog!=null)
+                dialog.close();
         }
     }
 }

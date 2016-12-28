@@ -127,7 +127,8 @@ public class BottomSheetHelper {
     }
 
     private void remove() {
-        windowManager.removeView(view);
+        if(view.getWindowToken()!=null)
+            windowManager.removeView(view);
     }
 
     public interface Listener {

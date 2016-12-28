@@ -113,6 +113,7 @@ public class SingleDateAndTimePickerDialog {
 
     public static class Builder {
         private final Context context;
+        private SingleDateAndTimePickerDialog dialog;
 
         @Nullable
         private Listener listener;
@@ -155,8 +156,13 @@ public class SingleDateAndTimePickerDialog {
         }
 
         public void display() {
-            final SingleDateAndTimePickerDialog dialog = build();
+            dialog = build();
             dialog.display();
+        }
+
+        public void close() {
+            if(dialog!=null)
+                dialog.close();
         }
     }
 }
