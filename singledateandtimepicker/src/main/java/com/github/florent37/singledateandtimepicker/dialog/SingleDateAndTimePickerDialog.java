@@ -21,6 +21,7 @@ public class SingleDateAndTimePickerDialog {
     private String title;
 
     private boolean curved = false;
+    private boolean canBeOnPast = false;
 
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -76,6 +77,7 @@ public class SingleDateAndTimePickerDialog {
             picker.setCurved(false);
             picker.setVisibleItemCount(5);
         }
+        picker.setCanBeOnPast(canBeOnPast);
     }
 
     private void onClose() {
@@ -96,6 +98,11 @@ public class SingleDateAndTimePickerDialog {
 
     public SingleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setCanBeOnPast(@Nullable boolean canBeOnPast) {
+        this.canBeOnPast = canBeOnPast;
         return this;
     }
 
@@ -124,6 +131,7 @@ public class SingleDateAndTimePickerDialog {
         private boolean bottomSheet;
 
         private boolean curved;
+        private boolean canBeOnPast;
 
         public Builder(Context context) {
             this.context = context;
@@ -144,6 +152,11 @@ public class SingleDateAndTimePickerDialog {
             return this;
         }
 
+        public Builder canBeOnPast() {
+            this.canBeOnPast = true;
+            return this;
+        }
+
         public Builder listener(@Nullable Listener listener) {
             this.listener = listener;
             return this;
@@ -152,7 +165,8 @@ public class SingleDateAndTimePickerDialog {
         public SingleDateAndTimePickerDialog build() {
             return new SingleDateAndTimePickerDialog(context, bottomSheet).setTitle(title)
                     .setListener(listener)
-                    .setCurved(curved);
+                    .setCurved(curved)
+                    .setCanBeOnPast(canBeOnPast);
         }
 
         public void display() {
