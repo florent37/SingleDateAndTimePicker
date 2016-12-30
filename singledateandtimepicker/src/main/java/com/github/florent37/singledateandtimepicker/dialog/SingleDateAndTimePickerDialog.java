@@ -15,6 +15,7 @@ public class SingleDateAndTimePickerDialog {
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
+    private boolean okClicked=false;
 
     @Nullable
     private String title;
@@ -52,6 +53,7 @@ public class SingleDateAndTimePickerDialog {
         view.findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                okClicked=true;
                 close();
             }
         });
@@ -77,7 +79,7 @@ public class SingleDateAndTimePickerDialog {
     }
 
     private void onClose() {
-        if (listener != null) {
+        if (listener != null && okClicked) {
             listener.onDateSelected(picker.getDate());
         }
     }
@@ -111,6 +113,7 @@ public class SingleDateAndTimePickerDialog {
 
     public static class Builder {
         private final Context context;
+        private SingleDateAndTimePickerDialog dialog;
 
         @Nullable
         private Listener listener;
@@ -153,8 +156,13 @@ public class SingleDateAndTimePickerDialog {
         }
 
         public void display() {
-            final SingleDateAndTimePickerDialog dialog = build();
+            dialog = build();
             dialog.display();
+        }
+
+        public void close() {
+            if(dialog!=null)
+                dialog.close();
         }
     }
 }

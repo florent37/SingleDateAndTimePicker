@@ -24,6 +24,7 @@ public class DoubleDateAndTimePickerDialog {
     private SingleDateAndTimePicker pickerTab1;
     private View tab0;
     private View tab1;
+    private boolean okClicked=false;
 
     @Nullable
     private String tab0Text, tab1Text, title;
@@ -120,6 +121,7 @@ public class DoubleDateAndTimePickerDialog {
                 if (isTab0Visible()) {
                     displayTab1();
                 } else {
+                    okClicked=true;
                     close();
                 }
             }
@@ -159,7 +161,7 @@ public class DoubleDateAndTimePickerDialog {
     }
 
     private void onClose() {
-        if (listener != null) {
+        if (listener != null && okClicked) {
             listener.onDateSelected(Arrays.asList(pickerTab0.getDate(), pickerTab1.getDate()));
         }
     }
@@ -218,6 +220,7 @@ public class DoubleDateAndTimePickerDialog {
         private DoubleDateAndTimePickerDialog.Listener listener;
         private boolean bottomSheet;
         private boolean curved;
+        private DoubleDateAndTimePickerDialog dialog;
 
         @Nullable
         private String tab0Text;
@@ -279,8 +282,13 @@ public class DoubleDateAndTimePickerDialog {
         }
 
         public void display() {
-            final DoubleDateAndTimePickerDialog dialog = build();
+            dialog = build();
             dialog.display();
+        }
+
+        public void close() {
+            if(dialog!=null)
+                dialog.close();
         }
     }
 }

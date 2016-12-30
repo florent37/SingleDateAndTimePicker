@@ -19,6 +19,8 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     @Bind(R.id.singleText) TextView singleText;
 
     SimpleDateFormat simpleDateFormat;
+    SingleDateAndTimePickerDialog.Builder singleBuilder;
+    DoubleDateAndTimePickerDialog.Builder doubleBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,18 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if(singleBuilder!=null)
+            singleBuilder.close();
+        if(doubleBuilder!=null)
+            doubleBuilder.close();
+    }
+
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
-        new SingleDateAndTimePickerDialog.Builder(this)
+        singleBuilder=new SingleDateAndTimePickerDialog.Builder(this)
             //.bottomSheet()
             //.curved()
             .title("Simple")
@@ -40,13 +51,13 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 public void onDateSelected(Date date) {
                     singleText.setText(simpleDateFormat.format(date));
                 }
-            })
-            .display();
+            });
+        singleBuilder.display();
     }
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
-        new DoubleDateAndTimePickerDialog.Builder(this)
+        doubleBuilder=new DoubleDateAndTimePickerDialog.Builder(this)
             //.bottomSheet()
             //.curved()
             .title("Double")
@@ -61,6 +72,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 }
                 doubleText.setText(stringBuilder.toString());
             }
-        }).display();
+        });
+        doubleBuilder.display();
     }
 }
