@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class DoubleDateAndTimePickerDialog {
+public class DoubleDateAndTimePickerDialog extends BaseDialog {
+
 
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
@@ -24,8 +25,7 @@ public class DoubleDateAndTimePickerDialog {
     private SingleDateAndTimePicker pickerTab1;
     private View tab0;
     private View tab1;
-    private boolean okClicked=false;
-
+    private boolean okClicked = false;
     @Nullable
     private String tab0Text, tab1Text, title;
     @Nullable
@@ -38,12 +38,12 @@ public class DoubleDateAndTimePickerDialog {
     }
 
     private DoubleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
-        final int layout = bottomSheet ? R.layout.bottom_sheet_double_picker_bottom_sheet : R.layout.bottom_sheet_double_picker;
+        final int layout = bottomSheet ? R.layout.bottom_sheet_double_picker_bottom_sheet :
+                R.layout.bottom_sheet_double_picker;
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override
             public void onOpen() {
-
             }
 
             @Override
@@ -121,7 +121,7 @@ public class DoubleDateAndTimePickerDialog {
                 if (isTab0Visible()) {
                     displayTab1();
                 } else {
-                    okClicked=true;
+                    okClicked = true;
                     close();
                 }
             }
@@ -130,13 +130,13 @@ public class DoubleDateAndTimePickerDialog {
         if (curved) {
             pickerTab0.setCurved(true);
             pickerTab1.setCurved(true);
-            pickerTab0.setVisibleItemCount(7);
-            pickerTab1.setVisibleItemCount(7);
+            pickerTab0.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_CURVED);
+            pickerTab1.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_CURVED);
         } else {
             pickerTab0.setCurved(false);
             pickerTab1.setCurved(false);
-            pickerTab0.setVisibleItemCount(5);
-            pickerTab1.setVisibleItemCount(5);
+            pickerTab0.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_NORMAL);
+            pickerTab1.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_NORMAL);
         }
     }
 
@@ -160,12 +160,6 @@ public class DoubleDateAndTimePickerDialog {
         return this;
     }
 
-    private void onClose() {
-        if (listener != null && okClicked) {
-            listener.onDateSelected(Arrays.asList(pickerTab0.getDate(), pickerTab1.getDate()));
-        }
-    }
-
     public DoubleDateAndTimePickerDialog setListener(Listener listener) {
         this.listener = listener;
         return this;
@@ -176,9 +170,23 @@ public class DoubleDateAndTimePickerDialog {
         return this;
     }
 
-
+    @Override
     public void display() {
+        super.display();
         this.bottomSheetHelper.display();
+    }
+
+    @Override
+    public void close() {
+        super.close();
+        bottomSheetHelper.hide();
+    }
+
+    protected void onClose() {
+        super.onClose();
+        if (listener != null && okClicked) {
+            listener.onDateSelected(Arrays.asList(pickerTab0.getDate(), pickerTab1.getDate()));
+        }
     }
 
     private void displayTab0() {
@@ -191,9 +199,6 @@ public class DoubleDateAndTimePickerDialog {
         }
     }
 
-    public void close() {
-        bottomSheetHelper.hide();
-    }
 
     private void displayTab1() {
         if (isTab0Visible()) {
@@ -287,8 +292,9 @@ public class DoubleDateAndTimePickerDialog {
         }
 
         public void close() {
-            if(dialog!=null)
+            if (dialog != null) {
                 dialog.close();
+            }
         }
     }
 }

@@ -10,16 +10,14 @@ import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
 import java.util.Date;
 
-public class SingleDateAndTimePickerDialog {
+public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
-    private boolean okClicked=false;
-
+    private boolean okClicked = false;
     @Nullable
     private String title;
-
     private boolean curved = false;
     private boolean canBeOnPast = false;
 
@@ -28,13 +26,13 @@ public class SingleDateAndTimePickerDialog {
     }
 
     private SingleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
-        final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet : R.layout.bottom_sheet_picker;
+        final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet :
+                R.layout.bottom_sheet_picker;
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override
             public void onOpen() {
-
             }
 
             @Override
@@ -49,12 +47,13 @@ public class SingleDateAndTimePickerDialog {
         });
     }
 
+
     private void init(View view) {
         picker = (SingleDateAndTimePicker) view.findViewById(R.id.picker);
         view.findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                okClicked=true;
+                okClicked = true;
                 close();
             }
         });
@@ -80,12 +79,6 @@ public class SingleDateAndTimePickerDialog {
         picker.setCanBeOnPast(canBeOnPast);
     }
 
-    private void onClose() {
-        if (listener != null && okClicked) {
-            listener.onDateSelected(picker.getDate());
-        }
-    }
-
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
         this.listener = listener;
         return this;
@@ -106,12 +99,23 @@ public class SingleDateAndTimePickerDialog {
         return this;
     }
 
+    @Override
     public void display() {
-        this.bottomSheetHelper.display();
+        super.display();
+        bottomSheetHelper.display();
     }
 
+    @Override
     public void close() {
+        super.close();
         bottomSheetHelper.hide();
+    }
+
+    protected void onClose() {
+        super.onClose();
+        if (listener != null && okClicked) {
+            listener.onDateSelected(picker.getDate());
+        }
     }
 
     public interface Listener {
@@ -175,8 +179,9 @@ public class SingleDateAndTimePickerDialog {
         }
 
         public void close() {
-            if(dialog!=null)
+            if (dialog != null) {
                 dialog.close();
+            }
         }
     }
 }
