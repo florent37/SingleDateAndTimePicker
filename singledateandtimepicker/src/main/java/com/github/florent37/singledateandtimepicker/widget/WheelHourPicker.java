@@ -10,13 +10,17 @@ import java.util.List;
 
 public class WheelHourPicker extends WheelPicker {
 
-    public static final int MIN_HOUR = 0;
-    public static final int MAX_HOUR = 23;
-    public static final int STEP_HOUR = 1;
+    public static final int MIN_HOUR_DEFAULT = 0;
+    public static final int MAX_HOUR_DEFAULT = 23;
+    public static final int MAX_HOUR_AM_PM = 11;
+    public static final int STEP_HOURS_DEFAULT = 1;
 
     private OnHourSelectedListener hoursSelectedListener;
 
     private int defaultHour;
+    private int minHour = MIN_HOUR_DEFAULT;
+    private int maxHour = MAX_HOUR_DEFAULT;
+    private int hoursStep = STEP_HOURS_DEFAULT;
 
     private int lastScrollPosition;
 
@@ -28,10 +32,14 @@ public class WheelHourPicker extends WheelPicker {
 
     public WheelHourPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAdapter();
+    }
 
+    private void initAdapter() {
         final List<String> hours = new ArrayList<>();
-        for (int hour = MIN_HOUR; hour <= MAX_HOUR; hour += STEP_HOUR)
+        for (int hour = minHour; hour <= maxHour; hour += hoursStep) {
             hours.add(getFormattedValue(hour));
+        }
 
         adapter = new Adapter(hours);
         setAdapter(adapter);
@@ -56,7 +64,7 @@ public class WheelHourPicker extends WheelPicker {
 
         if (lastScrollPosition != position) {
             hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
-            if (lastScrollPosition == 23 && position == 0)
+            if (lastScrollPosition == MAX_HOUR_DEFAULT && position == 0)
                 if (hoursSelectedListener != null) {
                     hoursSelectedListener.onHourCurrentNewDay(this);
                 }
@@ -90,6 +98,35 @@ public class WheelHourPicker extends WheelPicker {
     public void setDefaultHour(int hour) {
         defaultHour = hour;
         updateDefaultHour();
+    }
+
+    public void setIsAmPm(boolean isAmPm) {
+        if (isAmPm) {
+            setMaxHour(MAX_HOUR_AM_PM);
+        } else {
+            setMaxHour(MAX_HOUR_DEFAULT);
+        }
+    }
+
+    public void setMaxHour(int maxHour) {
+        if (maxHour >= MIN_HOUR_DEFAULT && maxHour <= MAX_HOUR_DEFAULT) {
+            this.maxHour = maxHour;
+        }
+        initAdapter();
+    }
+
+    public void setMinHour(int minHour) {
+        if (minHour >= MIN_HOUR_DEFAULT && minHour <= MAX_HOUR_DEFAULT) {
+            this.minHour = minHour;
+        }
+        initAdapter();
+    }
+
+    public void setHoursStep(int hourStep) {
+        if (hoursStep >= MIN_HOUR_DEFAULT && hoursStep <= MAX_HOUR_DEFAULT) {
+            this.hoursStep = hoursStep;
+        }
+        initAdapter();
     }
 
     private int convertItemToHour(Object item) {

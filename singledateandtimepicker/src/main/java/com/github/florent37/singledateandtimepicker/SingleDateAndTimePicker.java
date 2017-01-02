@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
+import android.text.format.DateFormat;
 
 import com.github.florent37.singledateandtimepicker.widget.WheelDayPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelHourPicker;
@@ -19,13 +21,18 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public static final boolean IS_CYCLIC_DEFAULT = true;
     public static final boolean IS_CURVED_DEFAULT = false;
-    public static final boolean CAN_BE_ON_PAST_DEFAULT = false;
+    public static final boolean MUST_BE_ON_FUTUR_DEFAULT = false;
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
     private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
+    private static final int PM_HOUR_ADDITION = 12;
 
     private WheelDayPicker daysPicker;
     private WheelMinutePicker minutesPicker;
     private WheelHourPicker hoursPicker;
+
+    private View amPmLayout;
+    private CheckedTextView amTextView;
+    private CheckedTextView pmTextView;
 
     private Listener listener;
 
@@ -37,7 +44,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private boolean isCurved;
     private int visibleItemCount;
     private View dtSelector;
-    private boolean canBeOnPast;
+    private boolean mustBeOnFuture;
+
+    private boolean isAmPm;
 
     public SingleDateAndTimePicker(Context context) {
         this(context, null);
@@ -52,10 +61,15 @@ public class SingleDateAndTimePicker extends LinearLayout {
         init(context, attrs);
         inflate(context, R.layout.single_day_picker, this);
 
+        isAmPm = !(new DateFormat().is24HourFormat(context));
+
         daysPicker = (WheelDayPicker) findViewById(R.id.daysPicker);
         minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
         hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
         dtSelector = findViewById(R.id.dtSelector);
+        amPmLayout = findViewById(R.id.amPmLayout);
+        amTextView = (CheckedTextView) findViewById(R.id.amTextView);
+        pmTextView = (CheckedTextView) findViewById(R.id.pmTextView);
 
         daysPicker.setOnDaySelectedListener(new WheelDayPicker.OnDaySelectedListener() {
             @Override
@@ -134,9 +148,19 @@ public class SingleDateAndTimePicker extends LinearLayout {
         this.selectorColor = selectorColor;
         updateViews();
     }
+    
     public void setVisibleItemCount(int visibleItemCount) {
         this.visibleItemCount = visibleItemCount;
         updatePicker();
+    }
+
+    public void setIsAmPm(boolean isAmPm) {
+        this.isAmPm = isAmPm;
+        updateViews();
+    }
+
+    public boolean isAmPm() {
+        return isAmPm;
     }
 
     private void updatePicker() {
@@ -150,6 +174,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 wheelPicker.setVisibleItemCount(visibleItemCount);
             }
         }
+        
+        if (hoursPicker != null) {
+            hoursPicker.setIsAmPm(isAmPm);
+        }
     }
 
     private void updateViews(){
@@ -160,7 +188,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         picker.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!canBeOnPast && isInPast(getDate())) {
+                if (mustBeOnFuture && isInPast(getDate())) {
                     daysPicker.scrollTo(daysPicker.getDefaultItemPosition());
                     minutesPicker.scrollTo(minutesPicker.getDefaultItemPosition());
                     hoursPicker.scrollTo(hoursPicker.getDefaultItemPosition());
@@ -187,7 +215,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public Date getDate() {
-        final int hour = hoursPicker.getCurrentHour();
+        int hour = hoursPicker.getCurrentHour();
+        if(isAmPm && pmTextView.isChecked()) {
+            hour += PM_HOUR_ADDITION;
+        }
         final int minute = minutesPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
@@ -198,6 +229,14 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         final Date time = calendar.getTime();
         return time;
+    }
+
+    public void setStepMinutes(int minutesStep) {
+        minutesPicker.setStepMinutes(minutesStep);
+    }
+
+    public void setHoursStep(int hoursStep) {
+        hoursPicker.setHoursStep(hoursStep);
     }
 
     public void selectDate(Calendar calendar) {
@@ -229,12 +268,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
-    public void setCanBeOnPast(boolean canBeOnPast) {
-        this.canBeOnPast = canBeOnPast;
+    public void setMustBeOnFuture(boolean mustBeOnFuture) {
+        this.mustBeOnFuture = mustBeOnFuture;
     }
 
-    public boolean canBeOnPast() {
-        return canBeOnPast;
+    public boolean mustBeOnFuture() {
+        return mustBeOnFuture;
     }
 
     private void init(Context context, AttributeSet attrs) {
@@ -250,7 +289,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
         isCurved = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT);
         isCyclic = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT);
-        canBeOnPast = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_canBeOnPast, CAN_BE_ON_PAST_DEFAULT);
+        mustBeOnFuture = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT);
         visibleItemCount = a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT);
 
         a.recycle();

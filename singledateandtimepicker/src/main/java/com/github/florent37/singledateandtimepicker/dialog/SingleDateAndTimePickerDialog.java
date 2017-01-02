@@ -1,12 +1,15 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
 import java.util.Date;
 
@@ -19,7 +22,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private String title;
     private boolean curved = false;
-    private boolean canBeOnPast = false;
+    private boolean mustBeOnFuture = false;
+    private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
 
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -50,23 +54,43 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private void init(View view) {
         picker = (SingleDateAndTimePicker) view.findViewById(R.id.picker);
-        view.findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                okClicked = true;
-                close();
-            }
-        });
-        view.findViewById(R.id.sheetContentLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        
+        final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
+        if (buttonOk != null) {
+            buttonOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    okClicked = true;
+                    close();
+                }
+            });
 
+            if (mainColor != null){
+                buttonOk.setTextColor(mainColor);
             }
-        });
+        }
 
-        TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
+        final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
+        if (sheetContentLayout != null) {
+            sheetContentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            if (backgroundColor != null) {
+                sheetContentLayout.setBackgroundColor(backgroundColor);
+            }
+        }
+
+        final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
         if (titleTextView != null) {
             titleTextView.setText(title);
+            
+            if (titleTextColor != null){
+                titleTextView.setTextColor(titleTextColor);
+            }
         }
 
         if (curved) {
@@ -76,7 +100,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             picker.setCurved(false);
             picker.setVisibleItemCount(5);
         }
-        picker.setCanBeOnPast(canBeOnPast);
+        picker.setMustBeOnFuture(mustBeOnFuture);
+
+        picker.setStepMinutes(minutesStep);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -89,13 +115,18 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setMinutesStep(int minutesStep) {
+        this.minutesStep = minutesStep;
+        return this;
+    }
+
     public SingleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
         return this;
     }
 
-    public SingleDateAndTimePickerDialog setCanBeOnPast(@Nullable boolean canBeOnPast) {
-        this.canBeOnPast = canBeOnPast;
+    public SingleDateAndTimePickerDialog setMustBeOnFuture(boolean mustBeOnFuture) {
+        this.mustBeOnFuture = mustBeOnFuture;
         return this;
     }
 
@@ -109,14 +140,28 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     public void close() {
         super.close();
         bottomSheetHelper.hide();
-    }
-
-    protected void onClose() {
-        super.onClose();
+  
         if (listener != null && okClicked) {
             listener.onDateSelected(picker.getDate());
         }
     }
+
+/*
+    @Deprecated
+    public void setMinDateRange(Date minDate){
+        //TODO
+    }
+
+    @Deprecated
+    public void setMaxDateRange(Date maxDate){
+        //TODO
+    }
+
+    @Deprecated
+    public void setAmPm(boolean isAmPm){
+        //TODO
+    }
+*/
 
     public interface Listener {
         void onDateSelected(Date date);
@@ -135,7 +180,20 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean bottomSheet;
 
         private boolean curved;
-        private boolean canBeOnPast;
+        private boolean mustBeOnFuture;
+        private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
+
+        @ColorInt
+        @Nullable
+        private Integer backgroundColor = null;
+
+        @ColorInt 
+        @Nullable
+        private Integer mainColor = null;
+
+        @ColorInt 
+        @Nullable
+        private Integer titleTextColor = null;
 
         public Builder(Context context) {
             this.context = context;
@@ -156,8 +214,13 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
-        public Builder canBeOnPast() {
-            this.canBeOnPast = true;
+        public Builder mustBeOnFuture() {
+            this.mustBeOnFuture = true;
+            return this;
+        }
+
+        public Builder minutesStep(int minutesStep){
+            this.minutesStep = minutesStep;
             return this;
         }
 
@@ -166,11 +229,59 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder titleTextColor(@NonNull @ColorInt int titleTextColor) {
+            this.titleTextColor = titleTextColor;
+            return this;
+        }
+
+        public Builder backgroundColor(@NonNull @ColorInt int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        public Builder mainColor(@NonNull @ColorInt int mainColor) {
+            this.mainColor = mainColor;
+            return this;
+        }
+
+        /*
+        @Deprecated
+        public Builder minDateRange(Date minDate){
+            //TODO
+        }
+
+        @Deprecated
+        public void maxDateRange(Date maxDate){
+            //TODO
+        }
+
+        @Deprecated
+        public void setAmPm(boolean isAmPm){
+            //TODO
+        }
+        */
+
         public SingleDateAndTimePickerDialog build() {
-            return new SingleDateAndTimePickerDialog(context, bottomSheet).setTitle(title)
+            final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
+                    .setTitle(title)
                     .setListener(listener)
                     .setCurved(curved)
-                    .setCanBeOnPast(canBeOnPast);
+                    .setMinutesStep(minutesStep)
+                    .setMustBeOnFuture(mustBeOnFuture);
+
+            if (mainColor != null) {
+                dialog.setMainColor(mainColor);
+            }
+
+            if (backgroundColor != null) {
+                dialog.setBackgroundColor(backgroundColor);
+            }
+
+            if (titleTextColor != null) {
+                dialog.setTitleTextColor(titleTextColor);
+            }
+
+            return dialog;
         }
 
         public void display() {

@@ -40,6 +40,35 @@
             app:wheel_atmospheric="true"
             app:wheel_item_align="center"
             />
+
+        <LinearLayout
+            android:id="@+id/amPmLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            >
+
+            <CheckedTextView
+                android:id="@+id/amTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/picker_am"
+                android:textColor="@color/date_picker_am_pm_text_selector"
+                android:background="@color/date_picker_am_pm_background_selector"/>
+
+            <CheckedTextView
+                android:id="@+id/pmTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/picker_pm"
+                android:textColor="@color/date_picker_am_pm_text_selector"
+                android:background="@color/date_picker_am_pm_background_selector"
+                android:checked="false"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <View

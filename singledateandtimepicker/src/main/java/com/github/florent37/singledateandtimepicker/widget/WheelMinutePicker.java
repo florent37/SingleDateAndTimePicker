@@ -11,13 +11,14 @@ import java.util.List;
 public class WheelMinutePicker extends WheelPicker {
     public static final int MIN_MINUTES = 0;
     public static final int MAX_MINUTES = 55;
-    public static final int STEP_MINUTES = 5;
+    public static final int STEP_MINUTES_DEFAULT = 5;
 
     private int defaultMinute;
+    private int stepMinutes = STEP_MINUTES_DEFAULT;
 
     private WheelPicker.Adapter adapter;
 
-    int lastScrollPosition;
+    private int lastScrollPosition;
 
     private OnMinuteSelectedListener onMinuteSelectedListener;
 
@@ -27,10 +28,14 @@ public class WheelMinutePicker extends WheelPicker {
 
     public WheelMinutePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAdapter();
+    }
 
-        List<String> minutes = new ArrayList<>();
-        for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += STEP_MINUTES)
+    private void initAdapter(){
+        final List<String> minutes = new ArrayList<>();
+        for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += stepMinutes) {
             minutes.add(getFormattedValue(min));
+        }
         adapter = new Adapter(minutes);
         setAdapter(adapter);
 
@@ -38,6 +43,7 @@ public class WheelMinutePicker extends WheelPicker {
 
         updateDefaultMinute();
     }
+
 
     public void setOnMinuteSelectedListener(OnMinuteSelectedListener onMinuteSelectedListener) {
         this.onMinuteSelectedListener = onMinuteSelectedListener;
@@ -91,6 +97,13 @@ public class WheelMinutePicker extends WheelPicker {
     public void setDefaultMinute(int minutes) {
         this.defaultMinute = minutes;
         updateDefaultMinute();
+    }
+
+    public void setStepMinutes(int stepMinutes) {
+        if (stepMinutes < 60 && stepMinutes > 0) {
+            this.stepMinutes = stepMinutes;
+            initAdapter();
+        }
     }
 
     @Override
