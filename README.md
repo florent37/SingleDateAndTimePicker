@@ -10,6 +10,10 @@ You can now select a date and a time with only one widget !
 new SingleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
+            //.backgroundColor(Color.BLACK)
+            //.mainColor(Color.GREEN)
+            //.minutesStep(15)
+            //.mustBeOnFuture()
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override
@@ -75,7 +79,7 @@ new DoubleDateAndTimePickerDialog.Builder(context)
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
 ```groovy
-compile 'com.github.florent37:singledateandtimepicker:1.0.0'
+compile 'com.github.florent37:singledateandtimepicker:1.0.1'
 ```
 
 #Credits
