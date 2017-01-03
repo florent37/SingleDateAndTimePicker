@@ -1,5 +1,6 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -45,6 +46,10 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         singleBuilder=new SingleDateAndTimePickerDialog.Builder(this)
             //.bottomSheet()
             //.curved()
+            //.backgroundColor(Color.BLACK)
+            //.mainColor(Color.GREEN)
+            //.minutesStep(15)
+            //.mustBeOnFuture()
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override

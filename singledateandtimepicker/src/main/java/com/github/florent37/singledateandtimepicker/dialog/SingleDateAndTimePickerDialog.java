@@ -87,10 +87,15 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
         if (titleTextView != null) {
             titleTextView.setText(title);
-            
+
             if (titleTextColor != null){
                 titleTextView.setTextColor(titleTextColor);
             }
+        }
+
+        final View pickerTitleHeader = view.findViewById(R.id.pickerTitleHeader);
+        if (mainColor != null && pickerTitleHeader != null) {
+            pickerTitleHeader.setBackgroundColor(mainColor);
         }
 
         if (curved) {
@@ -103,6 +108,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setMustBeOnFuture(mustBeOnFuture);
 
         picker.setStepMinutes(minutesStep);
+
+        if (mainColor != null){
+            picker.setSelectedTextColor(mainColor);
+        }
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
