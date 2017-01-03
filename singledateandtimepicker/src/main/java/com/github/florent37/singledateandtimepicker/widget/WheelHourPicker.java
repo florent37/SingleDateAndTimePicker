@@ -23,6 +23,7 @@ public class WheelHourPicker extends WheelPicker {
     private int hoursStep = STEP_HOURS_DEFAULT;
 
     private int lastScrollPosition;
+    private boolean isAmPm = false;
 
     private WheelPicker.Adapter adapter;
 
@@ -45,6 +46,9 @@ public class WheelHourPicker extends WheelPicker {
         setAdapter(adapter);
 
         defaultHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if (isAmPm && defaultHour >= MAX_HOUR_AM_PM) {
+            defaultHour -= MAX_HOUR_AM_PM;
+        }
 
         updateDefaultHour();
     }
@@ -72,6 +76,17 @@ public class WheelHourPicker extends WheelPicker {
         }
     }
 
+    @Override
+    public int findIndexOfDate(Date date) {
+        if (isAmPm) {
+            final int hours = date.getHours();
+            if (hours >= MAX_HOUR_AM_PM) {
+                date.setHours(hours - MAX_HOUR_AM_PM);
+            }
+        }
+        return super.findIndexOfDate(date);
+    }
+
     protected String getFormattedValue(Object value) {
         Object valueItem = value;
         if (value instanceof Date) {
@@ -96,11 +111,16 @@ public class WheelHourPicker extends WheelPicker {
     }
 
     public void setDefaultHour(int hour) {
+        if (isAmPm && hour >= MAX_HOUR_AM_PM) {
+            defaultHour -= MAX_HOUR_AM_PM;
+        }
+
         defaultHour = hour;
         updateDefaultHour();
     }
 
     public void setIsAmPm(boolean isAmPm) {
+        this.isAmPm = isAmPm;
         if (isAmPm) {
             setMaxHour(MAX_HOUR_AM_PM);
         } else {

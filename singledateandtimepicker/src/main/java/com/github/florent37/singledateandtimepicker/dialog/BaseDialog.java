@@ -44,6 +44,6 @@ public abstract class BaseDialog {
     }
 
     protected void onClose() {
-        close();
+        this.isDiplaying = false;
     }
 }
