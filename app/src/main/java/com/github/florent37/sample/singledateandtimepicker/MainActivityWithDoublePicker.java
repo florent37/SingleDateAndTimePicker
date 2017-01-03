@@ -1,23 +1,28 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+
 import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivityWithDoublePicker extends AppCompatActivity {
 
-    @Bind(R.id.doubleText) TextView doubleText;
-    @Bind(R.id.singleText) TextView singleText;
+    @Bind(R.id.doubleText)
+    TextView doubleText;
+    @Bind(R.id.singleText)
+    TextView singleText;
 
     SimpleDateFormat simpleDateFormat;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -33,51 +38,59 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if(singleBuilder!=null)
+        if (singleBuilder != null)
             singleBuilder.close();
-        if(doubleBuilder!=null)
+        if (doubleBuilder != null)
             doubleBuilder.close();
     }
 
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
-        singleBuilder=new SingleDateAndTimePickerDialog.Builder(this)
-            //.bottomSheet()
-            //.curved()
-            //.backgroundColor(Color.BLACK)
-            //.mainColor(Color.GREEN)
-            //.minutesStep(15)
-            //.mustBeOnFuture()
-            .title("Simple")
-            .listener(new SingleDateAndTimePickerDialog.Listener() {
-                @Override
-                public void onDateSelected(Date date) {
-                    singleText.setText(simpleDateFormat.format(date));
-                }
-            });
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.YEAR, 2017);
+        Date minDate = calendar.getTime();
+
+        singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+                //.bottomSheet()
+                //.curved()
+                //.backgroundColor(Color.BLACK)
+                //.mainColor(Color.GREEN)
+                //.minutesStep(15)
+                //.mustBeOnFuture()
+                .minDateRange(minDate)
+                .title("Simple")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        singleText.setText(simpleDateFormat.format(date));
+                    }
+                });
         singleBuilder.display();
     }
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
-        doubleBuilder=new DoubleDateAndTimePickerDialog.Builder(this)
-            //.bottomSheet()
-            //.curved()
-            .title("Double")
-            .tab0Text("Depart")
-            .tab1Text("Return")
-            .listener(new DoubleDateAndTimePickerDialog.Listener() {
-            @Override
-            public void onDateSelected(List<Date> dates) {
-                final StringBuilder stringBuilder = new StringBuilder();
-                for (Date date : dates) {
-                    stringBuilder.append(simpleDateFormat.format(date)).append("\n");
-                }
-                doubleText.setText(stringBuilder.toString());
-            }
-        });
+        doubleBuilder = new DoubleDateAndTimePickerDialog.Builder(this)
+                //.bottomSheet()
+                //.curved()
+                .title("Double")
+                .tab0Text("Depart")
+                .tab1Text("Return")
+                .listener(new DoubleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(List<Date> dates) {
+                        final StringBuilder stringBuilder = new StringBuilder();
+                        for (Date date : dates) {
+                            stringBuilder.append(simpleDateFormat.format(date)).append("\n");
+                        }
+                        doubleText.setText(stringBuilder.toString());
+                    }
+                });
         doubleBuilder.display();
     }
 }

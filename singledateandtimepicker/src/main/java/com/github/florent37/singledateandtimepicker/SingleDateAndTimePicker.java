@@ -44,6 +44,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private View dtSelector;
     private boolean mustBeOnFuture;
 
+    private Date minDate;
+    private Date maxDate;
+
     private boolean isAmPm;
 
     public SingleDateAndTimePicker(Context context) {
@@ -71,7 +74,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             @Override
             public void onDaySelected(WheelDayPicker picker, int position, String name, Date date) {
                 updateListener();
-                checkInPast(picker);
+                checkMinMaxDate(picker);
             }
         });
 
@@ -79,7 +82,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             @Override
             public void onMinuteSelected(WheelMinutePicker picker, int position, int minutes) {
                 updateListener();
-                checkInPast(picker);
+                checkMinMaxDate(picker);
             }
 
             @Override
@@ -97,7 +100,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             @Override
             public void onHourSelected(WheelHourPicker picker, int position, int hours) {
                 updateListener();
-                checkInPast(picker);
+                checkMinMaxDate(picker);
             }
 
             @Override
@@ -159,6 +162,22 @@ public class SingleDateAndTimePicker extends LinearLayout {
         return isAmPm;
     }
 
+    public Date getMinDate() {
+        return minDate;
+    }
+
+    public void setMinDate(Date minDate) {
+        this.minDate = minDate;
+    }
+
+    public Date getMaxDate() {
+        return maxDate;
+    }
+
+    public void setMaxDate(Date maxDate) {
+        this.maxDate = maxDate;
+    }
+
     private void updatePicker() {
         if (daysPicker != null && minutesPicker != null && hoursPicker != null && amPmPicker != null) {
             for (WheelPicker wheelPicker : Arrays.asList(daysPicker, minutesPicker, hoursPicker, amPmPicker)) {
@@ -185,30 +204,65 @@ public class SingleDateAndTimePicker extends LinearLayout {
         dtSelector.setBackgroundColor(selectorColor);
     }
 
-    private void checkInPast(final WheelPicker picker) {
+    private void checkMinMaxDate(final WheelPicker picker){
+        checkBeforeMinDate(picker);
+        checkAfterMaxDate(picker);
+    }
+
+    private void checkBeforeMinDate(final WheelPicker picker) {
         picker.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mustBeOnFuture && isInPast(getDate())) {
-                    daysPicker.scrollTo(daysPicker.getDefaultItemPosition());
-                    minutesPicker.scrollTo(minutesPicker.getDefaultItemPosition());
-                    hoursPicker.scrollTo(hoursPicker.getDefaultItemPosition());
+                if (minDate != null && isBeforeMinDate(getDate())) {
+                    //scroll to Min position
+                    daysPicker.scrollTo(daysPicker.findIndexOfDate(minDate));
+                    minutesPicker.scrollTo(minutesPicker.findIndexOfDate(minDate));
+                    hoursPicker.scrollTo(hoursPicker.findIndexOfDate(minDate));
                 }
             }
         }, DELAY_BEFORE_CHECK_PAST);
     }
 
-    private boolean isInPast(Date date) {
-        final Calendar todayCalendar = Calendar.getInstance();
-        todayCalendar.set(Calendar.MILLISECOND, 0);
-        todayCalendar.set(Calendar.SECOND, 0);
+    private void checkAfterMaxDate(final WheelPicker picker) {
+        picker.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (maxDate != null && isAfterMaxDate(getDate())) {
+                    //scroll to Max position
+                    daysPicker.scrollTo(daysPicker.findIndexOfDate(maxDate));
+                    minutesPicker.scrollTo(minutesPicker.findIndexOfDate(maxDate));
+                    hoursPicker.scrollTo(hoursPicker.findIndexOfDate(maxDate));
+                }
+            }
+        }, DELAY_BEFORE_CHECK_PAST);
+    }
+
+    private boolean isBeforeMinDate(Date date) {
+        final Calendar minDateCalendar = Calendar.getInstance();
+        minDateCalendar.setTime(minDate);
+        minDateCalendar.set(Calendar.MILLISECOND, 0);
+        minDateCalendar.set(Calendar.SECOND, 0);
 
         final Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTime(date);
         dateCalendar.set(Calendar.MILLISECOND, 0);
         dateCalendar.set(Calendar.SECOND, 0);
 
-        return dateCalendar.before(todayCalendar);
+        return dateCalendar.before(minDateCalendar);
+    }
+
+    private boolean isAfterMaxDate(Date date) {
+        final Calendar maxDateCalendar = Calendar.getInstance();
+        maxDateCalendar.setTime(maxDate);
+        maxDateCalendar.set(Calendar.MILLISECOND, 0);
+        maxDateCalendar.set(Calendar.SECOND, 0);
+
+        final Calendar dateCalendar = Calendar.getInstance();
+        dateCalendar.setTime(date);
+        dateCalendar.set(Calendar.MILLISECOND, 0);
+        dateCalendar.set(Calendar.SECOND, 0);
+
+        return dateCalendar.after(maxDateCalendar);
     }
 
     public void setListener(Listener listener) {
@@ -278,6 +332,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
+        if(mustBeOnFuture){
+            minDate = Calendar.getInstance().getTime(); //minDate is Today
+        }
     }
 
     public boolean mustBeOnFuture() {

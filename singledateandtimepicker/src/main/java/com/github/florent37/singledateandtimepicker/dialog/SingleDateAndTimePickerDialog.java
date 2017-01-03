@@ -25,6 +25,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private boolean mustBeOnFuture = false;
     private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
 
+    @Nullable
+    private Date minDate;
+    @Nullable
+    private Date maxDate;
+
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
     }
@@ -54,7 +59,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private void init(View view) {
         picker = (SingleDateAndTimePicker) view.findViewById(R.id.picker);
-        
+
         final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
         if (buttonOk != null) {
             buttonOk.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +70,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                 }
             });
 
-            if (mainColor != null){
+            if (mainColor != null) {
                 buttonOk.setTextColor(mainColor);
             }
         }
@@ -88,7 +93,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         if (titleTextView != null) {
             titleTextView.setText(title);
 
-            if (titleTextColor != null){
+            if (titleTextColor != null) {
                 titleTextView.setTextColor(titleTextColor);
             }
         }
@@ -109,8 +114,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         picker.setStepMinutes(minutesStep);
 
-        if (mainColor != null){
+        if (mainColor != null) {
             picker.setSelectedTextColor(mainColor);
+        }
+
+        if (minDate != null) {
+            picker.setMinDate(minDate);
+        }
+
+        if (maxDate != null) {
+            picker.setMaxDate(maxDate);
         }
     }
 
@@ -149,28 +162,21 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     public void close() {
         super.close();
         bottomSheetHelper.hide();
-  
+
         if (listener != null && okClicked) {
             listener.onDateSelected(picker.getDate());
         }
     }
 
-/*
-    @Deprecated
-    public void setMinDateRange(Date minDate){
-        //TODO
+    public SingleDateAndTimePickerDialog setMinDateRange(Date minDate) {
+        this.minDate = minDate;
+        return this;
     }
 
-    @Deprecated
-    public void setMaxDateRange(Date maxDate){
-        //TODO
+    public SingleDateAndTimePickerDialog setMaxDateRange(Date maxDate) {
+        this.maxDate = maxDate;
+        return this;
     }
-
-    @Deprecated
-    public void setAmPm(boolean isAmPm){
-        //TODO
-    }
-*/
 
     public interface Listener {
         void onDateSelected(Date date);
@@ -196,13 +202,18 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         @Nullable
         private Integer backgroundColor = null;
 
-        @ColorInt 
+        @ColorInt
         @Nullable
         private Integer mainColor = null;
 
-        @ColorInt 
+        @ColorInt
         @Nullable
         private Integer titleTextColor = null;
+
+        @Nullable
+        private Date minDate;
+        @Nullable
+        private Date maxDate;
 
         public Builder(Context context) {
             this.context = context;
@@ -228,7 +239,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
-        public Builder minutesStep(int minutesStep){
+        public Builder minutesStep(int minutesStep) {
             this.minutesStep = minutesStep;
             return this;
         }
@@ -253,22 +264,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
-        /*
-        @Deprecated
-        public Builder minDateRange(Date minDate){
-            //TODO
+        public Builder minDateRange(Date minDate) {
+            this.minDate = minDate;
+            return this;
         }
 
-        @Deprecated
-        public void maxDateRange(Date maxDate){
-            //TODO
+        public Builder maxDateRange(Date maxDate) {
+            this.maxDate = maxDate;
+            return this;
         }
 
-        @Deprecated
-        public void setAmPm(boolean isAmPm){
-            //TODO
-        }
-        */
 
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
@@ -276,6 +281,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setListener(listener)
                     .setCurved(curved)
                     .setMinutesStep(minutesStep)
+                    .setMaxDateRange(maxDate)
+                    .setMinDateRange(minDate)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {
