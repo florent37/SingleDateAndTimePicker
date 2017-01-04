@@ -1,5 +1,6 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -61,8 +62,10 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
                 //.bottomSheet()
                 //.curved()
-                //.backgroundColor(Color.BLACK)
-                //.mainColor(Color.GREEN)
+
+                .backgroundColor(Color.BLACK)
+                .mainColor(Color.GREEN)
+
                 //.minutesStep(15)
                 //.mustBeOnFuture()
                 .minDateRange(minDate)
@@ -79,9 +82,28 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
+
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.YEAR, 2017);
+        final Date minDate = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, 5);
+        final Date maxDate = calendar.getTime();
+
         doubleBuilder = new DoubleDateAndTimePickerDialog.Builder(this)
                 //.bottomSheet()
                 //.curved()
+
+                .backgroundColor(Color.BLACK)
+                .mainColor(Color.GREEN)
+                .minutesStep(15)
+                .mustBeOnFuture()
+
+                .minDateRange(minDate)
+                .maxDateRange(maxDate)
+
                 .title("Double")
                 .tab0Text("Depart")
                 .tab1Text("Return")

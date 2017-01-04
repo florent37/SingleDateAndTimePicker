@@ -1,13 +1,20 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.StateSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -20,18 +27,14 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     private BottomSheetHelper bottomSheetHelper;
     private TextView buttonTab0;
     private TextView buttonTab1;
-    private TextView buttonOk;
     private SingleDateAndTimePicker pickerTab0;
     private SingleDateAndTimePicker pickerTab1;
     private View tab0;
     private View tab1;
-    private boolean okClicked = false;
     @Nullable
     private String tab0Text, tab1Text, title;
     @Nullable
     private String buttonOkText;
-
-    private boolean curved = false;
 
     private DoubleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -66,17 +69,31 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         tab0 = view.findViewById(R.id.tab0);
         tab1 = view.findViewById(R.id.tab1);
 
-        TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
+        final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
         if (titleTextView != null) {
             titleTextView.setText(title);
+            if (titleTextColor != null) {
+                titleTextView.setTextColor(titleTextColor);
+            }
         }
 
-        view.findViewById(R.id.sheetContentLayout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        final View titleLayout = view.findViewById(R.id.sheetTitleLayout);
+        if (mainColor != null && titleLayout != null) {
+            titleLayout.setBackgroundColor(mainColor);
+        }
 
+        final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
+        if (sheetContentLayout != null) {
+            sheetContentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            if (backgroundColor != null) {
+                sheetContentLayout.setBackgroundColor(backgroundColor);
             }
-        });
+        }
 
         tab1.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -109,10 +126,18 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             }
         });
 
-        buttonOk = (TextView) view.findViewById(R.id.buttonOk);
+        buttonTab0.setBackground(getTabsListDrawable());
+        buttonTab1.setBackground(getTabsListDrawable());
 
-        if (buttonOkText != null) {
-            buttonOk.setText(buttonOkText);
+        final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
+        if (buttonOk != null) {
+            if (buttonOkText != null) {
+                buttonOk.setText(buttonOkText);
+            }
+
+            if (mainColor != null) {
+                buttonOk.setTextColor(mainColor);
+            }
         }
 
         buttonOk.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +163,35 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab0.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_NORMAL);
             pickerTab1.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_NORMAL);
         }
+
+        pickerTab0.setMustBeOnFuture(mustBeOnFuture);
+        pickerTab1.setMustBeOnFuture(mustBeOnFuture);
+
+        pickerTab0.setStepMinutes(minutesStep);
+        pickerTab1.setStepMinutes(minutesStep);
+
+        if (mainColor != null) {
+            pickerTab0.setSelectedTextColor(mainColor);
+            pickerTab1.setSelectedTextColor(mainColor);
+        }
+
+        if (minDate != null) {
+            pickerTab0.setMinDate(minDate);
+            pickerTab1.setMinDate(minDate);
+        }
+
+        if (maxDate != null) {
+            pickerTab0.setMaxDate(maxDate);
+            pickerTab1.setMaxDate(maxDate);
+        }
+    }
+
+    @NonNull
+    private StateListDrawable getTabsListDrawable() {
+        final StateListDrawable colorState0 = new StateListDrawable();
+        colorState0.addState(new int[] {android.R.attr.state_selected}, new ColorDrawable(mainColor));
+        colorState0.addState(new int[] {-android.R.attr.state_selected}, new ColorDrawable(backgroundColor));
+        return colorState0;
     }
 
     public DoubleDateAndTimePickerDialog setTab0Text(String tab0Text) {
@@ -170,6 +224,26 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public DoubleDateAndTimePickerDialog setMinutesStep(int minutesStep) {
+        this.minutesStep = minutesStep;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setMustBeOnFuture(boolean mustBeOnFuture) {
+        this.mustBeOnFuture = mustBeOnFuture;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setMinDateRange(Date minDate) {
+        this.minDate = minDate;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setMaxDateRange(Date maxDate) {
+        this.maxDate = maxDate;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -199,7 +273,6 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         }
     }
 
-
     private void displayTab1() {
         if (isTab0Visible()) {
             buttonTab0.setSelected(false);
@@ -224,7 +297,6 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         @Nullable
         private DoubleDateAndTimePickerDialog.Listener listener;
         private boolean bottomSheet;
-        private boolean curved;
         private DoubleDateAndTimePickerDialog dialog;
 
         @Nullable
@@ -235,6 +307,27 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private String title;
         @Nullable
         private String buttonOkText;
+
+        private boolean curved;
+        private boolean mustBeOnFuture;
+        private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
+
+        @ColorInt
+        @Nullable
+        private Integer backgroundColor = null;
+
+        @ColorInt
+        @Nullable
+        private Integer mainColor = null;
+
+        @ColorInt
+        @Nullable
+        private Integer titleTextColor = null;
+
+        @Nullable
+        private Date minDate;
+        @Nullable
+        private Date maxDate;
 
         public Builder(Context context) {
             this.context = context;
@@ -252,6 +345,41 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder curved() {
             this.curved = true;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder mustBeOnFuture() {
+            this.mustBeOnFuture = true;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder minutesStep(int minutesStep) {
+            this.minutesStep = minutesStep;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder titleTextColor(@NonNull @ColorInt int titleTextColor) {
+            this.titleTextColor = titleTextColor;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder backgroundColor(@NonNull @ColorInt int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder mainColor(@NonNull @ColorInt int mainColor) {
+            this.mainColor = mainColor;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder minDateRange(Date minDate) {
+            this.minDate = minDate;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder maxDateRange(Date maxDate) {
+            this.maxDate = maxDate;
             return this;
         }
 
@@ -277,13 +405,31 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         }
 
         public DoubleDateAndTimePickerDialog build() {
-            return new DoubleDateAndTimePickerDialog(context, bottomSheet)
+            final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
                     .setListener(listener)
                     .setCurved(curved)
                     .setButtonOkText(buttonOkText)
                     .setTab0Text(tab0Text)
-                    .setTab1Text(tab1Text);
+                    .setTab1Text(tab1Text)
+                    .setMinutesStep(minutesStep)
+                    .setMaxDateRange(maxDate)
+                    .setMinDateRange(minDate)
+                    .setMustBeOnFuture(mustBeOnFuture);
+
+            if (mainColor != null) {
+                dialog.setMainColor(mainColor);
+            }
+
+            if (backgroundColor != null) {
+                dialog.setBackgroundColor(backgroundColor);
+            }
+
+            if (titleTextColor != null) {
+                dialog.setTitleTextColor(titleTextColor);
+            }
+
+            return dialog;
         }
 
         public void display() {

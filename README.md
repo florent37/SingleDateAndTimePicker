@@ -10,12 +10,7 @@ You can now select a date and a time with only one widget !
 new SingleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
-            //.backgroundColor(Color.BLACK)
-            //.mainColor(Color.GREEN)
             //.minutesStep(15)
-            //.mustBeOnFuture()
-            //.minDateRange(minDate)
-            //.maxDateRange(maxDate)
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override
@@ -33,6 +28,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
 new DoubleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
+            //.minutesStep(15)
             .title("Double")
             .tab0Text("Depart")
             .tab1Text("Return")
@@ -75,6 +71,54 @@ new SingleDateAndTimePickerDialog.Builder(context)
 new DoubleDateAndTimePickerDialog.Builder(context)
                                     .bottomSheet()
                                     .curved()
+```
+
+# Customisation
+
+You can change the minutes steps (default : 5min)
+```java
+new SingleDateAndTimePickerDialog.Builder(context)
+
+            .minutesStep(15)
+
+            .display();
+```
+
+And change some colors
+
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/custom_colors.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+
+```java
+new SingleDateAndTimePickerDialog.Builder(context)
+
+            .backgroundColor(Color.BLACK)
+            .mainColor(Color.GREEN)
+            .titleColor(Color.WHITE)
+
+            .display();
+```
+
+# Date range
+
+Force user to select a date between a range
+
+```java
+new SingleDateAndTimePickerDialog.Builder(context)
+
+            .minDateRange(minDate)
+            .maxDateRange(maxDate)
+
+            .display();
+```
+
+Or simply force user to select a future date
+
+```java
+new SingleDateAndTimePickerDialog.Builder(context)
+
+            .mustBeOnFuture()
+
+            .display();
 ```
 
 #Download

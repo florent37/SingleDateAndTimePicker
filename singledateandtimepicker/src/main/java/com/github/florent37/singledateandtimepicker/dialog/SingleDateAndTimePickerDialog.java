@@ -18,17 +18,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
-    private boolean okClicked = false;
-    @Nullable
-    private String title;
-    private boolean curved = false;
-    private boolean mustBeOnFuture = false;
-    private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
 
     @Nullable
-    private Date minDate;
-    @Nullable
-    private Date maxDate;
+    private String title;
 
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -152,6 +144,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setMinDateRange(Date minDate) {
+        this.minDate = minDate;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setMaxDateRange(Date maxDate) {
+        this.maxDate = maxDate;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -166,16 +168,6 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         if (listener != null && okClicked) {
             listener.onDateSelected(picker.getDate());
         }
-    }
-
-    public SingleDateAndTimePickerDialog setMinDateRange(Date minDate) {
-        this.minDate = minDate;
-        return this;
-    }
-
-    public SingleDateAndTimePickerDialog setMaxDateRange(Date maxDate) {
-        this.maxDate = maxDate;
-        return this;
     }
 
     public interface Listener {
