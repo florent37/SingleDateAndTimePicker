@@ -16,8 +16,12 @@ public abstract class BaseDialog {
     public static final int DEFAULT_ITEM_COUNT_MODE_CURVED = 7;
     public static final int DEFAULT_ITEM_COUNT_MODE_NORMAL = 5;
 
+<<<<<<< HEAD
     private boolean isDiplaying;
     @Nullable
+=======
+    private boolean isDisplaying;
+>>>>>>> origin/master
     @ColorInt
     protected Integer backgroundColor = null;
 
@@ -40,15 +44,15 @@ public abstract class BaseDialog {
     protected Date maxDate;
 
     public void display() {
-        this.isDiplaying = true;
+        this.isDisplaying = true;
     }
 
     public void close() {
-        this.isDiplaying = false;
+        this.isDisplaying = false;
     }
 
-    public boolean isDiplaying() {
-        return isDiplaying;
+    public boolean isDisplaying() {
+        return isDisplaying;
     }
 
     public void setBackgroundColor(@ColorInt Integer backgroundColor) {
@@ -64,6 +68,6 @@ public abstract class BaseDialog {
     }
 
     protected void onClose() {
-        this.isDiplaying = false;
+        this.isDisplaying = false;
     }
 }
