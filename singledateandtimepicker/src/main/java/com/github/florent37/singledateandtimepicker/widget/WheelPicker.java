@@ -839,8 +839,9 @@ public abstract class WheelPicker extends View {
         String formatItem = getFormattedValue(date);
 
         String today=getFormattedValue(new Date());
-        String stoday=getResources().getString(R.string.picker_today);
-        boolean istoday=today.equals(formatItem);
+        if(today.equals(formatItem)){
+            return getDefaultItemPosition();
+        }
 
         final int itemCount = adapter.getItemCount();
         for (int i = 0; i < itemCount; ++i) {
@@ -848,8 +849,6 @@ public abstract class WheelPicker extends View {
 
             if (formatItem.equals(object)) {
                 return i;
-            }else if(istoday&&object.equals(stoday)){
-                return getDefaultItemPosition();
             }
         }
         return 0;
