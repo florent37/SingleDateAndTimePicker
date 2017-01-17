@@ -835,15 +835,18 @@ public abstract class WheelPicker extends View {
         if (date == null) {
             return 0;
         }
-        Calendar instance = Calendar.getInstance();
-        Date currentTime = instance.getTime();
-        if (currentTime.compareTo(date) == 0) {
+
+        String formatItem = getFormattedValue(date);
+
+        String today=getFormattedValue(new Date());
+        if(today.equals(formatItem)){
             return getDefaultItemPosition();
         }
-        String formatItem = getFormattedValue(date);
+
         final int itemCount = adapter.getItemCount();
         for (int i = 0; i < itemCount; ++i) {
             final String object = adapter.getItemText(i);
+
             if (formatItem.equals(object)) {
                 return i;
             }
