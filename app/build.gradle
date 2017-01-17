@@ -18,5 +18,4 @@ dependencies {
     compile 'com.android.support:design:' + project.supportVersion
     compile 'com.jakewharton:butterknife:7.0.1'
     compile project(':singledateandtimepicker')
-
 }

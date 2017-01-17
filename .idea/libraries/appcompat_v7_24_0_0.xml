@@ -12,9 +12,6 @@
     <SOURCES>
       <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/24.0.0/appcompat-v7-24.0.0-sources.jar!/" />
       <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/24.0.0/appcompat-v7-24.0.0-sources.jar!/" />
-      <root url="jar://$USER_HOME$/AppData/Local/Android/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/24.0.0/appcompat-v7-24.0.0-sources.jar!/" />
-      <root url="jar://$USER_HOME$/AppData/Local/Android/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/24.0.0/appcompat-v7-24.0.0-sources.jar!/" />
-      <root url="jar://$USER_HOME$/AppData/Local/Android/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/24.0.0/appcompat-v7-24.0.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
