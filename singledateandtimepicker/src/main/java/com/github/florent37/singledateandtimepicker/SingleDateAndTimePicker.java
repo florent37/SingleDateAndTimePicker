@@ -114,6 +114,20 @@ public class SingleDateAndTimePicker extends LinearLayout {
             }
         });
 
+        amPmPicker.setOnAmPmSelectedListener(new WheelAmPmPicker.OnAmPmSelectedListener() {
+            @Override
+            public void onAmSelected(WheelAmPmPicker picker) {
+                updateListener();
+                checkMinMaxDate(picker);
+            }
+
+            @Override
+            public void onPmSelected(WheelAmPmPicker picker) {
+                updateListener();
+                checkMinMaxDate(picker);
+            }
+        });
+        
         updatePicker();
         updateViews();
     }
