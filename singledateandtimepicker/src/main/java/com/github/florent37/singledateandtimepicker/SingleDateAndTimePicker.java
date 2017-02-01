@@ -27,6 +27,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
     private static final int PM_HOUR_ADDITION = 12;
 
+    private static final CharSequence FORMAT_24_HOUR = "EEE d MMM H:mm";
+    private static final CharSequence FORMAT_12_HOUR = "EEE d MMM h:mm a";
+
     private WheelDayPicker daysPicker;
     private WheelMinutePicker minutesPicker;
     private WheelHourPicker hoursPicker;
@@ -320,7 +323,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         int indexOfHour = hoursPicker.findIndexOfDate(date);
         if (indexOfHour != -1) {
             if (isAmPm) {
-                if(calendar.get(Calendar.HOUR_OF_DAY) > WheelHourPicker.MAX_HOUR_AM_PM) {
+                if(calendar.get(Calendar.HOUR_OF_DAY) >= WheelHourPicker.MAX_HOUR_AM_PM) {
                     amPmPicker.setPmSelected();
                 } else {
                     amPmPicker.setAmSelected();
@@ -335,12 +338,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     private void updateListener() {
-        final int hour = hoursPicker.getCurrentHour();
-        final int minute = minutesPicker.getCurrentMinute();
-        final String displayed = daysPicker.getCurrentDay() + " " + hour + ":" + minute;
-
+        final Date date = getDate();
+        CharSequence format = isAmPm ? FORMAT_12_HOUR : FORMAT_24_HOUR;
+        String displayed = DateFormat.format(format, date).toString();
         if (listener != null) {
-            listener.onDateChanged(displayed, getDate());
+            listener.onDateChanged(displayed, date);
         }
     }
 

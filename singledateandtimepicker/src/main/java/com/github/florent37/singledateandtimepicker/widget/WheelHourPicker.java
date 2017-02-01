@@ -12,7 +12,7 @@ public class WheelHourPicker extends WheelPicker {
 
     public static final int MIN_HOUR_DEFAULT = 0;
     public static final int MAX_HOUR_DEFAULT = 23;
-    public static final int MAX_HOUR_AM_PM = 11;
+    public static final int MAX_HOUR_AM_PM = 12;
     public static final int STEP_HOURS_DEFAULT = 1;
 
     private OnHourSelectedListener hoursSelectedListener;
@@ -38,8 +38,16 @@ public class WheelHourPicker extends WheelPicker {
 
     private void initAdapter() {
         final List<String> hours = new ArrayList<>();
-        for (int hour = minHour; hour <= maxHour; hour += hoursStep) {
-            hours.add(getFormattedValue(hour));
+
+        if (isAmPm) {
+            hours.add(getFormattedValue(12));
+            for (int hour = hoursStep; hour < maxHour; hour += hoursStep) {
+                hours.add(getFormattedValue(hour));
+            }
+        } else {
+            for (int hour = minHour; hour <= maxHour; hour += hoursStep) {
+                hours.add(getFormattedValue(hour));
+            }
         }
 
         adapter = new Adapter(hours);
@@ -81,7 +89,7 @@ public class WheelHourPicker extends WheelPicker {
         if (isAmPm) {
             final int hours = date.getHours();
             if (hours >= MAX_HOUR_AM_PM) {
-                date.setHours(hours - MAX_HOUR_AM_PM);
+                date.setHours(hours % 12);
             }
         }
         return super.findIndexOfDate(date);
@@ -150,7 +158,16 @@ public class WheelHourPicker extends WheelPicker {
     }
 
     private int convertItemToHour(Object item) {
-        return Integer.valueOf(String.valueOf(item));
+        Integer hour = Integer.valueOf(String.valueOf(item));
+        if (!isAmPm) {
+            return hour;
+        }
+
+        if (hour == 12) {
+            hour = 0;
+        }
+
+        return hour;
     }
 
     public int getCurrentHour() {
