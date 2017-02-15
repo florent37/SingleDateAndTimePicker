@@ -17,6 +17,7 @@ import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -184,6 +185,13 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab0.setMaxDate(maxDate);
             pickerTab1.setMaxDate(maxDate);
         }
+
+        if (defaultDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(defaultDate);
+            pickerTab0.selectDate(calendar);
+            pickerTab1.selectDate(calendar);
+        }
     }
 
     @NonNull
@@ -241,6 +249,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
     public DoubleDateAndTimePickerDialog setMaxDateRange(Date maxDate) {
         this.maxDate = maxDate;
+        return this;
+    }
+
+    private DoubleDateAndTimePickerDialog setDefaultDate(Date defaultDate) {
+        this.defaultDate = defaultDate;
         return this;
     }
 
@@ -328,6 +341,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private Date minDate;
         @Nullable
         private Date maxDate;
+        @Nullable
+        private Date defaultDate;
 
         public Builder(Context context) {
             this.context = context;
@@ -383,6 +398,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public DoubleDateAndTimePickerDialog.Builder defaultDate(Date defaultDate) {
+            this.defaultDate = defaultDate;
+            return this;
+        }
+
         public DoubleDateAndTimePickerDialog.Builder listener(
                 @Nullable DoubleDateAndTimePickerDialog.Listener listener) {
             this.listener = listener;
@@ -399,7 +419,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
-        public DoubleDateAndTimePickerDialog.Builder bButtonOkText(@Nullable String buttonOkText) {
+        public DoubleDateAndTimePickerDialog.Builder buttonOkText(@Nullable String buttonOkText) {
             this.buttonOkText = buttonOkText;
             return this;
         }
@@ -415,6 +435,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setMinutesStep(minutesStep)
                     .setMaxDateRange(maxDate)
                     .setMinDateRange(minDate)
+                    .setDefaultDate(defaultDate)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {

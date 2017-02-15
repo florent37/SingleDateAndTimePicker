@@ -105,6 +105,7 @@ Force user to select a date between a range
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
 
+            .defaultDate(defaultDate)
             .minDateRange(minDate)
             .maxDateRange(maxDate)
 
@@ -125,7 +126,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
 ```groovy
-compile 'com.github.florent37:singledateandtimepicker:1.0.6'
+compile 'com.github.florent37:singledateandtimepicker:1.0.7'
 ```
 
 #Credits

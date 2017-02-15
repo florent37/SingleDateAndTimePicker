@@ -38,6 +38,9 @@ public abstract class BaseDialog {
     protected Date minDate;
     @Nullable
     protected Date maxDate;
+    @Nullable
+    protected Date defaultDate;
+
 
     public void display() {
         this.isDisplaying = true;

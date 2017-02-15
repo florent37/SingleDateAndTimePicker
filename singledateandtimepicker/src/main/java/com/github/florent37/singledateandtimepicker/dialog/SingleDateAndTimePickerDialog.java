@@ -11,6 +11,7 @@ import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class SingleDateAndTimePickerDialog extends BaseDialog {
@@ -117,6 +118,12 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         if (maxDate != null) {
             picker.setMaxDate(maxDate);
         }
+
+        if (defaultDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(defaultDate);
+            picker.selectDate(calendar);
+        }
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -151,6 +158,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setMaxDateRange(Date maxDate) {
         this.maxDate = maxDate;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setDefaultDate(Date defaultDate) {
+        this.defaultDate = defaultDate;
         return this;
     }
 
@@ -206,6 +218,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private Date minDate;
         @Nullable
         private Date maxDate;
+        @Nullable
+        private Date defaultDate;
 
         public Builder(Context context) {
             this.context = context;
@@ -266,6 +280,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder defaultDate(Date defaultDate) {
+            this.defaultDate = defaultDate;
+            return this;
+        }
+
 
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
@@ -275,6 +294,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setMinutesStep(minutesStep)
                     .setMaxDateRange(maxDate)
                     .setMinDateRange(minDate)
+                    .setDefaultDate(defaultDate)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {

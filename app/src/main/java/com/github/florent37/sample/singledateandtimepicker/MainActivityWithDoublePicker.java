@@ -50,14 +50,17 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     @OnClick(R.id.singleLayout)
     public void simpleClicked() {
 
-        //final Calendar calendar = Calendar.getInstance();
-        //calendar.set(Calendar.DAY_OF_MONTH, 1);
-        //calendar.set(Calendar.MONTH, 0);
-        //calendar.set(Calendar.YEAR, 2017);
-        //final Date minDate = calendar.getTime();
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.YEAR, 2017);
+        final Date minDate = calendar.getTime();
 
-        //calendar.set(Calendar.DAY_OF_MONTH, 5);
-        //final Date maxDate = calendar.getTime();
+        calendar.set(Calendar.DAY_OF_MONTH, 5);
+        final Date maxDate = calendar.getTime();
+
+        calendar.set(Calendar.DAY_OF_MONTH, 2);
+        final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
                 //.bottomSheet()
@@ -69,8 +72,10 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
                 //.minutesStep(15)
                 //.mustBeOnFuture()
-                //.minDateRange(minDate)
-                //.maxDateRange(maxDate)
+                .defaultDate(defaultDate)
+                .minDateRange(minDate)
+                .maxDateRange(maxDate)
+
                 .title("Simple")
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
