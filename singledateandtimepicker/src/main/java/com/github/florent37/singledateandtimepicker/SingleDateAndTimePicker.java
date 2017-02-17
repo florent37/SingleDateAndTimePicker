@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker;
@@ -51,6 +52,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private Date maxDate;
 
     private boolean isAmPm;
+    private int selectorHeight;
 
     public SingleDateAndTimePicker(Context context) {
         this(context, null);
@@ -72,6 +74,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
         amPmPicker = (WheelAmPmPicker) findViewById(R.id.amPmPicker);
         dtSelector = findViewById(R.id.dtSelector);
+
+        final ViewGroup.LayoutParams dtSelectorLayoutParams = dtSelector.getLayoutParams();
+        dtSelectorLayoutParams.height = selectorHeight;
+        dtSelector.setLayoutParams(dtSelectorLayoutParams);
 
         daysPicker.setOnDaySelectedListener(new WheelDayPicker.OnDaySelectedListener() {
             @Override
@@ -367,6 +373,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 resources.getColor(R.color.picker_default_selected_text_color));
         selectorColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectorColor,
                 resources.getColor(R.color.picker_default_selector_color));
+        selectorHeight = a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(R.dimen.wheelSelectorHeight));
         textSize = a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize,
                 resources.getDimensionPixelSize(R.dimen.WheelItemTextSize));
         isCurved = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT);
