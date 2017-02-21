@@ -63,7 +63,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
-                //.bottomSheet()
+                .bottomSheet()
                 //.curved()
 
                 .backgroundColor(Color.BLACK)
