@@ -35,5 +35,6 @@
         <attr name="picker_mustBeOnFuture" format="boolean"/>
         <attr name="picker_visibleItemCount" format="integer"/>
         <attr name="picker_selectorColor" format="integer"/>
+        <attr name="picker_selectorHeight" format="dimension"/>
     </declare-styleable>
 </resources>
