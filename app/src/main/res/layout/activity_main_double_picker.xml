@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="15sp"
-                android:text="Click me to open single dialog"
+                android:text="Click me to open double dialog"
                 android:textColor="@color/textColor"
                 />
         </LinearLayout>
