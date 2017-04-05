@@ -2,4 +2,4 @@ deployment:
   release:
     tag: /v.*/
     commands:
-      - ./gradlew :singledateandtimepicker:bintrayUpload
+      - ./gradlew clean :singledateandtimepicker:install :singledateandtimepicker:bintrayUpload
