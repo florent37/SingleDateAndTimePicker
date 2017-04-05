@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -89,14 +90,15 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     @OnClick(R.id.doubleLayout)
     public void doubleClicked() {
 
-        final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 2017);
-        final Date minDate = calendar.getTime();
+        final Date now = new Date();
+        final Calendar calendarMin = Calendar.getInstance();
+        final Calendar calendarMax = Calendar.getInstance();
 
-        calendar.set(Calendar.DAY_OF_MONTH, 5);
-        final Date maxDate = calendar.getTime();
+        calendarMin.setTime(now); // Set min now
+        calendarMax.setTime(new Date(now.getTime() + TimeUnit.DAYS.toMillis(150))); // Set max now + 150 days
+
+        final Date minDate = calendarMin.getTime();
+        final Date maxDate = calendarMax.getTime();
 
         doubleBuilder = new DoubleDateAndTimePickerDialog.Builder(this)
                 //.bottomSheet()
@@ -109,6 +111,9 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
                 .minDateRange(minDate)
                 .maxDateRange(maxDate)
+                //.defaultDate(now)
+                .tab0Date(now)
+                .tab1Date(new Date(now.getTime() + TimeUnit.HOURS.toMillis(1)))
 
                 .title("Double")
                 .tab0Text("Depart")

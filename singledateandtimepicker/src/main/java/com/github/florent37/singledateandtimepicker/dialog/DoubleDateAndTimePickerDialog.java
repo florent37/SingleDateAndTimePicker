@@ -36,6 +36,10 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     private String tab0Text, tab1Text, title;
     @Nullable
     private String buttonOkText;
+    @Nullable
+    private Date tab0Date;
+    @Nullable
+    private Date tab1Date;
 
     private DoubleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -70,17 +74,21 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         tab0 = view.findViewById(R.id.tab0);
         tab1 = view.findViewById(R.id.tab1);
 
+        final View titleLayout = view.findViewById(R.id.sheetTitleLayout);
         final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
-        if (titleTextView != null) {
-            titleTextView.setText(title);
-            if (titleTextColor != null) {
-                titleTextView.setTextColor(titleTextColor);
+        if(title != null) {
+            if (titleTextView != null) {
+                titleTextView.setText(title);
+                if (titleTextColor != null) {
+                    titleTextView.setTextColor(titleTextColor);
+                }
+            }
+            if (mainColor != null && titleLayout != null) {
+                titleLayout.setBackgroundColor(mainColor);
             }
         }
-
-        final View titleLayout = view.findViewById(R.id.sheetTitleLayout);
-        if (mainColor != null && titleLayout != null) {
-            titleLayout.setBackgroundColor(mainColor);
+        else {
+            titleLayout.setVisibility(View.GONE);
         }
 
         final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
@@ -192,6 +200,18 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab0.selectDate(calendar);
             pickerTab1.selectDate(calendar);
         }
+
+        if (tab0Date != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(tab0Date);
+            pickerTab0.selectDate(calendar);
+        }
+
+        if (tab1Date != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(tab1Date);
+            pickerTab1.selectDate(calendar);
+        }
     }
 
     @NonNull
@@ -254,6 +274,16 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
     private DoubleDateAndTimePickerDialog setDefaultDate(Date defaultDate) {
         this.defaultDate = defaultDate;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab0Date(Date tab0Date) {
+        this.tab0Date = tab0Date;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab1Date(Date tab1Date) {
+        this.tab1Date = tab1Date;
         return this;
     }
 
@@ -343,6 +373,10 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private Date maxDate;
         @Nullable
         private Date defaultDate;
+        @Nullable
+        private Date tab0Date;
+        @Nullable
+        private Date tab1Date;
 
         public Builder(Context context) {
             this.context = context;
@@ -403,6 +437,16 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public DoubleDateAndTimePickerDialog.Builder tab0Date(Date tab0Date) {
+            this.tab0Date = tab0Date;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder tab1Date(Date tab1Date) {
+            this.tab1Date = tab1Date;
+            return this;
+        }
+
         public DoubleDateAndTimePickerDialog.Builder listener(
                 @Nullable DoubleDateAndTimePickerDialog.Listener listener) {
             this.listener = listener;
@@ -436,6 +480,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setMaxDateRange(maxDate)
                     .setMinDateRange(minDate)
                     .setDefaultDate(defaultDate)
+                    .setTab0Date(tab0Date)
+                    .setTab1Date(tab1Date)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {
