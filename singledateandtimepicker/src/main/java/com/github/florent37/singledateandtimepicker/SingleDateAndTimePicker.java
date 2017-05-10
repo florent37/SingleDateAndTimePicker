@@ -179,6 +179,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setIsAmPm(boolean isAmPm) {
         this.isAmPm = isAmPm;
         updateViews();
+        updatePicker();
     }
 
     public boolean isAmPm() {
