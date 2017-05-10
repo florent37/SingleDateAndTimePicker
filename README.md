@@ -122,14 +122,14 @@ new SingleDateAndTimePickerDialog.Builder(context)
             .display();
 ```
 
-#Download
+# Download
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
 ```groovy
-compile 'com.github.florent37:singledateandtimepicker:1.1.0'
+compile 'com.github.florent37:singledateandtimepicker:(last verions)'
 ```
 
-#Credits
+# Credits
 
 Author: Florent Champigny [http://www.florentchampigny.com/](http://www.florentchampigny.com/)
 
