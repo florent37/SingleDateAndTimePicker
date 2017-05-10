@@ -11,6 +11,10 @@ new SingleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
             //.minutesStep(15)
+            
+            //.displayHours(false)
+            //.displayMinutes(false)
+            
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override

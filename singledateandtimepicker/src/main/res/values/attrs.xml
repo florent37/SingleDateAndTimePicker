@@ -36,5 +36,8 @@
         <attr name="picker_visibleItemCount" format="integer"/>
         <attr name="picker_selectorColor" format="integer"/>
         <attr name="picker_selectorHeight" format="dimension"/>
+        <attr name="picker_displayDays" format="boolean"/>
+        <attr name="picker_displayMinutes" format="boolean"/>
+        <attr name="picker_displayHours" format="boolean"/>
     </declare-styleable>
 </resources>

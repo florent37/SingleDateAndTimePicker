@@ -69,6 +69,10 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
 
                 .backgroundColor(Color.BLACK)
                 .mainColor(Color.GREEN)
+
+                //.displayHours(false)
+                //.displayMinutes(false)
+
                 //.mustBeOnFuture()
 
                 //.minutesStep(15)
@@ -116,6 +120,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 .tab1Date(new Date(now.getTime() + TimeUnit.HOURS.toMillis(1)))
 
                 .title("Double")
+
                 .tab0Text("Depart")
                 .tab1Text("Return")
                 .listener(new DoubleDateAndTimePickerDialog.Listener() {

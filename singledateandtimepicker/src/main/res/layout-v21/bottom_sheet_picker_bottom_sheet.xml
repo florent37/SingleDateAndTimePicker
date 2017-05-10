@@ -23,13 +23,12 @@
 
             <TextView
                 android:id="@+id/buttonOk"
+                android:minWidth="80dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="end|center_vertical"
                 android:gravity="center"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:paddingLeft="20dp"
-                android:paddingRight="25dp"
+                android:background="?android:attr/selectableItemBackground"
                 android:text="@android:string/ok"
                 android:textAllCaps="true"
                 android:textColor="@color/picker_button_background_selected"

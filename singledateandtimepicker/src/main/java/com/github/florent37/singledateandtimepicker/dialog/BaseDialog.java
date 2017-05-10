@@ -41,6 +41,9 @@ public abstract class BaseDialog {
     @Nullable
     protected Date defaultDate;
 
+    protected boolean displayDays;
+    protected boolean displayMinutes;
+    protected boolean displayHours;
 
     public void display() {
         this.isDisplaying = true;

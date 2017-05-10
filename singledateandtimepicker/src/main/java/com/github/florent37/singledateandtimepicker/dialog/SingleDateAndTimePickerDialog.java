@@ -124,6 +124,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             calendar.setTime(defaultDate);
             picker.selectDate(calendar);
         }
+
+        picker.setDisplayDays(displayDays);
+        picker.setDisplayMinutes(displayMinutes);
+        picker.setDisplayHours(displayHours);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -166,6 +170,21 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setDisplayDays(boolean displayDays) {
+        this.displayDays = displayDays;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setDisplayMinutes(boolean displayMinutes) {
+        this.displayMinutes = displayMinutes;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setDisplayHours(boolean displayHours) {
+        this.displayHours = displayHours;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -201,6 +220,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean curved;
         private boolean mustBeOnFuture;
         private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
+
+        private boolean displayDays = true;
+        private boolean displayMinutes  = true;
+        private boolean displayHours  = true;
 
         @ColorInt
         @Nullable
@@ -250,6 +273,21 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder displayDays(boolean displayDays) {
+            this.displayDays = displayDays;
+            return this;
+        }
+
+        public Builder displayMinutes(boolean displayMinutes) {
+            this.displayMinutes = displayMinutes;
+            return this;
+        }
+
+        public Builder displayHours(boolean displayHours) {
+            this.displayHours = displayHours;
+            return this;
+        }
+
         public Builder listener(@Nullable Listener listener) {
             this.listener = listener;
             return this;
@@ -295,6 +333,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setMaxDateRange(maxDate)
                     .setMinDateRange(minDate)
                     .setDefaultDate(defaultDate)
+                    .setDisplayHours(displayHours)
+                    .setDisplayMinutes(displayMinutes)
+                    .setDisplayDays(displayDays)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {

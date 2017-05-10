@@ -51,6 +51,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private Date minDate;
     private Date maxDate;
 
+    private boolean displayDays = true;
+    private boolean displayMinutes = true;
+    private boolean displayHours = true;
+
     private boolean isAmPm;
     private int selectorHeight;
 
@@ -141,6 +145,24 @@ public class SingleDateAndTimePicker extends LinearLayout {
         updateViews();
     }
 
+    public void setDisplayDays(boolean displayDays) {
+        this.displayDays = displayDays;
+        updateViews();
+        updatePicker();
+    }
+
+    public void setDisplayMinutes(boolean displayMinutes) {
+        this.displayMinutes = displayMinutes;
+        updateViews();
+        updatePicker();
+    }
+
+    public void setDisplayHours(boolean displayHours) {
+        this.displayHours = displayHours;
+        updateViews();
+        updatePicker();
+    }
+
     public void setCurved(boolean curved) {
         isCurved = curved;
         updatePicker();
@@ -221,6 +243,16 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
         if (hoursPicker != null) {
             hoursPicker.setIsAmPm(isAmPm);
+        }
+
+        if (hoursPicker != null) {
+            hoursPicker.setVisibility(displayHours ? VISIBLE : GONE);
+        }
+        if (minutesPicker != null) {
+            minutesPicker.setVisibility(displayMinutes ? VISIBLE : GONE);
+        }
+        if (daysPicker != null) {
+            daysPicker.setVisibility(displayDays ? VISIBLE : GONE);
         }
     }
 
@@ -381,6 +413,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         isCyclic = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT);
         mustBeOnFuture = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT);
         visibleItemCount = a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT);
+
+        displayDays = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays);
+        displayMinutes = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes);
+        displayHours = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayHours, displayHours);
 
         a.recycle();
     }
