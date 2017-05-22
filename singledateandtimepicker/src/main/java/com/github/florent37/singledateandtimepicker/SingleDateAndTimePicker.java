@@ -15,6 +15,7 @@ import com.github.florent37.singledateandtimepicker.widget.WheelHourPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelPicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -202,6 +203,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         this.isAmPm = isAmPm;
         updateViews();
         updatePicker();
+    }
+
+    public void setDayFormatter(SimpleDateFormat simpleDateFormat){
+        if (simpleDateFormat != null) {
+            this.daysPicker.setDayFormatter(simpleDateFormat);
+        }
     }
 
     public boolean isAmPm() {

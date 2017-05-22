@@ -41,6 +41,11 @@ public class WheelDayPicker extends WheelPicker {
         updateDefaultDay();
     }
 
+    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
+        this.simpleDateFormat = simpleDateFormat;
+        return this;
+    }
+
     @Override
     protected void onItemSelected(int position, Object item) {
         if (null != onDaySelectedListener) {

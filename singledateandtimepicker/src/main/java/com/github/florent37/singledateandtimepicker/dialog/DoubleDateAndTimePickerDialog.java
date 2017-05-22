@@ -16,6 +16,7 @@ import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -212,6 +213,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             calendar.setTime(tab1Date);
             pickerTab1.selectDate(calendar);
         }
+
+        if (dayFormatter != null) {
+            pickerTab0.setDayFormatter(dayFormatter);
+            pickerTab1.setDayFormatter(dayFormatter);
+        }
     }
 
     @NonNull
@@ -272,8 +278,13 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
-    private DoubleDateAndTimePickerDialog setDefaultDate(Date defaultDate) {
+    public DoubleDateAndTimePickerDialog setDefaultDate(Date defaultDate) {
         this.defaultDate = defaultDate;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setDayFormatter(SimpleDateFormat dayFormatter) {
+        this.dayFormatter = dayFormatter;
         return this;
     }
 
@@ -355,6 +366,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private boolean mustBeOnFuture;
         private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
 
+        private SimpleDateFormat dayFormatter;
+
         @ColorInt
         @Nullable
         private Integer backgroundColor = null;
@@ -399,6 +412,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder mustBeOnFuture() {
             this.mustBeOnFuture = true;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder dayFormatter(SimpleDateFormat dayFormatter) {
+            this.dayFormatter = dayFormatter;
             return this;
         }
 
@@ -482,6 +500,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setDefaultDate(defaultDate)
                     .setTab0Date(tab0Date)
                     .setTab1Date(tab1Date)
+                    .setDayFormatter(dayFormatter)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {

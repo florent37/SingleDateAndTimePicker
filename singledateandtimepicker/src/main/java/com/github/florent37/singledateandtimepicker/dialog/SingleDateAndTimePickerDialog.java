@@ -11,6 +11,7 @@ import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -107,6 +108,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         picker.setStepMinutes(minutesStep);
 
+        if (dayFormatter != null) {
+            picker.setDayFormatter(dayFormatter);
+        }
+
         if (mainColor != null) {
             picker.setSelectedTextColor(mainColor);
         }
@@ -185,6 +190,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setDayFormatter(SimpleDateFormat dayFormatter) {
+        this.dayFormatter = dayFormatter;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -243,6 +253,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private Date maxDate;
         @Nullable
         private Date defaultDate;
+
+        @Nullable
+        private SimpleDateFormat dayFormatter;
 
         public Builder(Context context) {
             this.context = context;
@@ -323,6 +336,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder setDayFormatter(SimpleDateFormat dayFormatter) {
+            this.dayFormatter = dayFormatter;
+            return this;
+        }
 
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
@@ -336,6 +353,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDisplayHours(displayHours)
                     .setDisplayMinutes(displayMinutes)
                     .setDisplayDays(displayDays)
+                    .setDayFormatter(dayFormatter)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {
