@@ -137,6 +137,8 @@ compile 'com.github.florent37:singledateandtimepicker:(last verions)'
 
 Author: Florent Champigny [http://www.florentchampigny.com/](http://www.florentchampigny.com/)
 
+Blog : [http://www.tutos-android-france.com/](http://www.www.tutos-android-france.com/)
+
 <a href="https://plus.google.com/+florentchampigny">
   <img alt="Follow me on Google+"
        src="https://raw.githubusercontent.com/florent37/DaVinci/master/mobile/src/main/res/drawable-hdpi/gplus.png" />
