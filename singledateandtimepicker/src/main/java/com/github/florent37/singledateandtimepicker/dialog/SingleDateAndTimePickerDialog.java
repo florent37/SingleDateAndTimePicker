@@ -23,6 +23,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     @Nullable
     private String title;
+    @Nullable
+    private DisplayListener displayListener;
 
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -150,6 +152,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private void setDisplayListener(DisplayListener displayListener) {
+        this.displayListener = displayListener;
+    }
+
     public SingleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
         return this;
@@ -199,6 +205,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     public void display() {
         super.display();
         bottomSheetHelper.display();
+        if(displayListener != null){
+            displayListener.onDisplayed(picker);
+        }
     }
 
     @Override
@@ -215,12 +224,18 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         void onDateSelected(Date date);
     }
 
+    public interface DisplayListener {
+        void onDisplayed(SingleDateAndTimePicker picker);
+    }
+
     public static class Builder {
         private final Context context;
         private SingleDateAndTimePickerDialog dialog;
 
         @Nullable
         private Listener listener;
+        @Nullable
+        private DisplayListener displayListener;
 
         @Nullable
         private String title;
@@ -306,6 +321,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder displayListener(@Nullable DisplayListener displayListener) {
+            this.displayListener = displayListener;
+            return this;
+        }
+
         public Builder titleTextColor(@NonNull @ColorInt int titleTextColor) {
             this.titleTextColor = titleTextColor;
             return this;
@@ -366,6 +386,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (titleTextColor != null) {
                 dialog.setTitleTextColor(titleTextColor);
+            }
+
+            if (displayListener != null) {
+                dialog.setDisplayListener(displayListener);
             }
 
             return dialog;

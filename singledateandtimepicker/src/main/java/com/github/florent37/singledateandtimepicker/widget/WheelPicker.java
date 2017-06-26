@@ -470,80 +470,82 @@ public abstract class WheelPicker extends View {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    switch (event.getAction()) {
-      case MotionEvent.ACTION_DOWN:
-        if (null != getParent()) getParent().requestDisallowInterceptTouchEvent(true);
-        if (null == tracker) {
-          tracker = VelocityTracker.obtain();
-        } else {
-          tracker.clear();
-        }
-        tracker.addMovement(event);
-        if (!scroller.isFinished()) {
-          scroller.abortAnimation();
-          isForceFinishScroll = true;
-        }
-        downPointY = lastPointY = (int) event.getY();
-        break;
-      case MotionEvent.ACTION_MOVE:
-        if (Math.abs(downPointY - event.getY()) < touchSlop) {
-          isClick = true;
+    if(isEnabled()) {
+      switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+          if (null != getParent()) getParent().requestDisallowInterceptTouchEvent(true);
+          if (null == tracker) {
+            tracker = VelocityTracker.obtain();
+          } else {
+            tracker.clear();
+          }
+          tracker.addMovement(event);
+          if (!scroller.isFinished()) {
+            scroller.abortAnimation();
+            isForceFinishScroll = true;
+          }
+          downPointY = lastPointY = (int) event.getY();
           break;
-        }
-        isClick = false;
-        tracker.addMovement(event);
-        if (null != onWheelChangeListener) {
-          onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_DRAGGING);
-        }
+        case MotionEvent.ACTION_MOVE:
+          if (Math.abs(downPointY - event.getY()) < touchSlop) {
+            isClick = true;
+            break;
+          }
+          isClick = false;
+          tracker.addMovement(event);
+          if (null != onWheelChangeListener) {
+            onWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_DRAGGING);
+          }
 
-        // Scroll WheelPicker's content
-        float move = event.getY() - lastPointY;
-        if (Math.abs(move) < 1) break;
-        scrollOffsetY += move;
-        lastPointY = (int) event.getY();
-        invalidate();
-        break;
-      case MotionEvent.ACTION_UP:
-        if (null != getParent()) getParent().requestDisallowInterceptTouchEvent(false);
-        if (isClick) break;
-        tracker.addMovement(event);
+          // Scroll WheelPicker's content
+          float move = event.getY() - lastPointY;
+          if (Math.abs(move) < 1) break;
+          scrollOffsetY += move;
+          lastPointY = (int) event.getY();
+          invalidate();
+          break;
+        case MotionEvent.ACTION_UP:
+          if (null != getParent()) getParent().requestDisallowInterceptTouchEvent(false);
+          if (isClick) break;
+          tracker.addMovement(event);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
-          tracker.computeCurrentVelocity(1000, maximumVelocity);
-        } else {
-          tracker.computeCurrentVelocity(1000);
-        }
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.DONUT) {
+            tracker.computeCurrentVelocity(1000, maximumVelocity);
+          } else {
+            tracker.computeCurrentVelocity(1000);
+          }
 
-        // Judges the WheelPicker is scroll or fling base on current velocity
-        isForceFinishScroll = false;
-        int velocity = (int) tracker.getYVelocity();
-        if (Math.abs(velocity) > minimumVelocity) {
-          scroller.fling(0, scrollOffsetY, 0, velocity, 0, 0, minFlingY, maxFlingY);
-          scroller.setFinalY(
-              scroller.getFinalY() + computeDistanceToEndPoint(scroller.getFinalY() % mItemHeight));
-        } else {
-          scroller.startScroll(0, scrollOffsetY, 0,
-              computeDistanceToEndPoint(scrollOffsetY % mItemHeight));
-        }
-        // Correct coordinates
-        if (!isCyclic) {
-          if (scroller.getFinalY() > maxFlingY) {
-            scroller.setFinalY(maxFlingY);
-          } else if (scroller.getFinalY() < minFlingY) scroller.setFinalY(minFlingY);
-        }
-        handler.post(runnable);
-        if (null != tracker) {
-          tracker.recycle();
-          tracker = null;
-        }
-        break;
-      case MotionEvent.ACTION_CANCEL:
-        if (null != getParent()) getParent().requestDisallowInterceptTouchEvent(false);
-        if (null != tracker) {
-          tracker.recycle();
-          tracker = null;
-        }
-        break;
+          // Judges the WheelPicker is scroll or fling base on current velocity
+          isForceFinishScroll = false;
+          int velocity = (int) tracker.getYVelocity();
+          if (Math.abs(velocity) > minimumVelocity) {
+            scroller.fling(0, scrollOffsetY, 0, velocity, 0, 0, minFlingY, maxFlingY);
+            scroller.setFinalY(
+                    scroller.getFinalY() + computeDistanceToEndPoint(scroller.getFinalY() % mItemHeight));
+          } else {
+            scroller.startScroll(0, scrollOffsetY, 0,
+                    computeDistanceToEndPoint(scrollOffsetY % mItemHeight));
+          }
+          // Correct coordinates
+          if (!isCyclic) {
+            if (scroller.getFinalY() > maxFlingY) {
+              scroller.setFinalY(maxFlingY);
+            } else if (scroller.getFinalY() < minFlingY) scroller.setFinalY(minFlingY);
+          }
+          handler.post(runnable);
+          if (null != tracker) {
+            tracker.recycle();
+            tracker = null;
+          }
+          break;
+        case MotionEvent.ACTION_CANCEL:
+          if (null != getParent()) getParent().requestDisallowInterceptTouchEvent(false);
+          if (null != tracker) {
+            tracker.recycle();
+            tracker = null;
+          }
+          break;
+      }
     }
     return true;
   }

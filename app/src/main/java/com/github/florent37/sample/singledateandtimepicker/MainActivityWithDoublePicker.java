@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 
@@ -80,6 +81,13 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 .defaultDate(defaultDate)
                 .minDateRange(minDate)
                 .maxDateRange(maxDate)
+
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+
+                    }
+                })
 
                 .title("Simple")
                 .listener(new SingleDateAndTimePickerDialog.Listener() {

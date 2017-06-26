@@ -5,8 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF"
     android:gravity="center"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleEnabled"
+        android:text="toggle enabled"
+        android:layout_marginBottom="100dp"/>
 
     <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
         android:id="@+id/single_day_picker"

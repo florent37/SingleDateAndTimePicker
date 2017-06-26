@@ -141,9 +141,18 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 checkMinMaxDate(picker);
             }
         });
-        
+
         updatePicker();
         updateViews();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        daysPicker.setEnabled(enabled);
+        minutesPicker.setEnabled(enabled);
+        hoursPicker.setEnabled(enabled);
+        amPmPicker.setEnabled(enabled);
     }
 
     public void setDisplayDays(boolean displayDays) {
@@ -205,7 +214,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         updatePicker();
     }
 
-    public void setDayFormatter(SimpleDateFormat simpleDateFormat){
+    public void setDayFormatter(SimpleDateFormat simpleDateFormat) {
         if (simpleDateFormat != null) {
             this.daysPicker.setDayFormatter(simpleDateFormat);
         }
@@ -267,7 +276,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         dtSelector.setBackgroundColor(selectorColor);
     }
 
-    private void checkMinMaxDate(final WheelPicker picker){
+    private void checkMinMaxDate(final WheelPicker picker) {
         checkBeforeMinDate(picker);
         checkAfterMaxDate(picker);
     }
@@ -369,7 +378,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         int indexOfHour = hoursPicker.findIndexOfDate(date);
         if (indexOfHour != -1) {
             if (isAmPm) {
-                if(calendar.get(Calendar.HOUR_OF_DAY) >= WheelHourPicker.MAX_HOUR_AM_PM) {
+                if (calendar.get(Calendar.HOUR_OF_DAY) >= WheelHourPicker.MAX_HOUR_AM_PM) {
                     amPmPicker.setPmSelected();
                 } else {
                     amPmPicker.setAmSelected();
@@ -394,7 +403,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
-        if(mustBeOnFuture){
+        if (mustBeOnFuture) {
             minDate = Calendar.getInstance().getTime(); //minDate is Today
         }
     }

@@ -15,6 +15,13 @@ new SingleDateAndTimePickerDialog.Builder(context)
             //.displayHours(false)
             //.displayMinutes(false)
             
+            .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                                @Override
+                                public void onDisplayed(SingleDateAndTimePicker picker) {
+                                     //retrieve the SingleDateAndTimePicker
+                                }
+                            })
+            
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override

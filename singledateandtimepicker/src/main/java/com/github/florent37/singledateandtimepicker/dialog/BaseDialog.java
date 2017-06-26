@@ -1,5 +1,6 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
+import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +26,7 @@ public abstract class BaseDialog {
 
     @Nullable
     @ColorInt
-    protected Integer mainColor = null;
+    protected Integer mainColor = Color.BLACK;
 
     @Nullable
     @ColorInt
