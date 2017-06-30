@@ -43,6 +43,7 @@ public class WheelDayPicker extends WheelPicker {
 
     public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
         this.simpleDateFormat = simpleDateFormat;
+        updateDays();
         return this;
     }
 
