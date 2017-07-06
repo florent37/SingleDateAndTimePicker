@@ -255,7 +255,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
 
         if (amPmPicker != null) {
-            amPmPicker.setVisibility((isAmPm && displayDays) ? VISIBLE : GONE);
+            amPmPicker.setVisibility((isAmPm && displayHours) ? VISIBLE : GONE);
         }
         if (hoursPicker != null) {
             hoursPicker.setIsAmPm(isAmPm);
