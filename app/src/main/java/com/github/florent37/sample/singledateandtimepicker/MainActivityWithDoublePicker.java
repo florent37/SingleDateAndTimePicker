@@ -27,7 +27,17 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     @Bind(R.id.singleText)
     TextView singleText;
 
+    @Bind(R.id.singleTimeText)
+    TextView singleTimeText;
+
+    @Bind(R.id.singleDateText)
+    TextView singleDateText;
+
+
+
     SimpleDateFormat simpleDateFormat;
+    SimpleDateFormat simpleTimeFormat;
+    SimpleDateFormat simpleDateOnlyFormat;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
     DoubleDateAndTimePickerDialog.Builder doubleBuilder;
 
@@ -38,6 +48,10 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
         ButterKnife.bind(this);
 
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());
+
+        this.simpleTimeFormat = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
+
+        this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
     }
 
     @Override
@@ -47,6 +61,79 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
             singleBuilder.close();
         if (doubleBuilder != null)
             doubleBuilder.close();
+    }
+
+
+
+    @OnClick(R.id.singleTimeText)
+    public void simpleTimeClicked() {
+
+        final Calendar calendar = Calendar.getInstance();
+        final Date defaultDate = calendar.getTime();
+
+        singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                .bottomSheet()
+                .curved()
+
+                .backgroundColor(Color.BLACK)
+                .mainColor(Color.GREEN)
+
+                .displayHours(true)
+                .displayMinutes(true)
+                .displayDays(false)
+
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+
+                    }
+                })
+
+                .title("Simple Time")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        singleTimeText.setText(simpleTimeFormat.format(date));
+                    }
+                });
+        singleBuilder.display();
+    }
+
+
+    @OnClick(R.id.singleDateText)
+    public void simpleDateClicked() {
+
+        final Calendar calendar = Calendar.getInstance();
+        final Date defaultDate = calendar.getTime();
+
+        singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+
+                .bottomSheet()
+                .curved()
+
+                .backgroundColor(Color.BLACK)
+                .mainColor(Color.GREEN)
+
+                .displayHours(false)
+                .displayMinutes(false)
+                .displayDays(true)
+
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+
+                    }
+                })
+
+                .title("Simple Time")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        singleDateText.setText(simpleDateOnlyFormat.format(date));
+                    }
+                });
+        singleBuilder.display();
     }
 
     @OnClick(R.id.singleLayout)
