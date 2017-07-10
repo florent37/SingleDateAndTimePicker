@@ -22,6 +22,18 @@
             >
 
             <TextView
+                android:id="@+id/sheetTitle"
+                android:minWidth="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|center_vertical"
+                android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="title here"
+                android:textColor="@color/picker_button_background_selected"
+                />
+
+            <TextView
                 android:id="@+id/buttonOk"
                 android:minWidth="80dp"
                 android:layout_width="wrap_content"
