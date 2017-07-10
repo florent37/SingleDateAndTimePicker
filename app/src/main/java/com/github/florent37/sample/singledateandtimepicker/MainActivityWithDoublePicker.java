@@ -76,6 +76,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 .bottomSheet()
                 .curved()
 
+                .titleTextColor(Color.GREEN)
                 .backgroundColor(Color.BLACK)
                 .mainColor(Color.GREEN)
 
@@ -112,6 +113,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                 .bottomSheet()
                 .curved()
 
+                .titleTextColor(Color.GREEN)
                 .backgroundColor(Color.BLACK)
                 .mainColor(Color.GREEN)
 
@@ -126,7 +128,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
                     }
                 })
 
-                .title("Simple Time")
+                .title("")
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {
