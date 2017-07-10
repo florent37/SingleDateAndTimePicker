@@ -51,6 +51,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     private Date minDate;
     private Date maxDate;
+    private Date defaultDate;
 
     private boolean displayDays = true;
     private boolean displayMinutes = true;
@@ -259,6 +260,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
         if (hoursPicker != null) {
             hoursPicker.setIsAmPm(isAmPm);
+
+            if ( defaultDate != null ) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(defaultDate);
+                hoursPicker.setDefaultHour( calendar.get(Calendar.HOUR));
+            }
+
         }
 
         if (hoursPicker != null) {
@@ -366,6 +374,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         hoursPicker.setHoursStep(hoursStep);
     }
 
+    public void setDefaultDate( Date date ) {
+        this.defaultDate = date;
+    }
     public void selectDate(Calendar calendar) {
         if (calendar == null) {
             return;

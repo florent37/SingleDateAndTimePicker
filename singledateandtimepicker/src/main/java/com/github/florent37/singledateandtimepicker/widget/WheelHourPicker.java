@@ -53,7 +53,10 @@ public class WheelHourPicker extends WheelPicker {
         adapter = new Adapter(hours);
         setAdapter(adapter);
 
-        defaultHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        // todo set default date calendar.setTime(defa);
+
+        defaultHour = calendar.get(Calendar.HOUR_OF_DAY);
         if (isAmPm && defaultHour >= MAX_HOUR_AM_PM) {
             defaultHour -= MAX_HOUR_AM_PM;
         }
