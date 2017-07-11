@@ -127,6 +127,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         }
 
         if (defaultDate != null) {
+            picker.setDefaultDate(defaultDate);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(defaultDate);
             picker.selectDate(calendar);

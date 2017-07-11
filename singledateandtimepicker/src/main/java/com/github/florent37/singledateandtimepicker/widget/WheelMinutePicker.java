@@ -39,7 +39,9 @@ public class WheelMinutePicker extends WheelPicker {
         adapter = new Adapter(minutes);
         setAdapter(adapter);
 
-        defaultMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+     // todo fix.   calendar.setTime(defaultDate);
+        defaultMinute = calendar.get(Calendar.MINUTE);
 
         updateDefaultMinute();
     }

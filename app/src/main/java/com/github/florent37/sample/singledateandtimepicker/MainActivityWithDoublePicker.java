@@ -68,13 +68,20 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     @OnClick(R.id.singleTimeText)
     public void simpleTimeClicked() {
 
-        final Calendar calendar = Calendar.getInstance();
-        final Date defaultDate = calendar.getTime();
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 5);
+
+
+        Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
 
                 .bottomSheet()
                 .curved()
+
+                .defaultDate( defaultDate )
 
                 .titleTextColor(Color.GREEN)
                 .backgroundColor(Color.BLACK)
