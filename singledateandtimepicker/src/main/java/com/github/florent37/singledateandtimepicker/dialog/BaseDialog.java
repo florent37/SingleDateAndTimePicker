@@ -58,6 +58,10 @@ public abstract class BaseDialog {
         this.isDisplaying = false;
     }
 
+    public void dismiss() {
+        this.isDisplaying = false;
+    }
+
     public boolean isDisplaying() {
         return isDisplaying;
     }

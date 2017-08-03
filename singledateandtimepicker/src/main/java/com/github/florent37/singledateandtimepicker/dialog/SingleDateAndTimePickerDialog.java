@@ -221,6 +221,12 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         }
     }
 
+    @Override
+    public void dismiss(){
+        super.dismiss();
+        bottomSheetHelper.dismiss();
+    }
+
     public interface Listener {
         void onDateSelected(Date date);
     }
@@ -405,6 +411,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             if (dialog != null) {
                 dialog.close();
             }
+        }
+
+        public void dismiss(){
+            if(dialog!=null)
+                dialog.dismiss();
         }
     }
 }
