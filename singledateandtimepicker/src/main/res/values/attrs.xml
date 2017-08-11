@@ -39,5 +39,7 @@
         <attr name="picker_displayDays" format="boolean"/>
         <attr name="picker_displayMinutes" format="boolean"/>
         <attr name="picker_displayHours" format="boolean"/>
+        <attr name="picker_always24HourFormat" format="boolean"/>
+        <attr name="picker_rollNextWheel" format="boolean"/>
     </declare-styleable>
 </resources>
