@@ -57,6 +57,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private boolean displayMinutes = true;
     private boolean displayHours = true;
 
+    private boolean always24HourFormat = false;
+    private boolean rollNextWheel = true;
+
     private boolean isAmPm;
     private int selectorHeight;
 
@@ -73,7 +76,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         init(context, attrs);
         inflate(context, R.layout.single_day_picker, this);
 
-        isAmPm = !(DateFormat.is24HourFormat(context));
+        isAmPm = !(always24HourFormat || (DateFormat.is24HourFormat(context)));
 
         daysPicker = (WheelDayPicker) findViewById(R.id.daysPicker);
         minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
@@ -107,7 +110,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
             @Override
             public void onMinuteScrolledNewHour(WheelMinutePicker picker) {
-                hoursPicker.scrollTo(hoursPicker.getCurrentItemPosition() + 1);
+                if (rollNextWheel) {
+                    hoursPicker.scrollTo(hoursPicker.getCurrentItemPosition() + 1);
+                }
             }
         });
 
@@ -125,7 +130,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
             @Override
             public void onHourCurrentNewDay(WheelHourPicker picker) {
-                daysPicker.scrollTo(daysPicker.getCurrentItemPosition() + 1);
+                if (rollNextWheel) {
+                    daysPicker.scrollTo(daysPicker.getCurrentItemPosition() + 1);
+                }
             }
         });
 
@@ -444,6 +451,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         displayDays = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays);
         displayMinutes = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes);
         displayHours = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayHours, displayHours);
+
+        always24HourFormat = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_always24HourFormat, always24HourFormat);
+        rollNextWheel = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_rollNextWheel, rollNextWheel);
 
         a.recycle();
     }
