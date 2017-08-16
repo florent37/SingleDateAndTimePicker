@@ -51,10 +51,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     private Date minDate;
     private Date maxDate;
+    private Date defaultDate;
 
     private Date minDateRoundedUp;
     private Date maxDateRoundedDown;
-    private Date defaultDate;
+    private Date defaultDateRoundedUp;
 
     private boolean displayDays = true;
     private boolean displayMinutes = true;
@@ -299,9 +300,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         if (hoursPicker != null) {
             hoursPicker.setIsAmPm(isAmPm);
 
-            if (defaultDate != null ) {
+            if (defaultDateRoundedUp != null ) {
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(defaultDate);
+                calendar.setTime(defaultDateRoundedUp);
                 hoursPicker.setDefaultHour(calendar.get(isAmPm ? Calendar.HOUR : Calendar.HOUR_OF_DAY));
             }
         }
@@ -415,14 +416,23 @@ public class SingleDateAndTimePicker extends LinearLayout {
         hoursPicker.setHoursStep(hoursStep);
     }
 
-    public void setDefaultDate( Date date ) {
+    public void setDefaultDate(Date date ) {
         this.defaultDate = date;
+        this.defaultDateRoundedUp = roundUpMinutes(date);
     }
+
     public void selectDate(Calendar calendar) {
         if (calendar == null) {
             return;
         }
-        Date date = calendar.getTime();
+        Date date = roundUpMinutes(calendar.getTime());
+        if (date.after(maxDateRoundedDown)) {
+            date = maxDateRoundedDown;
+        }
+        if (date.before(minDateRoundedUp)) {
+            date = minDateRoundedUp;
+        }
+
         int indexOfDay = daysPicker.findIndexOfDate(date);
         if (indexOfDay != -1) {
             daysPicker.setSelectedItemPosition(indexOfDay);
