@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -49,7 +50,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private View dtSelector;
     private boolean mustBeOnFuture;
 
+    @Nullable
     private Date minDate;
+    @Nullable
     private Date maxDate;
     private Date defaultDate;
 
