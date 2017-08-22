@@ -851,11 +851,23 @@ public abstract class WheelPicker extends View {
       return getDefaultItemPosition();
     }
 
+    int formatItemInt = Integer.MIN_VALUE;
+    try {
+      formatItemInt = Integer.parseInt(formatItem);
+    } catch (NumberFormatException e) {
+    }
+
     final int itemCount = adapter.getItemCount();
     for (int i = 0; i < itemCount; ++i) {
       final String object = adapter.getItemText(i);
 
-      if (formatItem.equals(object)) {
+      if (formatItemInt != Integer.MIN_VALUE) {
+        // displayed values are Integers
+        int objectInt = Integer.parseInt(object);
+        if (formatItemInt <= objectInt) {
+          return i;
+        }
+      } else if (formatItem.equals(object)) {
         return i;
       }
     }
