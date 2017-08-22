@@ -124,6 +124,10 @@ public class BottomSheetHelper {
     }, 200);
   }
 
+  public void dismiss(){
+      remove();
+  }
+
   private void remove() {
     if (view.getWindowToken() != null) windowManager.removeView(view);
   }

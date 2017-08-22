@@ -305,6 +305,12 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     }
 
     @Override
+    public void dismiss(){
+        super.dismiss();
+        bottomSheetHelper.dismiss();
+    }
+
+    @Override
     public void close() {
         super.close();
         bottomSheetHelper.hide();
@@ -527,6 +533,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             if (dialog != null) {
                 dialog.close();
             }
+        }
+
+        public void dismiss(){
+            if(dialog!=null)
+                dialog.dismiss();
         }
     }
 }

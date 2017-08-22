@@ -58,9 +58,9 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (singleBuilder != null)
-            singleBuilder.close();
+            singleBuilder.dismiss();
         if (doubleBuilder != null)
-            doubleBuilder.close();
+            doubleBuilder.dismiss();
     }
 
 
