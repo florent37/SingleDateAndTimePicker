@@ -15,6 +15,7 @@ import android.graphics.Region;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,7 +27,6 @@ import android.widget.Scroller;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -839,11 +839,7 @@ public abstract class WheelPicker extends View {
     invalidate();
   }
 
-  public int findIndexOfDate(Date date) {
-    if (date == null) {
-      return 0;
-    }
-
+  public int findIndexOfDate(@NonNull Date date) {
     String formatItem = getFormattedValue(date);
 
     String today = getFormattedValue(new Date());
