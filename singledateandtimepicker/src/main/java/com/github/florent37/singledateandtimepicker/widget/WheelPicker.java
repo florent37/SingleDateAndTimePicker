@@ -15,6 +15,7 @@ import android.graphics.Region;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,7 +27,6 @@ import android.widget.Scroller;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -841,11 +841,7 @@ public abstract class WheelPicker extends View {
     invalidate();
   }
 
-  public int findIndexOfDate(Date date) {
-    if (date == null) {
-      return 0;
-    }
-
+  public int findIndexOfDate(@NonNull Date date) {
     String formatItem = getFormattedValue(date);
 
     String today = getFormattedValue(new Date());
@@ -853,11 +849,23 @@ public abstract class WheelPicker extends View {
       return getDefaultItemPosition();
     }
 
+    int formatItemInt = Integer.MIN_VALUE;
+    try {
+      formatItemInt = Integer.parseInt(formatItem);
+    } catch (NumberFormatException e) {
+    }
+
     final int itemCount = adapter.getItemCount();
     for (int i = 0; i < itemCount; ++i) {
       final String object = adapter.getItemText(i);
 
-      if (formatItem.equals(object)) {
+      if (formatItemInt != Integer.MIN_VALUE) {
+        // displayed values are Integers
+        int objectInt = Integer.parseInt(object);
+        if (formatItemInt <= objectInt) {
+          return i;
+        }
+      } else if (formatItem.equals(object)) {
         return i;
       }
     }
