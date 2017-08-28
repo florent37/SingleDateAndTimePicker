@@ -856,20 +856,21 @@ public abstract class WheelPicker extends View {
     }
 
     final int itemCount = adapter.getItemCount();
+    int index = 0;
     for (int i = 0; i < itemCount; ++i) {
       final String object = adapter.getItemText(i);
 
       if (formatItemInt != Integer.MIN_VALUE) {
         // displayed values are Integers
         int objectInt = Integer.parseInt(object);
-        if (formatItemInt <= objectInt) {
-          return i;
+        if (objectInt <= formatItemInt) {
+          index = i;
         }
       } else if (formatItem.equals(object)) {
         return i;
       }
     }
-    return 0;
+    return index;
   }
 
   @TargetApi(Build.VERSION_CODES.N)
