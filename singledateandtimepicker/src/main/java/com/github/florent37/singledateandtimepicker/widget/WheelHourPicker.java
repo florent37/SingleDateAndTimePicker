@@ -24,7 +24,7 @@ public class WheelHourPicker extends WheelPicker {
     private int hoursStep = STEP_HOURS_DEFAULT;
 
     private int lastScrollPosition;
-    private boolean isAmPm = false;
+    protected boolean isAmPm = false;
 
     private WheelPicker.Adapter adapter;
 
@@ -93,7 +93,9 @@ public class WheelHourPicker extends WheelPicker {
         if (isAmPm) {
             final int hours = date.getHours();
             if (hours >= MAX_HOUR_AM_PM) {
-                date.setHours(hours % 12);
+                Date copy = new Date(date.getTime());
+                copy.setHours(hours % 12);
+                return super.findIndexOfDate(copy);
             }
         }
         return super.findIndexOfDate(date);

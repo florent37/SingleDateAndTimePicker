@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class WheelAmPmPicker extends WheelPicker {
@@ -62,6 +64,11 @@ public class WheelAmPmPicker extends WheelPicker {
 
     @Override
     protected String getFormattedValue(Object value) {
+        if (value instanceof Date) {
+            Calendar instance = Calendar.getInstance();
+            instance.setTime((Date) value);
+            return getResources().getString(instance.get(Calendar.AM_PM) == Calendar.PM ? R.string.picker_pm: R.string.picker_am);
+        }
         return String.valueOf(value);
     }
 
@@ -76,14 +83,6 @@ public class WheelAmPmPicker extends WheelPicker {
 
     public boolean isPm() {
         return getCurrentItemPosition() == INDEX_PM;
-    }
-
-    public void setAmSelected() {
-        setSelectedItemPosition(INDEX_AM);
-    }
-
-    public void setPmSelected() {
-        setSelectedItemPosition(INDEX_PM);
     }
 
     public interface OnAmPmSelectedListener {

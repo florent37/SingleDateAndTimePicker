@@ -844,12 +844,24 @@ public abstract class WheelPicker extends View {
     invalidate();
   }
 
+  /**
+   * TODO: {@link Adapter#data} could contain 'Data' class objects. 'Data' could be composed of
+   * a String: displayedValue (the value to be displayed in the wheel) and
+   * a Date/Calendar: comparisonDate (a reference date/calendar that will help to find the index).
+   * This could clean this method and {@link #getFormattedValue(Object)}.
+   *
+   * Finds the index in the wheel for a date
+   * @param date the targeted date
+   * @return the index closed to {@code date}. Returns 0 if not found.
+   */
   public int findIndexOfDate(@NonNull Date date) {
     String formatItem = getFormattedValue(date);
 
-    String today = getFormattedValue(new Date());
-    if (today.equals(formatItem)) {
-      return getDefaultItemPosition();
+    if (this instanceof WheelDayPicker) {
+      String today = getFormattedValue(new Date());
+      if (today.equals(formatItem)) {
+        return getDefaultItemPosition();
+      }
     }
 
     int formatItemInt = Integer.MIN_VALUE;
@@ -859,20 +871,25 @@ public abstract class WheelPicker extends View {
     }
 
     final int itemCount = adapter.getItemCount();
+    int index = 0;
     for (int i = 0; i < itemCount; ++i) {
       final String object = adapter.getItemText(i);
 
       if (formatItemInt != Integer.MIN_VALUE) {
         // displayed values are Integers
         int objectInt = Integer.parseInt(object);
-        if (formatItemInt <= objectInt) {
-          return i;
+        if (this instanceof WheelHourPicker && ((WheelHourPicker) this).isAmPm) {
+          // In case of hours and AM/PM mode, apply modulo 12
+          objectInt = objectInt % 12;
+        }
+        if (objectInt <= formatItemInt) {
+          index = i;
         }
       } else if (formatItem.equals(object)) {
         return i;
       }
     }
-    return 0;
+    return index;
   }
 
   @TargetApi(Build.VERSION_CODES.N)
