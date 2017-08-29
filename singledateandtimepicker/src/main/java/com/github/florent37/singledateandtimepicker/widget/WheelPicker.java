@@ -734,11 +734,14 @@ public abstract class WheelPicker extends View {
   }
 
   public void setItemTextSize(int size) {
-    mItemTextSize = size;
-    paint.setTextSize(mItemTextSize);
-    computeTextSize();
-    requestLayout();
-    invalidate();
+
+    if (mItemTextSize != size) {
+      mItemTextSize = size;
+      paint.setTextSize(mItemTextSize);
+      computeTextSize();
+      requestLayout();
+      invalidate();
+    }
   }
 
   public int getItemSpace() {
