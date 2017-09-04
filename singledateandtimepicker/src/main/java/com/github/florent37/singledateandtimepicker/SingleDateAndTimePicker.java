@@ -267,7 +267,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
             if ( defaultDate != null ) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(defaultDate);
-                hoursPicker.setDefaultHour( calendar.get(Calendar.HOUR_OF_DAY));
+                if(isAmPm){
+                    hoursPicker.setDefaultHour( calendar.get(Calendar.HOUR));
+                }else{
+                    hoursPicker.setDefaultHour( calendar.get(Calendar.HOUR_OF_DAY));
+                }
+                
             }
 
         }
