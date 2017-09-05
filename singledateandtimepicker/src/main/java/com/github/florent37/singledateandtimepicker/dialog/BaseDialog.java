@@ -48,8 +48,6 @@ public abstract class BaseDialog {
     protected boolean displayMinutes;
     protected boolean displayHours;
 
-    protected boolean isAmPm = false;
-
     protected SimpleDateFormat dayFormatter;
 
     public void display() {
