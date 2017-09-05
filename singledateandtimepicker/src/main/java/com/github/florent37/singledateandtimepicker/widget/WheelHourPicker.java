@@ -126,7 +126,7 @@ public class WheelHourPicker extends WheelPicker {
 
     public void setDefaultHour(int hour) {
         if (isAmPm && hour >= MAX_HOUR_AM_PM) {
-            defaultHour -= MAX_HOUR_AM_PM;
+            hour -= MAX_HOUR_AM_PM;
         }
 
         defaultHour = hour;
