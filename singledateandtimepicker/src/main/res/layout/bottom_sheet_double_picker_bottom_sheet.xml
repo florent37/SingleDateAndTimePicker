@@ -95,7 +95,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:text="@android:string/ok"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:background="?android:attr/selectableItemBackground"
             android:textColor="@color/picker_button_background_selected"
             />
 

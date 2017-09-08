@@ -136,8 +136,10 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             }
         });
 
-        buttonTab0.setBackground(getTabsListDrawable());
-        buttonTab1.setBackground(getTabsListDrawable());
+        //noinspection deprecation
+        buttonTab0.setBackgroundDrawable(getTabsListDrawable());
+        //noinspection deprecation
+        buttonTab1.setBackgroundDrawable(getTabsListDrawable());
 
         final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
         if (buttonOk != null) {
