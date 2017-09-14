@@ -90,6 +90,7 @@ public class WheelDayPicker extends WheelPicker {
         }
 
         adapter.setData(data);
+        notifyDatasetChanged();
     }
 
     protected String getFormattedValue(Object value) {
