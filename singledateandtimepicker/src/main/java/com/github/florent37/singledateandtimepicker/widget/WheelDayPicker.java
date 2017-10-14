@@ -145,6 +145,14 @@ public class WheelDayPicker extends WheelPicker {
         return adapter.getItemText(getCurrentItemPosition());
     }
 
+    public void setTodayText(String todayText) {
+        int index = adapter.getData().indexOf(getResources().getString(R.string.picker_today));
+        if (index != -1) {
+            adapter.getData().set(index, todayText);
+            notifyDatasetChanged();
+        }
+    }
+
     public interface OnDaySelectedListener {
         void onDaySelected(WheelDayPicker picker, int position, String name, Date date);
     }

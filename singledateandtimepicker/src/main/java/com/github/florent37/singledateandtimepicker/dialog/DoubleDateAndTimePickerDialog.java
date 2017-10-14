@@ -36,6 +36,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private String tab0Text, tab1Text, title;
     @Nullable
+    private String todayText;
+    @Nullable
     private String buttonOkText;
     @Nullable
     private Date tab0Date;
@@ -91,6 +93,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         else {
             titleLayout.setVisibility(View.GONE);
         }
+
+        pickerTab0.setTodayText(todayText);
+        pickerTab1.setTodayText(todayText);
 
         final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
         if (sheetContentLayout != null) {
@@ -250,6 +255,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public DoubleDateAndTimePickerDialog setTodayText(@Nullable String todayText) {
+        this.todayText = todayText;
+        return this;
+    }
+
     public DoubleDateAndTimePickerDialog setListener(Listener listener) {
         this.listener = listener;
         return this;
@@ -369,6 +379,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private String title;
         @Nullable
         private String buttonOkText;
+        @Nullable
+        private String todayText;
 
         private boolean curved;
         private boolean mustBeOnFuture;
@@ -405,6 +417,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder title(@Nullable String title) {
             this.title = title;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder todayText(@Nullable String todayText) {
+            this.todayText = todayText;
             return this;
         }
 
@@ -497,6 +514,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         public DoubleDateAndTimePickerDialog build() {
             final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
+                    .setTodayText(todayText)
                     .setListener(listener)
                     .setCurved(curved)
                     .setButtonOkText(buttonOkText)

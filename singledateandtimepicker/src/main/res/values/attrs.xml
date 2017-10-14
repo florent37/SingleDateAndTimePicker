@@ -27,6 +27,7 @@
     </declare-styleable>
 
     <declare-styleable name="SingleDateAndTimePicker">
+        <attr name="picker_todayText" format="string"/>
         <attr name="picker_textColor" format="color"/>
         <attr name="picker_selectedTextColor" format="color"/>
         <attr name="picker_textSize" format="dimension"/>
