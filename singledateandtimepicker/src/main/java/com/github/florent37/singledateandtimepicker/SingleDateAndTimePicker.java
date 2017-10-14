@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -434,11 +435,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final Resources resources = getResources();
         todayText = a.getString(R.styleable.SingleDateAndTimePicker_picker_todayText);
         textColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_textColor,
-                resources.getColor(R.color.picker_default_text_color));
+                ContextCompat.getColor(context, R.color.picker_default_text_color));
         selectedTextColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectedTextColor,
-                resources.getColor(R.color.picker_default_selected_text_color));
+                ContextCompat.getColor(context, R.color.picker_default_selected_text_color));
         selectorColor = a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectorColor,
-                resources.getColor(R.color.picker_default_selector_color));
+                ContextCompat.getColor(context, R.color.picker_default_selector_color));
         selectorHeight = a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(R.dimen.wheelSelectorHeight));
         textSize = a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize,
                 resources.getDimensionPixelSize(R.dimen.WheelItemTextSize));
