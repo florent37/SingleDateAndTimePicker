@@ -61,11 +61,11 @@ public class WheelMinutePicker extends WheelPicker {
     @Override
     protected void onItemCurrentScroll(int position, Object item) {
         if (lastScrollPosition != position) {
-            onMinuteSelectedListener.onMinuteCurrentScrolled(this, position, convertItemToMinute(item));
-            if (lastScrollPosition == 11 && position == 0)
-                if (onMinuteSelectedListener != null) {
+            if (onMinuteSelectedListener != null) {
+                onMinuteSelectedListener.onMinuteCurrentScrolled(this, position, convertItemToMinute(item));
+                if (lastScrollPosition == 11 && position == 0)
                     onMinuteSelectedListener.onMinuteScrolledNewHour(this);
-                }
+            }
             lastScrollPosition = position;
         }
     }
