@@ -20,7 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivityWithDoublePicker extends AppCompatActivity {
+public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActivity {
 
     @Bind(R.id.doubleText)
     TextView doubleText;
@@ -44,7 +44,7 @@ public class MainActivityWithDoublePicker extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_double_picker);
+        setContentView(R.layout.single_date_picker_activity_main_double_picker);
         ButterKnife.bind(this);
 
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());

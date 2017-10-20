@@ -7,12 +7,12 @@ import android.widget.Toast;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class SingleDatePickerMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.single_date_picker_activity_main);
 
         final SingleDateAndTimePicker singleDateAndTimePicker = (SingleDateAndTimePicker) findViewById(R.id.single_day_picker);
         singleDateAndTimePicker.setListener(new SingleDateAndTimePicker.Listener() {
