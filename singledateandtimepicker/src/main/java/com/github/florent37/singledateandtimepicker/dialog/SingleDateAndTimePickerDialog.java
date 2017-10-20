@@ -24,6 +24,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private String title;
     @Nullable
+    private String todayText;
+    @Nullable
     private DisplayListener displayListener;
 
     private SingleDateAndTimePickerDialog(Context context) {
@@ -94,6 +96,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
+        picker.setTodayText(todayText);
+
         final View pickerTitleHeader = view.findViewById(R.id.pickerTitleHeader);
         if (mainColor != null && pickerTitleHeader != null) {
             pickerTitleHeader.setBackgroundColor(mainColor);
@@ -159,6 +163,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setTodayText(@Nullable String todayText) {
+        this.todayText = todayText;
         return this;
     }
 
@@ -247,6 +256,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         @Nullable
         private String title;
 
+        @Nullable
+        private String todayText;
+
         private boolean bottomSheet;
 
         private boolean curved;
@@ -285,6 +297,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder title(@Nullable String title) {
             this.title = title;
+            return this;
+        }
+
+        public Builder todayText(@Nullable String todayText) {
+            this.todayText = todayText;
             return this;
         }
 
@@ -371,6 +388,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
+                    .setTodayText(todayText)
                     .setListener(listener)
                     .setCurved(curved)
                     .setMinutesStep(minutesStep)

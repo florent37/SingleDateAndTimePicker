@@ -49,7 +49,7 @@ public class WheelDayPicker extends WheelPicker {
 
     @Override
     protected void onItemSelected(int position, Object item) {
-        if (null != onDaySelectedListener) {
+        if (onDaySelectedListener != null) {
             final String itemText = (String) item;
             final Date date = convertItemToDate(position);
             onDaySelectedListener.onDaySelected(this, position, itemText, date);
@@ -58,7 +58,6 @@ public class WheelDayPicker extends WheelPicker {
 
     @Override
     protected void onItemCurrentScroll(int position, Object item) {
-
     }
 
     @Override
@@ -143,6 +142,14 @@ public class WheelDayPicker extends WheelPicker {
 
     public String getCurrentDay() {
         return adapter.getItemText(getCurrentItemPosition());
+    }
+
+    public void setTodayText(String todayText) {
+        int index = adapter.getData().indexOf(getResources().getString(R.string.picker_today));
+        if (index != -1) {
+            adapter.getData().set(index, todayText);
+            notifyDatasetChanged();
+        }
     }
 
     public interface OnDaySelectedListener {

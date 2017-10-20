@@ -995,6 +995,8 @@ public abstract class WheelPicker extends View {
       this.data.addAll(data);
     }
 
+    public List getData() { return data; }
+
     public void addData(List data) {
       this.data.addAll(data);
     }

@@ -74,16 +74,12 @@ public class WheelHourPicker extends WheelPicker {
 
     @Override
     protected void onItemCurrentScroll(int position, Object item) {
-        if (hoursSelectedListener != null) {
-            hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
-        }
-
         if (lastScrollPosition != position) {
-            hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
-            if (lastScrollPosition == MAX_HOUR_DEFAULT && position == 0)
-                if (hoursSelectedListener != null) {
+            if (hoursSelectedListener != null) {
+                hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
+                if (lastScrollPosition == MAX_HOUR_DEFAULT && position == 0)
                     hoursSelectedListener.onHourCurrentNewDay(this);
-                }
+            }
             lastScrollPosition = position;
         }
     }

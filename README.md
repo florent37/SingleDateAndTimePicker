@@ -18,6 +18,8 @@ new SingleDateAndTimePickerDialog.Builder(context)
             
             //.displayHours(false)
             //.displayMinutes(false)
+
+            //.todayText("aujourd'hui")
             
             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                 @Override
