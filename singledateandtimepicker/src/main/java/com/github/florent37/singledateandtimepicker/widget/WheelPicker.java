@@ -489,7 +489,8 @@ public abstract class WheelPicker extends View {
           downPointY = lastPointY = (int) event.getY();
           break;
         case MotionEvent.ACTION_MOVE:
-          if (Math.abs(downPointY - event.getY()) < touchSlop) {
+          if (Math.abs(downPointY - event.getY()) < touchSlop
+                  && computeDistanceToEndPoint(scroller.getFinalY() % mItemHeight) > 0) {
             isClick = true;
             break;
           }
