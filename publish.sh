@@ -1,0 +1,1 @@
+./gradlew clean :singledateandtimepicker:install :singledateandtimepicker:bintrayUpload
