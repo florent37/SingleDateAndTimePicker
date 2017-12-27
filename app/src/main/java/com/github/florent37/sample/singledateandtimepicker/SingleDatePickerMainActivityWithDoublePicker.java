@@ -16,21 +16,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActivity {
 
-    @Bind(R.id.doubleText)
+    @BindView(R.id.doubleText)
     TextView doubleText;
-    @Bind(R.id.singleText)
+    @BindView(R.id.singleText)
     TextView singleText;
 
-    @Bind(R.id.singleTimeText)
+    @BindView(R.id.singleTimeText)
     TextView singleTimeText;
 
-    @Bind(R.id.singleDateText)
+    @BindView(R.id.singleDateText)
     TextView singleDateText;
 
 
@@ -212,8 +212,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 //.bottomSheet()
                 //.curved()
 
-                .backgroundColor(Color.BLACK)
-                .mainColor(Color.GREEN)
+//                .backgroundColor(Color.BLACK)
+//                .mainColor(Color.GREEN)
                 .minutesStep(15)
                 .mustBeOnFuture()
 
