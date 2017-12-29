@@ -23,15 +23,15 @@ public class WheelHourPicker extends WheelPicker<String> {
     protected boolean isAmPm = false;
 
     public WheelHourPicker(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public WheelHourPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAdapter();
     }
 
-    private void initAdapter() {
+    @Override
+    protected void initAdapter() {
         final List<String> hours = new ArrayList<>();
 
         if (isAmPm) {

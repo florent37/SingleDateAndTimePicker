@@ -22,15 +22,14 @@ public class WheelAmPmPicker extends WheelPicker {
     private OnAmPmSelectedListener onAmPmSelectedListener;
 
     public WheelAmPmPicker(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public WheelAmPmPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initAdapter();
     }
 
-    private void initAdapter() {
+    protected void initAdapter() {
         final List<String> values = new ArrayList<>();
         Resources resources = getResources();
         values.add(resources.getString(R.string.picker_am));

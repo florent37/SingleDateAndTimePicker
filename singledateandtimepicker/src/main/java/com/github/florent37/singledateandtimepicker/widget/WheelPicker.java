@@ -195,7 +195,11 @@ public abstract class WheelPicker<V> extends View {
 
     matrixRotate = new Matrix();
     matrixDepth = new Matrix();
+
+    initAdapter();
   }
+
+  protected abstract void initAdapter();
 
   private void updateVisibleItemCount() {
     if (mVisibleItemCount < 2) {

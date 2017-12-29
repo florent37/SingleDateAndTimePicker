@@ -25,7 +25,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
         initAdapter();
     }
 
-    private void initAdapter() {
+    protected void initAdapter() {
         final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", Locale.getDefault());
         final Calendar cal = Calendar.getInstance(Locale.getDefault());
 

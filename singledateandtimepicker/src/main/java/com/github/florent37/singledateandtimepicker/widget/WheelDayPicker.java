@@ -24,12 +24,15 @@ public class WheelDayPicker extends WheelPicker {
     private OnDaySelectedListener onDaySelectedListener;
 
     public WheelDayPicker(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public WheelDayPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
 
+    @Override
+    protected void initAdapter() {
         this.simpleDateFormat = new SimpleDateFormat("EEE d MMM", getCurrentLocale());
         this.adapter = new Adapter();
         setAdapter(adapter);

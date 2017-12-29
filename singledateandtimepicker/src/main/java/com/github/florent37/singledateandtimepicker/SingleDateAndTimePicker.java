@@ -105,20 +105,20 @@ public class SingleDateAndTimePicker extends LinearLayout {
             }
         });
 
-        minutesPicker.setOnMinuteSelectedListener(new WheelMinutePicker.OnMinuteSelectedListener() {
+        minutesPicker.setListener(new WheelMinutePicker.Listener() {
             @Override
-            public void onMinuteSelected(WheelMinutePicker picker, int position, int minutes) {
+            public void onSelected(WheelMinutePicker picker, int position, Integer value) {
                 updateListener();
                 checkMinMaxDate(picker);
             }
 
             @Override
-            public void onMinuteCurrentScrolled(WheelMinutePicker picker, int position, int minutes) {
+            public void onCurrentScrolled(WheelMinutePicker picker, int position, Integer value) {
 
             }
 
             @Override
-            public void onMinuteScrolledNewHour(WheelMinutePicker picker) {
+            public void onFinishedLoop(WheelMinutePicker picker) {
                 hoursPicker.scrollTo(hoursPicker.getCurrentItemPosition() + 1);
             }
         });
