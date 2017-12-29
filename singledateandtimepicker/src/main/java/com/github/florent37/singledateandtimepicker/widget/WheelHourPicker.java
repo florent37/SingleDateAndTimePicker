@@ -9,24 +9,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelHourPicker extends WheelPicker {
+public class WheelHourPicker extends WheelPicker<String> {
 
     public static final int MIN_HOUR_DEFAULT = 0;
     public static final int MAX_HOUR_DEFAULT = 23;
     public static final int MAX_HOUR_AM_PM = 12;
     public static final int STEP_HOURS_DEFAULT = 1;
 
-    private OnHourSelectedListener hoursSelectedListener;
-
-    private int defaultHour;
     private int minHour = MIN_HOUR_DEFAULT;
     private int maxHour = MAX_HOUR_DEFAULT;
     private int hoursStep = STEP_HOURS_DEFAULT;
 
-    private int lastScrollPosition;
     protected boolean isAmPm = false;
-
-    private WheelPicker.Adapter adapter;
 
     public WheelHourPicker(Context context) {
         this(context, null);
@@ -51,37 +45,8 @@ public class WheelHourPicker extends WheelPicker {
             }
         }
 
-        adapter = new Adapter(hours);
-        setAdapter(adapter);
-
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        // todo set default date calendar.setTime(defa);
-
-        defaultHour = calendar.get(Calendar.HOUR_OF_DAY);
-        if (isAmPm && defaultHour >= MAX_HOUR_AM_PM) {
-            defaultHour -= MAX_HOUR_AM_PM;
-        }
-
-        updateDefaultHour();
-    }
-
-    @Override
-    protected void onItemSelected(int position, Object item) {
-        if (hoursSelectedListener != null) {
-            hoursSelectedListener.onHourSelected(this, position, convertItemToHour(item));
-        }
-    }
-
-    @Override
-    protected void onItemCurrentScroll(int position, Object item) {
-        if (lastScrollPosition != position) {
-            if (hoursSelectedListener != null) {
-                hoursSelectedListener.onHourCurrentScrolled(this, position, convertItemToHour(item));
-                if (lastScrollPosition == MAX_HOUR_DEFAULT && position == 0)
-                    hoursSelectedListener.onHourCurrentNewDay(this);
-            }
-            lastScrollPosition = position;
-        }
+        setAdapter(new Adapter<String>(hours));
+        setDefault(String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
     }
 
     @Override
@@ -107,26 +72,18 @@ public class WheelHourPicker extends WheelPicker {
         return String.format(getCurrentLocale(), FORMAT, valueItem);
     }
 
-    private void updateDefaultHour() {
-        setSelectedItemPosition(defaultHour);
-    }
-
     @Override
-    public int getDefaultItemPosition() {
-        return defaultHour;
-    }
+    public void setDefault(String defaultValue) {
+        try {
+            int hour = Integer.parseInt(defaultValue);
+            if (isAmPm && hour >= MAX_HOUR_AM_PM) {
+                hour -= MAX_HOUR_AM_PM;
+            }
 
-    public void setOnHourSelectedListener(OnHourSelectedListener hoursSelectedListener) {
-        this.hoursSelectedListener = hoursSelectedListener;
-    }
-
-    public void setDefaultHour(int hour) {
-        if (isAmPm && hour >= MAX_HOUR_AM_PM) {
-            hour -= MAX_HOUR_AM_PM;
+            super.setDefault(getFormattedValue(hour));
+        } catch (Exception e){
+            e.printStackTrace();
         }
-
-        defaultHour = hour;
-        updateDefaultHour();
     }
 
     public void setIsAmPm(boolean isAmPm) {
@@ -176,11 +133,7 @@ public class WheelHourPicker extends WheelPicker {
         return convertItemToHour(adapter.getItem(getCurrentItemPosition()));
     }
 
-    public interface OnHourSelectedListener {
-        void onHourSelected(WheelHourPicker picker, int position, int hours);
+    public interface Listener extends WheelPicker.Listener<WheelHourPicker, String>{
 
-        void onHourCurrentScrolled(WheelHourPicker picker, int position, int hours);
-
-        void onHourCurrentNewDay(WheelHourPicker picker);
     }
 }

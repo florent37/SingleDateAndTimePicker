@@ -176,9 +176,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 //.minutesStep(15)
                 //.mustBeOnFuture()
-                .defaultDate(defaultDate)
-                .minDateRange(minDate)
-                .maxDateRange(maxDate)
+                //.defaultDate(defaultDate)
+               // .minDateRange(minDate)
+               // .maxDateRange(maxDate)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override

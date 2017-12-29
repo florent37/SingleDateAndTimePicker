@@ -23,8 +23,6 @@ public class WheelDayPicker extends WheelPicker {
 
     private OnDaySelectedListener onDaySelectedListener;
 
-    WheelPicker.Adapter adapter;
-
     public WheelDayPicker(Context context) {
         this(context, null);
     }

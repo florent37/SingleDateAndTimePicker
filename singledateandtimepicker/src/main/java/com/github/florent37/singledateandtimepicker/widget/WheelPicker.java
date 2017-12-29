@@ -34,6 +34,8 @@ import java.util.Locale;
 public abstract class WheelPicker<V> extends View {
 
   protected V defaultValue;
+  protected int lastScrollPosition;
+  protected Listener<WheelPicker, V> listener;
 
   public static final int SCROLL_STATE_IDLE = 0;
   public static final int SCROLL_STATE_DRAGGING = 1;
@@ -242,9 +244,14 @@ public abstract class WheelPicker<V> extends View {
   protected void updateDefault(){
       setSelectedItemPosition(getDefaultItemPosition());
   }
-  protected void setDefault(V defaultValue){
+
+  public void setDefault(V defaultValue){
       this.defaultValue = defaultValue;
       updateDefault();
+  }
+
+  public void setListener(Listener listener) {
+    this.listener = listener;
   }
 
   @Override
@@ -609,9 +616,22 @@ public abstract class WheelPicker<V> extends View {
     onItemSelected(position, item);
   }
 
-  protected abstract void onItemSelected(int position, V item);
+  protected void onItemSelected(int position, V item) {
+    if (listener != null) {
+      listener.onSelected(this, position, item);
+    }
+  }
 
-  protected abstract void onItemCurrentScroll(int position, V item);
+  protected void onItemCurrentScroll(int position, V item) {
+    if (lastScrollPosition != position) {
+      if (listener != null) {
+        listener.onCurrentScrolled(this, position, item);
+        if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0)
+          listener.onFinishedLoop(this);
+      }
+      lastScrollPosition = position;
+    }
+  }
 
   protected String getFormattedValue(Object value){
     return String.valueOf(value);
@@ -1015,5 +1035,13 @@ public abstract class WheelPicker<V> extends View {
     public void addData(List<V> data) {
       this.data.addAll(data);
     }
+  }
+
+  protected interface Listener<PICKER extends WheelPicker, V> {
+    void onSelected(PICKER picker, int position, V value);
+
+    void onCurrentScrolled(PICKER picker, int position, V value);
+
+    void onFinishedLoop(PICKER picker);
   }
 }

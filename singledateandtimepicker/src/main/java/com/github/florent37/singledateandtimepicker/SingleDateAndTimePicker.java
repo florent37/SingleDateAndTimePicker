@@ -123,20 +123,20 @@ public class SingleDateAndTimePicker extends LinearLayout {
             }
         });
 
-        hoursPicker.setOnHourSelectedListener(new WheelHourPicker.OnHourSelectedListener() {
+        hoursPicker.setListener(new WheelHourPicker.Listener() {
             @Override
-            public void onHourSelected(WheelHourPicker picker, int position, int hours) {
+            public void onSelected(WheelHourPicker picker, int position, String value) {
                 updateListener();
                 checkMinMaxDate(picker);
             }
 
             @Override
-            public void onHourCurrentScrolled(WheelHourPicker picker, int position, int hours) {
+            public void onCurrentScrolled(WheelHourPicker picker, int position, String value) {
 
             }
 
             @Override
-            public void onHourCurrentNewDay(WheelHourPicker picker) {
+            public void onFinishedLoop(WheelHourPicker picker) {
                 daysPicker.scrollTo(daysPicker.getCurrentItemPosition() + 1);
             }
         });
@@ -285,9 +285,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(defaultDate);
                 if(isAmPm){
-                    hoursPicker.setDefaultHour( calendar.get(Calendar.HOUR));
+                    hoursPicker.setDefault( String.valueOf(calendar.get(Calendar.HOUR)));
                 }else{
-                    hoursPicker.setDefaultHour( calendar.get(Calendar.HOUR_OF_DAY));
+                    hoursPicker.setDefault( String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
                 }
                 
             }
