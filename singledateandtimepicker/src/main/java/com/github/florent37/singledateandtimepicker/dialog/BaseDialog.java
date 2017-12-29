@@ -22,11 +22,11 @@ public abstract class BaseDialog {
     @Nullable
     private boolean isDisplaying;
     @ColorInt
-    protected Integer backgroundColor = null;
+    protected Integer backgroundColor = Color.WHITE;
 
     @Nullable
     @ColorInt
-    protected Integer mainColor = Color.BLACK;
+    protected Integer mainColor = Color.BLUE;
 
     @Nullable
     @ColorInt
