@@ -15,6 +15,7 @@ import com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelHourPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
+import com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelPicker;
 
 import java.text.SimpleDateFormat;
@@ -34,6 +35,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private static final CharSequence FORMAT_24_HOUR = "EEE d MMM H:mm";
     private static final CharSequence FORMAT_12_HOUR = "EEE d MMM h:mm a";
 
+    //private WheelYearsPicker yearsPicker;
+    private WheelMonthPicker monthPicker;
     private WheelDayPicker daysPicker;
     private WheelMinutePicker minutesPicker;
     private WheelHourPicker hoursPicker;
@@ -58,6 +61,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private Date maxDate;
     private Date defaultDate;
 
+    private boolean displayYears = false;
+    private boolean displayMonth = false;
     private boolean displayDays = true;
     private boolean displayMinutes = true;
     private boolean displayHours = true;
@@ -80,6 +85,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         isAmPm = !(DateFormat.is24HourFormat(context));
 
+        //yearsPicker = (WeelYearPicker) findViewById(R.id.yearPicker);
+        //monthPicker = (WeelMonthPicker) findViewById(R.id.monthPicker);
         daysPicker = (WheelDayPicker) findViewById(R.id.daysPicker);
         minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
         hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
@@ -448,6 +455,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
         mustBeOnFuture = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT);
         visibleItemCount = a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT);
 
+        displayMonth = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonth, displayMonth);
+        displayYears = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears);
         displayDays = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays);
         displayMinutes = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes);
         displayHours = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayHours, displayHours);

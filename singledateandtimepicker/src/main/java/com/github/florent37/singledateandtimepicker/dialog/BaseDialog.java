@@ -47,6 +47,8 @@ public abstract class BaseDialog {
     protected boolean displayDays;
     protected boolean displayMinutes;
     protected boolean displayHours;
+    protected boolean displayMonth;
+    protected boolean displayYears;
 
     protected SimpleDateFormat dayFormatter;
 

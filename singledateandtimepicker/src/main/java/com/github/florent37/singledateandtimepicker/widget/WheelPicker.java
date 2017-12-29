@@ -31,7 +31,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public abstract class WheelPicker extends View {
+public abstract class WheelPicker<V> extends View {
+
+  protected V defaultValue;
 
   public static final int SCROLL_STATE_IDLE = 0;
   public static final int SCROLL_STATE_DRAGGING = 1;
@@ -58,7 +60,7 @@ public abstract class WheelPicker extends View {
 
   private Camera camera;
   private Matrix matrixRotate, matrixDepth;
-  private BaseAdapter adapter;
+  protected Adapter<V> adapter;
   private String maxWidthText;
 
   private int mVisibleItemCount, mDrawnItemCount;
@@ -235,6 +237,14 @@ public abstract class WheelPicker extends View {
         paint.setTextAlign(Paint.Align.CENTER);
         break;
     }
+  }
+
+  protected void updateDefault(){
+      setSelectedItemPosition(getDefaultItemPosition());
+  }
+  protected void setDefault(V defaultValue){
+      this.defaultValue = defaultValue;
+      updateDefault();
   }
 
   @Override
@@ -591,18 +601,20 @@ public abstract class WheelPicker extends View {
 
   private final void onItemSelected() {
     int position = currentItemPosition;
-    final Object item = this.adapter.getItem(position);
+    final V item = this.adapter.getItem(position);
     if (null != onItemSelectedListener) {
       onItemSelectedListener.onItemSelected(this, item, position);
     }
     onItemSelected(position, item);
   }
 
-  protected abstract void onItemSelected(int position, Object item);
+  protected abstract void onItemSelected(int position, V item);
 
-  protected abstract void onItemCurrentScroll(int position, Object item);
+  protected abstract void onItemCurrentScroll(int position, V item);
 
-  protected abstract String getFormattedValue(Object value);
+  protected String getFormattedValue(Object value){
+    return String.valueOf(value);
+  }
 
   public int getVisibleItemCount() {
     return mVisibleItemCount;
@@ -647,7 +659,9 @@ public abstract class WheelPicker extends View {
     return currentItemPosition;
   }
 
-  public abstract int getDefaultItemPosition();
+  public int getDefaultItemPosition(){
+    return adapter.getData().indexOf(defaultValue);
+  }
 
   public void setAdapter(Adapter adapter) {
     this.adapter = adapter;
@@ -902,11 +916,11 @@ public abstract class WheelPicker extends View {
     }
   }
 
-  public interface BaseAdapter {
+  public interface BaseAdapter<V> {
 
     int getItemCount();
 
-    Object getItem(int position);
+    V getItem(int position);
 
     String getItemText(int position);
   }
@@ -962,15 +976,15 @@ public abstract class WheelPicker extends View {
     void onWheelScrollStateChanged(int state);
   }
 
-  public static class Adapter implements BaseAdapter {
-    private List data;
+  public static class Adapter<V> implements BaseAdapter {
+    private List<V> data;
 
     public Adapter() {
-      this(new ArrayList());
+      this(new ArrayList<V>());
     }
 
-    public Adapter(List data) {
-      this.data = new ArrayList();
+    public Adapter(List<V> data) {
+      this.data = new ArrayList<V>();
       this.data.addAll(data);
     }
 
@@ -980,7 +994,7 @@ public abstract class WheelPicker extends View {
     }
 
     @Override
-    public Object getItem(int position) {
+    public V getItem(int position) {
       final int itemCount = getItemCount();
       return data.get((position + itemCount) % itemCount);
     }
@@ -990,14 +1004,14 @@ public abstract class WheelPicker extends View {
       return String.valueOf(data.get(position));
     }
 
-    public void setData(List data) {
+    public void setData(List<V> data) {
       this.data.clear();
       this.data.addAll(data);
     }
 
-    public List getData() { return data; }
+    public List<V> getData() { return data; }
 
-    public void addData(List data) {
+    public void addData(List<V> data) {
       this.data.addAll(data);
     }
   }

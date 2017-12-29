@@ -87,9 +87,11 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .backgroundColor(Color.BLACK)
                 .mainColor(Color.GREEN)
 
-                .displayHours(true)
-                .displayMinutes(true)
+                .displayMinutes(false)
+                .displayHours(false)
                 .displayDays(false)
+                .displayMonth(true)
+                .displayYears(true)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
@@ -219,6 +221,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 .minDateRange(minDate)
                 .maxDateRange(maxDate)
+
                 //.defaultDate(now)
                 .tab0Date(now)
                 .tab1Date(new Date(now.getTime() + TimeUnit.HOURS.toMillis(1)))
