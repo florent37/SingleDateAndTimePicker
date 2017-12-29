@@ -11,15 +11,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelAmPmPicker extends WheelPicker {
+public class WheelAmPmPicker extends WheelPicker<String> {
 
     public static final int INDEX_AM = 0;
     public static final int INDEX_PM = 1;
-    private Adapter adapter;
-
-    private int lastScrollPosition;
-
-    private OnAmPmSelectedListener onAmPmSelectedListener;
 
     public WheelAmPmPicker(Context context) {
         super(context);
@@ -31,34 +26,14 @@ public class WheelAmPmPicker extends WheelPicker {
 
     protected void initAdapter() {
         final List<String> values = new ArrayList<>();
-        Resources resources = getResources();
+        final Resources resources = getResources();
         values.add(resources.getString(R.string.picker_am));
         values.add(resources.getString(R.string.picker_pm));
-        adapter = new Adapter(values);
-        setAdapter(adapter);
+        setAdapter(new Adapter<>(values));
     }
 
-
-    public void setOnAmPmSelectedListener(OnAmPmSelectedListener onAmPmSelectedListener) {
-        this.onAmPmSelectedListener = onAmPmSelectedListener;
-    }
-
-    @Override
-    protected void onItemSelected(int position, Object item) {
-        if (onAmPmSelectedListener != null) {
-            if (position == INDEX_AM) {
-                onAmPmSelectedListener.onAmSelected(this);
-            } else {
-                onAmPmSelectedListener.onPmSelected(this);
-            }
-        }
-    }
-
-    @Override
-    protected void onItemCurrentScroll(int position, Object item) {
-        if (lastScrollPosition != position) {
-            lastScrollPosition = position;
-        }
+    public boolean isAmPosition(int position){
+        return position == INDEX_AM;
     }
 
     @Override
@@ -84,9 +59,7 @@ public class WheelAmPmPicker extends WheelPicker {
         return getCurrentItemPosition() == INDEX_PM;
     }
 
-    public interface OnAmPmSelectedListener {
-        void onAmSelected(WheelAmPmPicker picker);
+    public interface Listener extends WheelPicker.Listener<WheelAmPmPicker, String> {
 
-        void onPmSelected(WheelAmPmPicker picker);
     }
 }

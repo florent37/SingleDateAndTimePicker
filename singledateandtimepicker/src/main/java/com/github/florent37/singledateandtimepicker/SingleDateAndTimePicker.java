@@ -96,6 +96,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final ViewGroup.LayoutParams dtSelectorLayoutParams = dtSelector.getLayoutParams();
         dtSelectorLayoutParams.height = selectorHeight;
         dtSelector.setLayoutParams(dtSelectorLayoutParams);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
 
         daysPicker.setOnDaySelectedListener(new WheelDayPicker.OnDaySelectedListener() {
             @Override
@@ -141,17 +146,21 @@ public class SingleDateAndTimePicker extends LinearLayout {
             }
         });
 
-        amPmPicker.setOnAmPmSelectedListener(new WheelAmPmPicker.OnAmPmSelectedListener() {
+        amPmPicker.setListener(new WheelAmPmPicker.Listener() {
             @Override
-            public void onAmSelected(WheelAmPmPicker picker) {
+            public void onSelected(WheelAmPmPicker picker, int position, String value) {
                 updateListener();
                 checkMinMaxDate(picker);
             }
 
             @Override
-            public void onPmSelected(WheelAmPmPicker picker) {
-                updateListener();
-                checkMinMaxDate(picker);
+            public void onCurrentScrolled(WheelAmPmPicker picker, int position, String value) {
+
+            }
+
+            @Override
+            public void onFinishedLoop(WheelAmPmPicker picker) {
+
             }
         });
 
@@ -289,7 +298,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 }else{
                     hoursPicker.setDefault( String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
                 }
-                
+
             }
 
         }
