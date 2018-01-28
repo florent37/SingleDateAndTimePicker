@@ -109,7 +109,7 @@ public class WheelHourPicker extends WheelPicker<String> {
         initAdapter();
     }
 
-    public void setHoursStep(int hourStep) {
+    public void setHoursStep(int hoursStep) {
         if (hoursStep >= MIN_HOUR_DEFAULT && hoursStep <= MAX_HOUR_DEFAULT) {
             this.hoursStep = hoursStep;
         }
