@@ -22,6 +22,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
+
 public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
 
@@ -384,7 +386,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         private boolean curved;
         private boolean mustBeOnFuture;
-        private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
+        private int minutesStep = STEP_MINUTES_DEFAULT;
 
         private SimpleDateFormat dayFormatter;
 

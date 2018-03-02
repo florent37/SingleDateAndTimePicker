@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
+
 public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private Listener listener;
@@ -45,6 +47,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             @Override
             public void onLoaded(View view) {
                 init(view);
+                if(displayListener != null){
+                    displayListener.onDisplayed(picker);
+                }
             }
 
             @Override
@@ -132,9 +137,6 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         if (defaultDate != null) {
             picker.setDefaultDate(defaultDate);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(defaultDate);
-            picker.selectDate(calendar);
         }
 
         picker.setDisplayDays(displayDays);
@@ -225,9 +227,6 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     public void display() {
         super.display();
         bottomSheetHelper.display();
-        if(displayListener != null){
-            displayListener.onDisplayed(picker);
-        }
     }
 
     @Override
@@ -273,7 +272,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         private boolean curved;
         private boolean mustBeOnFuture;
-        private int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
+        private int minutesStep = STEP_MINUTES_DEFAULT;
 
         private boolean displayDays = true;
         private boolean displayMinutes  = true;

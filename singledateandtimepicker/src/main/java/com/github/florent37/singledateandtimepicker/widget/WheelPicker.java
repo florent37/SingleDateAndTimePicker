@@ -50,11 +50,13 @@ public abstract class WheelPicker<V> extends View {
     private VelocityTracker tracker;
     private OnItemSelectedListener onItemSelectedListener;
     private OnWheelChangeListener onWheelChangeListener;
-    private Rect rectDrawn;
-    private Rect rectIndicatorHead, rectIndicatorFoot;
-    private Rect rectCurrentItem;
-    private Camera camera;
-    private Matrix matrixRotate, matrixDepth;
+    private final Rect rectDrawn = new Rect();
+    private final Rect rectIndicatorHead = new Rect();
+    private final Rect rectIndicatorFoot = new Rect();
+    private final Rect rectCurrentItem = new Rect();
+    private final Camera camera = new Camera();
+    private final Matrix matrixRotate = new Matrix();
+    private final Matrix matrixDepth = new Matrix();
     private String maxWidthText;
 
     private int mVisibleItemCount, mDrawnItemCount;
@@ -135,8 +137,7 @@ public abstract class WheelPicker<V> extends View {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WheelPicker);
 
-        mItemTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_size,
-                getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
+        mItemTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_size, getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
         mVisibleItemCount = a.getInt(R.styleable.WheelPicker_wheel_visible_item_count, 7);
         selectedItemPosition = a.getInt(R.styleable.WheelPicker_wheel_selected_item_position, 0);
         hasSameWidth = a.getBoolean(R.styleable.WheelPicker_wheel_same_width, false);
@@ -144,13 +145,11 @@ public abstract class WheelPicker<V> extends View {
         maxWidthText = a.getString(R.styleable.WheelPicker_wheel_maximum_width_text);
         mSelectedItemTextColor = a.getColor(R.styleable.WheelPicker_wheel_selected_item_text_color, -1);
         mItemTextColor = a.getColor(R.styleable.WheelPicker_wheel_item_text_color, 0xFF888888);
-        mItemSpace = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_space,
-                getResources().getDimensionPixelSize(R.dimen.WheelItemSpace));
+        mItemSpace = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_space, getResources().getDimensionPixelSize(R.dimen.WheelItemSpace));
         isCyclic = a.getBoolean(R.styleable.WheelPicker_wheel_cyclic, false);
         hasIndicator = a.getBoolean(R.styleable.WheelPicker_wheel_indicator, false);
         mIndicatorColor = a.getColor(R.styleable.WheelPicker_wheel_indicator_color, 0xFFEE3333);
-        mIndicatorSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_indicator_size,
-                getResources().getDimensionPixelSize(R.dimen.WheelIndicatorSize));
+        mIndicatorSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_indicator_size, getResources().getDimensionPixelSize(R.dimen.WheelIndicatorSize));
         hasCurtain = a.getBoolean(R.styleable.WheelPicker_wheel_curtain, false);
         mCurtainColor = a.getColor(R.styleable.WheelPicker_wheel_curtain_color, 0x88FFFFFF);
         hasAtmospheric = a.getBoolean(R.styleable.WheelPicker_wheel_atmospheric, false);
@@ -171,26 +170,28 @@ public abstract class WheelPicker<V> extends View {
             maximumVelocity = conf.getScaledMaximumFlingVelocity();
             touchSlop = conf.getScaledTouchSlop();
         }
-        rectDrawn = new Rect();
 
-        rectIndicatorHead = new Rect();
-        rectIndicatorFoot = new Rect();
-
-        rectCurrentItem = new Rect();
-
-        camera = new Camera();
-
-        matrixRotate = new Matrix();
-        matrixDepth = new Matrix();
+        init();
+        defaultValue = initDefault();
+        adapter.setData(generateAdapterValues());
+        currentItemPosition = adapter.getItemPosition(defaultValue);
+        selectedItemPosition = currentItemPosition;
     }
+
+    protected abstract void init();
+    protected abstract V initDefault();
+    protected void updateAdapter(){
+        adapter.setData(generateAdapterValues());
+        notifyDatasetChanged();
+    }
+    protected abstract List<V> generateAdapterValues();
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        initAdapter();
+        setAdapter(adapter);
+        setDefault(this.defaultValue);
     }
-
-    protected abstract void initAdapter();
 
     private void updateVisibleItemCount() {
         if (mVisibleItemCount < 2) {
@@ -218,7 +219,7 @@ public abstract class WheelPicker<V> extends View {
                 mTextMaxWidth = Math.max(mTextMaxWidth, width);
             }
         }
-        Paint.FontMetrics metrics = paint.getFontMetrics();
+        final Paint.FontMetrics metrics = paint.getFontMetrics();
         mTextMaxHeight = (int) (metrics.bottom - metrics.top);
     }
 
@@ -245,17 +246,29 @@ public abstract class WheelPicker<V> extends View {
         updateDefault();
     }
 
+    public void setDefaultDate(Date date){
+        if (adapter != null && adapter.getItemCount() > 0) {
+            final int indexOfDate = findIndexOfDate(date);
+            this.defaultValue = adapter.getData().get(indexOfDate);
+            setSelectedItemPosition(indexOfDate);
+        }
+    }
+
+    public void selectDate(Date date){
+        setSelectedItemPosition(findIndexOfDate(date));
+    }
+
     public void setListener(Listener listener) {
         this.listener = listener;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
-        int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
+        final int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
+        final int modeHeight = MeasureSpec.getMode(heightMeasureSpec);
 
-        int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
+        final int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
+        final int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
 
         // Correct sizes of original content
         int resultWidth = mTextMaxWidth;
@@ -372,7 +385,9 @@ public abstract class WheelPicker<V> extends View {
                 actualPos = actualPos < 0 ? (actualPos + itemCount) : actualPos;
                 data = adapter.getItemText(actualPos);
             } else {
-                if (isPosInRang(drawnDataPos)) data = adapter.getItemText(drawnDataPos);
+                if (isPosInRang(drawnDataPos)) {
+                    data = adapter.getItemText(drawnDataPos);
+                }
             }
             paint.setColor(mItemTextColor);
             paint.setStyle(Paint.Style.FILL);
@@ -622,11 +637,16 @@ public abstract class WheelPicker<V> extends View {
         if (lastScrollPosition != position) {
             if (listener != null) {
                 listener.onCurrentScrolled(this, position, item);
-                if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0)
-                    listener.onFinishedLoop(this);
+                if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0){
+                    onFinishedLoop();
+                }
             }
             lastScrollPosition = position;
         }
+    }
+
+    protected void onFinishedLoop(){
+
     }
 
     protected String getFormattedValue(Object value) {
@@ -701,7 +721,7 @@ public abstract class WheelPicker<V> extends View {
         computeTextSize();
         computeFlingLimitY();
         requestLayout();
-        invalidate();
+        postInvalidate();
     }
 
     public void setSameWidth(boolean hasSameWidth) {
@@ -728,7 +748,7 @@ public abstract class WheelPicker<V> extends View {
         maxWidthText = text;
         computeTextSize();
         requestLayout();
-        invalidate();
+        postInvalidate();
     }
 
     public int getMaximumWidthTextPosition() {
@@ -743,7 +763,7 @@ public abstract class WheelPicker<V> extends View {
         textMaxWidthPosition = position;
         computeTextSize();
         requestLayout();
-        invalidate();
+        postInvalidate();
     }
 
     public int getSelectedItemTextColor() {
@@ -753,7 +773,7 @@ public abstract class WheelPicker<V> extends View {
     public void setSelectedItemTextColor(int color) {
         mSelectedItemTextColor = color;
         computeCurrentItemRect();
-        invalidate();
+        postInvalidate();
     }
 
     public int getItemTextColor() {
@@ -762,7 +782,7 @@ public abstract class WheelPicker<V> extends View {
 
     public void setItemTextColor(int color) {
         mItemTextColor = color;
-        invalidate();
+        postInvalidate();
     }
 
     public int getItemTextSize() {
@@ -776,7 +796,7 @@ public abstract class WheelPicker<V> extends View {
             paint.setTextSize(mItemTextSize);
             computeTextSize();
             requestLayout();
-            invalidate();
+            postInvalidate();
         }
     }
 
@@ -787,13 +807,13 @@ public abstract class WheelPicker<V> extends View {
     public void setItemSpace(int space) {
         mItemSpace = space;
         requestLayout();
-        invalidate();
+        postInvalidate();
     }
 
     public void setIndicator(boolean hasIndicator) {
         this.hasIndicator = hasIndicator;
         computeIndicatorRect();
-        invalidate();
+        postInvalidate();
     }
 
     public boolean hasIndicator() {
@@ -807,7 +827,7 @@ public abstract class WheelPicker<V> extends View {
     public void setIndicatorSize(int size) {
         mIndicatorSize = size;
         computeIndicatorRect();
-        invalidate();
+        postInvalidate();
     }
 
     public int getIndicatorColor() {
@@ -816,13 +836,13 @@ public abstract class WheelPicker<V> extends View {
 
     public void setIndicatorColor(int color) {
         mIndicatorColor = color;
-        invalidate();
+        postInvalidate();
     }
 
     public void setCurtain(boolean hasCurtain) {
         this.hasCurtain = hasCurtain;
         computeCurrentItemRect();
-        invalidate();
+        postInvalidate();
     }
 
     public boolean hasCurtain() {
@@ -835,12 +855,12 @@ public abstract class WheelPicker<V> extends View {
 
     public void setCurtainColor(int color) {
         mCurtainColor = color;
-        invalidate();
+        postInvalidate();
     }
 
     public void setAtmospheric(boolean hasAtmospheric) {
         this.hasAtmospheric = hasAtmospheric;
-        invalidate();
+        postInvalidate();
     }
 
     public boolean hasAtmospheric() {
@@ -854,7 +874,7 @@ public abstract class WheelPicker<V> extends View {
     public void setCurved(boolean isCurved) {
         this.isCurved = isCurved;
         requestLayout();
-        invalidate();
+        postInvalidate();
     }
 
     public int getItemAlign() {
@@ -865,7 +885,7 @@ public abstract class WheelPicker<V> extends View {
         mItemAlign = align;
         updateItemTextAlign();
         computeDrawnCenter();
-        invalidate();
+        postInvalidate();
     }
 
     public Typeface getTypeface() {
@@ -877,7 +897,7 @@ public abstract class WheelPicker<V> extends View {
         if (null != paint) paint.setTypeface(tf);
         computeTextSize();
         requestLayout();
-        invalidate();
+        postInvalidate();
     }
 
     /**
@@ -1003,8 +1023,6 @@ public abstract class WheelPicker<V> extends View {
         void onSelected(PICKER picker, int position, V value);
 
         void onCurrentScrolled(PICKER picker, int position, V value);
-
-        void onFinishedLoop(PICKER picker);
     }
 
     public static class Adapter<V> implements BaseAdapter {
@@ -1046,6 +1064,14 @@ public abstract class WheelPicker<V> extends View {
 
         public void addData(List<V> data) {
             this.data.addAll(data);
+        }
+
+        public int getItemPosition(V value) {
+            int position = -1;
+            if (data != null) {
+                return data.indexOf(value);
+            }
+            return position;
         }
     }
 }

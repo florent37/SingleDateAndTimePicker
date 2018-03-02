@@ -30,6 +30,7 @@
                 android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"
                 android:text="title here"
+                android:layout_marginLeft="12dp"
                 android:textColor="@color/picker_button_background_selected"
                 android:textStyle="bold"
                 />

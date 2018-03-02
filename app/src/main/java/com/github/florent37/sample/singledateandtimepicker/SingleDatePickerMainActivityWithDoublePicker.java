@@ -70,28 +70,27 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 5);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 50);
 
-
-        Date defaultDate = calendar.getTime();
+        final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
 
                 .bottomSheet()
                 .curved()
 
-                .defaultDate( defaultDate )
+                .defaultDate(defaultDate)
 
-                .titleTextColor(Color.GREEN)
-                .backgroundColor(Color.BLACK)
-                .mainColor(Color.GREEN)
+                //.titleTextColor(Color.GREEN)
+                //.backgroundColor(Color.BLACK)
+                //.mainColor(Color.GREEN)
 
-                .displayMinutes(false)
-                .displayHours(false)
+                .displayMinutes(true)
+                .displayHours(true)
                 .displayDays(false)
-                .displayMonth(true)
-                .displayYears(true)
+                //.displayMonth(true)
+                //.displayYears(true)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
@@ -122,9 +121,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .bottomSheet()
                 .curved()
 
-                .titleTextColor(Color.GREEN)
-                .backgroundColor(Color.BLACK)
-                .mainColor(Color.GREEN)
+                //.titleTextColor(Color.GREEN)
+                //.backgroundColor(Color.BLACK)
+                //.mainColor(Color.GREEN)
 
                 .displayHours(false)
                 .displayMinutes(false)
@@ -151,26 +150,24 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     public void simpleClicked() {
 
         final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 30);
         calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 2017);
-        final Date minDate = calendar.getTime();
+        calendar.set(Calendar.YEAR, 1991);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 13);
 
-        calendar.set(Calendar.DAY_OF_MONTH, 5);
-        final Date maxDate = calendar.getTime();
-
-        calendar.set(Calendar.DAY_OF_MONTH, 2);
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
                 .bottomSheet()
                 .curved()
 
-                .backgroundColor(Color.BLACK)
-                .mainColor(Color.GREEN)
+                //.backgroundColor(Color.BLACK)
+                //.mainColor(Color.GREEN)
 
-                //.displayHours(false)
-                //.displayMinutes(false)
+                .displayHours(true)
+                .displayMinutes(true)
+                .defaultDate(defaultDate)
 
                 //.mustBeOnFuture()
 

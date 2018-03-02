@@ -4,23 +4,28 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
+import com.github.florent37.singledateandtimepicker.DateHelper;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.github.florent37.singledateandtimepicker.DateHelper.getHour;
+import static com.github.florent37.singledateandtimepicker.DateHelper.today;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_DEFAULT;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_HOUR_DEFAULT;
+
 public class WheelHourPicker extends WheelPicker<String> {
 
-    public static final int MIN_HOUR_DEFAULT = 0;
-    public static final int MAX_HOUR_DEFAULT = 23;
-    public static final int MAX_HOUR_AM_PM = 12;
-    public static final int STEP_HOURS_DEFAULT = 1;
+    private int minHour;
+    private int maxHour;
+    private int hoursStep;
 
-    private int minHour = MIN_HOUR_DEFAULT;
-    private int maxHour = MAX_HOUR_DEFAULT;
-    private int hoursStep = STEP_HOURS_DEFAULT;
-
-    protected boolean isAmPm = false;
+    protected boolean isAmPm;
+    private FinishedLoopListener finishedLoopListener;
+    private OnHourChangedListener hourChangedListener;
 
     public WheelHourPicker(Context context) {
         super(context);
@@ -31,7 +36,20 @@ public class WheelHourPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected void initAdapter() {
+    protected void init() {
+        isAmPm = false;
+        minHour = MIN_HOUR_DEFAULT;
+        maxHour = MAX_HOUR_DEFAULT;
+        hoursStep = STEP_HOURS_DEFAULT;
+    }
+
+    @Override
+    protected String initDefault() {
+        return String.valueOf(getHour(today(), isAmPm));
+    }
+
+    @Override
+    protected List<String> generateAdapterValues() {
         final List<String> hours = new ArrayList<>();
 
         if (isAmPm) {
@@ -45,8 +63,7 @@ public class WheelHourPicker extends WheelPicker<String> {
             }
         }
 
-        setAdapter(new Adapter<String>(hours));
-        setDefault(String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
+        return hours;
     }
 
     @Override
@@ -55,7 +72,7 @@ public class WheelHourPicker extends WheelPicker<String> {
             final int hours = date.getHours();
             if (hours >= MAX_HOUR_AM_PM) {
                 Date copy = new Date(date.getTime());
-                copy.setHours(hours % 12);
+                copy.setHours(hours % MAX_HOUR_AM_PM);
                 return super.findIndexOfDate(copy);
             }
         }
@@ -93,27 +110,28 @@ public class WheelHourPicker extends WheelPicker<String> {
         } else {
             setMaxHour(MAX_HOUR_DEFAULT);
         }
+        updateAdapter();
     }
 
     public void setMaxHour(int maxHour) {
         if (maxHour >= MIN_HOUR_DEFAULT && maxHour <= MAX_HOUR_DEFAULT) {
             this.maxHour = maxHour;
         }
-        initAdapter();
+        notifyDatasetChanged();
     }
 
     public void setMinHour(int minHour) {
         if (minHour >= MIN_HOUR_DEFAULT && minHour <= MAX_HOUR_DEFAULT) {
             this.minHour = minHour;
         }
-        initAdapter();
+        notifyDatasetChanged();
     }
 
     public void setHoursStep(int hoursStep) {
         if (hoursStep >= MIN_HOUR_DEFAULT && hoursStep <= MAX_HOUR_DEFAULT) {
             this.hoursStep = hoursStep;
         }
-        initAdapter();
+        notifyDatasetChanged();
     }
 
     private int convertItemToHour(Object item) {
@@ -133,7 +151,39 @@ public class WheelHourPicker extends WheelPicker<String> {
         return convertItemToHour(adapter.getItem(getCurrentItemPosition()));
     }
 
-    public interface Listener extends WheelPicker.Listener<WheelHourPicker, String>{
 
+    @Override
+    protected void onItemSelected(int position, String item) {
+        super.onItemSelected(position, item);
+
+        if (hourChangedListener != null) {
+            hourChangedListener.onHourChanged(this, convertItemToHour(item));
+        }
+    }
+
+    public WheelHourPicker setOnFinishedLoopListener(FinishedLoopListener finishedLoopListener) {
+        this.finishedLoopListener = finishedLoopListener;
+        return this;
+    }
+
+    public WheelHourPicker setHourChangedListener(OnHourChangedListener hourChangedListener) {
+        this.hourChangedListener = hourChangedListener;
+        return this;
+    }
+
+    @Override
+    protected void onFinishedLoop() {
+        super.onFinishedLoop();
+        if (finishedLoopListener != null) {
+            finishedLoopListener.onFinishedLoop(this);
+        }
+    }
+
+    public interface FinishedLoopListener {
+        void onFinishedLoop(WheelHourPicker picker);
+    }
+
+    public interface OnHourChangedListener {
+        void onHourChanged(WheelHourPicker picker, int hour);
     }
 }

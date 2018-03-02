@@ -15,7 +15,7 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
         setContentView(R.layout.single_date_picker_activity_main);
 
         final SingleDateAndTimePicker singleDateAndTimePicker = (SingleDateAndTimePicker) findViewById(R.id.single_day_picker);
-        singleDateAndTimePicker.setListener(new SingleDateAndTimePicker.Listener() {
+        singleDateAndTimePicker.addOnDateChangedListener(new SingleDateAndTimePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(String displayed, Date date) {
                 display(displayed);

@@ -11,6 +11,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
+
 /**
  * Created by nor on 1/2/2017.
  */
@@ -35,7 +37,7 @@ public abstract class BaseDialog {
     protected boolean okClicked = false;
     protected boolean curved = false;
     protected boolean mustBeOnFuture = false;
-    protected int minutesStep = WheelMinutePicker.STEP_MINUTES_DEFAULT;
+    protected int minutesStep = STEP_MINUTES_DEFAULT;
 
     @Nullable
     protected Date minDate;
