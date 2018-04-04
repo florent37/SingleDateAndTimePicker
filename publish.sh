@@ -1,1 +1,2 @@
-./gradlew clean :singledateandtimepicker:install :singledateandtimepicker:bintrayUpload
+./gradlew clean assembleDebug
+./gradlew install bintrayUpload
