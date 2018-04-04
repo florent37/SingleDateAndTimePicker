@@ -21,8 +21,9 @@ public abstract class BaseDialog {
     public static final int DEFAULT_ITEM_COUNT_MODE_CURVED = 7;
     public static final int DEFAULT_ITEM_COUNT_MODE_NORMAL = 5;
 
-    @Nullable
     private boolean isDisplaying;
+
+    @Nullable
     @ColorInt
     protected Integer backgroundColor = Color.WHITE;
 
