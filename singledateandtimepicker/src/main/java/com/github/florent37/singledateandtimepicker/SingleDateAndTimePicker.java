@@ -287,7 +287,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void run() {
                 if (minDate != null && isBeforeMinDate(getDate())) {
                     for (WheelPicker p : pickers) {
-                        p.scrollTo(amPmPicker.findIndexOfDate(minDate));
+                        p.scrollTo(p.findIndexOfDate(minDate));
                     }
                 }
             }
@@ -300,7 +300,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void run() {
                 if (maxDate != null && isAfterMaxDate(getDate())) {
                     for (WheelPicker p : pickers) {
-                        p.scrollTo(amPmPicker.findIndexOfDate(maxDate));
+                        p.scrollTo(p.findIndexOfDate(maxDate));
                     }
                 }
             }
