@@ -71,3 +71,10 @@ workflows:
   build_and_test:
     jobs:
       - build
+
+deployment:
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    owner: florent37 #optional
+    commands:
+      - ./publish.sh
