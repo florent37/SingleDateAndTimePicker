@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_event_available_black_24dp"
+                app:srcCompat="@drawable/ic_event_available_black_24dp"
                 />
 
             <TextView
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_event_available_black_24dp"
+                app:srcCompat="@drawable/ic_event_available_black_24dp"
                 />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_event_available_black_24dp"
+                app:srcCompat="@drawable/ic_event_available_black_24dp"
                 />
 
             <TextView
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/ic_event_available_black_24dp"
+                app:srcCompat="@drawable/ic_event_available_black_24dp"
                 />
 
             <TextView
