@@ -139,6 +139,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             picker.setDefaultDate(defaultDate);
         }
 
+        if(isAmPm != null){
+            picker.setIsAmPm(isAmPm);
+        }
+
         picker.setDisplayDays(displayDays);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
@@ -223,6 +227,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setIsAmPm(boolean isAmPm) {
+        this.isAmPm = Boolean.valueOf(isAmPm);
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -279,6 +288,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean displayHours  = true;
         private boolean displayMonth = false;
         private boolean displayYears = false;
+
+        @Nullable
+        private Boolean isAmPm;
 
         @ColorInt
         @Nullable
@@ -338,6 +350,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder displayDays(boolean displayDays) {
             this.displayDays = displayDays;
+            return this;
+        }
+
+        public Builder displayAmPm(boolean isAmPm) {
+            this.isAmPm = isAmPm;
             return this;
         }
 
@@ -438,6 +455,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (displayListener != null) {
                 dialog.setDisplayListener(displayListener);
+            }
+
+            if(isAmPm != null){
+                dialog.setIsAmPm(isAmPm);
             }
 
             return dialog;
