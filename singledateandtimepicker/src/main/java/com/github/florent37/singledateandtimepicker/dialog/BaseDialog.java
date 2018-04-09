@@ -53,6 +53,9 @@ public abstract class BaseDialog {
     protected boolean displayMonth;
     protected boolean displayYears;
 
+    @Nullable
+    protected Boolean isAmPm;
+
     protected SimpleDateFormat dayFormatter;
 
     public void display() {
