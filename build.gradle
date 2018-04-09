@@ -6,9 +6,9 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -23,9 +23,14 @@ allprojects {
 }
 
 ext {
-    sdk = 24
-    buildTools = "25.0.0"
+    sdk = 27
     minSdk = 14
+    supportVersion = "27.0.2"
+
+    github = 'https://github.com/florent37/SingleDateAndTimePicker'
+
+    libraryGroup = 'com.github.florent37'
+    libraryName = 'singledateandtimepicker'
     libraryVersion = "2.0.1"
-    supportVersion = "25.0.0"
+    libraryDescription = 'SingleDateAndTimePicker'
 }
