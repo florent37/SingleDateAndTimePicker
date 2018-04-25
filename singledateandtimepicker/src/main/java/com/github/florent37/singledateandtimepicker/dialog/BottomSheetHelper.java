@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
 import com.github.florent37.singledateandtimepicker.R;
@@ -69,9 +70,16 @@ public class BottomSheetHelper {
                 }
               });
 
-          if (listener != null) {
-            listener.onLoaded(view);
-          }
+          view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+              view.getViewTreeObserver().removeOnPreDrawListener(this);
+                if (listener != null) {
+                    listener.onLoaded(view);
+                }
+              return true;
+            }
+          });
         }
       }
     }, 100);

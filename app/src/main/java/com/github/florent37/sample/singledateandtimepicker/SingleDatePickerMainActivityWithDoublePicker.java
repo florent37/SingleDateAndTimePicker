@@ -219,6 +219,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .minDateRange(minDate)
                 .maxDateRange(maxDate)
 
+                .secondDateAfterFirst(true)
+
                 //.defaultDate(now)
                 .tab0Date(now)
                 .tab1Date(new Date(now.getTime() + TimeUnit.HOURS.toMillis(1)))
