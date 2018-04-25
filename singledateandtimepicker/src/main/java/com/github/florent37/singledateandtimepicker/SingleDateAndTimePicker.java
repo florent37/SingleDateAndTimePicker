@@ -323,6 +323,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         this.listeners.remove(listener);
     }
 
+    public void checkPickersMinMax() {
+        for (WheelPicker picker : pickers) {
+            checkMinMaxDate(picker);
+        }
+    }
+
     public Date getDate() {
         int hour = hoursPicker.getCurrentHour();
         if (isAmPm && amPmPicker.isPm()) {

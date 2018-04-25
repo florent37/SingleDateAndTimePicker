@@ -1,20 +1,17 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.StateSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -45,6 +42,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     private Date tab0Date;
     @Nullable
     private Date tab1Date;
+    private boolean secondDateAfterFirst;
 
     private DoubleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -227,6 +225,16 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab0.setDayFormatter(dayFormatter);
             pickerTab1.setDayFormatter(dayFormatter);
         }
+
+        if (secondDateAfterFirst) {
+            pickerTab0.addOnDateChangedListener(new SingleDateAndTimePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(String displayed, Date date) {
+                    pickerTab1.setMinDate(date);
+                    pickerTab1.checkPickersMinMax();
+                }
+            });
+        }
     }
 
     @NonNull
@@ -312,6 +320,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public DoubleDateAndTimePickerDialog setSecondDateAfterFirst(boolean secondDateAfterFirst) {
+        this.secondDateAfterFirst = secondDateAfterFirst;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -385,6 +398,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private String todayText;
 
         private boolean curved;
+        private boolean secondDateAfterFirst;
         private boolean mustBeOnFuture;
         private int minutesStep = STEP_MINUTES_DEFAULT;
 
@@ -513,6 +527,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public DoubleDateAndTimePickerDialog.Builder secondDateAfterFirst(boolean secondDateAfterFirst) {
+            this.secondDateAfterFirst = secondDateAfterFirst;
+            return this;
+        }
+
         public DoubleDateAndTimePickerDialog build() {
             final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -529,7 +548,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setTab0Date(tab0Date)
                     .setTab1Date(tab1Date)
                     .setDayFormatter(dayFormatter)
-                    .setMustBeOnFuture(mustBeOnFuture);
+                    .setMustBeOnFuture(mustBeOnFuture)
+                    .setSecondDateAfterFirst(secondDateAfterFirst);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
