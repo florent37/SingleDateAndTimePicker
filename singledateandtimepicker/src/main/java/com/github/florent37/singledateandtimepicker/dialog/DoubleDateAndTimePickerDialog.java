@@ -43,6 +43,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private Date tab1Date;
     private boolean secondDateAfterFirst;
+    private boolean tab0Days, tab0Hours, tab0Minutes;
+    private boolean tab1Days, tab1Hours, tab1Minutes;
 
     private DoubleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -180,6 +182,13 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab0.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_NORMAL);
             pickerTab1.setVisibleItemCount(DEFAULT_ITEM_COUNT_MODE_NORMAL);
         }
+
+        pickerTab0.setDisplayDays(tab0Days);
+        pickerTab0.setDisplayHours(tab0Hours);
+        pickerTab0.setDisplayMinutes(tab0Minutes);
+        pickerTab0.setDisplayDays(tab1Days);
+        pickerTab0.setDisplayHours(tab1Hours);
+        pickerTab0.setDisplayMinutes(tab1Minutes);
 
         pickerTab0.setMustBeOnFuture(mustBeOnFuture);
         pickerTab1.setMustBeOnFuture(mustBeOnFuture);
@@ -325,6 +334,36 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public DoubleDateAndTimePickerDialog setTab0DisplayDays(boolean tab0Days) {
+        this.tab0Days = tab0Days;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab0DisplayHours(boolean tab0Hours) {
+        this.tab0Hours = tab0Hours;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab0DisplayMinutes(boolean tab0Minutes) {
+        this.tab0Minutes = tab0Minutes;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab1DisplayDays(boolean tab1Days) {
+        this.tab1Days = tab1Days;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab1DisplayHours(boolean tab1Hours) {
+        this.tab1Hours = tab1Hours;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTab1DisplayMinutes(boolean tab1Minutes) {
+        this.tab1Minutes = tab1Minutes;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -426,6 +465,13 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private Date tab0Date;
         @Nullable
         private Date tab1Date;
+
+        private boolean tab0Days = true;
+        private boolean tab0Hours = true;
+        private boolean tab0Minutes = true;
+        private boolean tab1Days = true;
+        private boolean tab1Hours = true;
+        private boolean tab1Minutes = true;
 
         public Builder(Context context) {
             this.context = context;
@@ -532,6 +578,36 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public DoubleDateAndTimePickerDialog.Builder setTab0DisplayDays(boolean tab0Days) {
+            this.tab0Days = tab0Days;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder setTab0DisplayHours(boolean tab0Hours) {
+            this.tab0Hours = tab0Hours;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder setTab0DisplayMinutes(boolean tab0Minutes) {
+            this.tab0Minutes = tab0Minutes;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder setTab1DisplayDays(boolean tab1Days) {
+            this.tab1Days = tab1Days;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder setTab1DisplayHours(boolean tab1Hours) {
+            this.tab1Hours = tab1Hours;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder setTab1DisplayMinutes(boolean tab1Minutes) {
+            this.tab1Minutes = tab1Minutes;
+            return this;
+        }
+
         public DoubleDateAndTimePickerDialog build() {
             final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -545,6 +621,12 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setMaxDateRange(maxDate)
                     .setMinDateRange(minDate)
                     .setDefaultDate(defaultDate)
+                    .setTab0DisplayDays(tab0Days)
+                    .setTab0DisplayHours(tab0Hours)
+                    .setTab0DisplayMinutes(tab0Minutes)
+                    .setTab1DisplayDays(tab1Days)
+                    .setTab1DisplayHours(tab1Hours)
+                    .setTab1DisplayMinutes(tab1Minutes)
                     .setTab0Date(tab0Date)
                     .setTab1Date(tab1Date)
                     .setDayFormatter(dayFormatter)
