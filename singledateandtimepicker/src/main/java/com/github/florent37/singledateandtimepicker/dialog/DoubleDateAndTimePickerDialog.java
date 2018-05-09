@@ -186,9 +186,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         pickerTab0.setDisplayDays(tab0Days);
         pickerTab0.setDisplayHours(tab0Hours);
         pickerTab0.setDisplayMinutes(tab0Minutes);
-        pickerTab0.setDisplayDays(tab1Days);
-        pickerTab0.setDisplayHours(tab1Hours);
-        pickerTab0.setDisplayMinutes(tab1Minutes);
+        pickerTab1.setDisplayDays(tab1Days);
+        pickerTab1.setDisplayHours(tab1Hours);
+        pickerTab1.setDisplayMinutes(tab1Minutes);
 
         pickerTab0.setMustBeOnFuture(mustBeOnFuture);
         pickerTab1.setMustBeOnFuture(mustBeOnFuture);
