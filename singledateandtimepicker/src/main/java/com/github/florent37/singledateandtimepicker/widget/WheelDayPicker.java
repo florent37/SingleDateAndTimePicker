@@ -1,7 +1,6 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -14,13 +13,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.DAYS_PADDING;
 
 public class WheelDayPicker extends WheelPicker<String> {
 
     private SimpleDateFormat simpleDateFormat;
 
     private OnDaySelectedListener onDaySelectedListener;
+
+    private String todayText;
 
     public WheelDayPicker(Context context) {
         super(context);
@@ -33,19 +34,15 @@ public class WheelDayPicker extends WheelPicker<String> {
     @Override
     protected void init() {
         simpleDateFormat = new SimpleDateFormat("EEE d MMM", getCurrentLocale());
+        todayText = getResources().getString(R.string.picker_today);
     }
 
     @Override
     protected String initDefault() {
-        return getTodayText();
+        return todayText;
     }
 
-    @NonNull
-    private String getTodayText() {
-        return getResources().getString(R.string.picker_today);
-    }
-
-    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
+    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat) {
         this.simpleDateFormat = simpleDateFormat;
         adapter.setData(generateAdapterValues());
         notifyDatasetChanged();
@@ -72,7 +69,7 @@ public class WheelDayPicker extends WheelPicker<String> {
         }
 
         //today
-        days.add(getTodayText());
+        days.add(todayText);
 
         instance = Calendar.getInstance();
 
@@ -101,9 +98,9 @@ public class WheelDayPicker extends WheelPicker<String> {
         final String itemText = adapter.getItemText(itemPosition);
         final Calendar todayCalendar = Calendar.getInstance();
 
-        final int todayPosition = adapter.getData().indexOf(getTodayText());
+        final int todayPosition = adapter.getData().indexOf(todayText);
 
-        if (getTodayText().equals(itemText)) {
+        if (todayText.equals(itemText)) {
             date = todayCalendar.getTime();
         } else {
             try {
@@ -127,11 +124,9 @@ public class WheelDayPicker extends WheelPicker<String> {
     }
 
     public void setTodayText(String todayText) {
-        int index = adapter.getData().indexOf(getTodayText());
-        if (index != -1) {
-            adapter.getData().set(index, todayText);
-            notifyDatasetChanged();
-        }
+        this.todayText = todayText;
+        adapter.setData(generateAdapterValues());
+        notifyDatasetChanged();
     }
 
     public interface OnDaySelectedListener {
