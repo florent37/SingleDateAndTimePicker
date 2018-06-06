@@ -1,23 +1,23 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
+import com.github.florent37.wheelpicker.WheelAdapter;
+import com.github.florent37.wheelpicker.WheelPicker;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.github.florent37.singledateandtimepicker.DateHelper.getHour;
 import static com.github.florent37.singledateandtimepicker.DateHelper.today;
-import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_AM_PM;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_DEFAULT;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_HOUR_DEFAULT;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_HOURS_DEFAULT;
 
-public class WheelHourPicker extends WheelPicker<String> {
+public class WheelHourPicker extends WheelPicker<String> implements DateTimeWheelPicker {
 
     private int minHour;
     private int maxHour;
@@ -29,64 +29,42 @@ public class WheelHourPicker extends WheelPicker<String> {
 
     public WheelHourPicker(Context context) {
         super(context);
+        init();
     }
 
     public WheelHourPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
-    @Override
     protected void init() {
         isAmPm = false;
         minHour = MIN_HOUR_DEFAULT;
         maxHour = MAX_HOUR_DEFAULT;
         hoursStep = STEP_HOURS_DEFAULT;
+        setAdapter(new WheelAdapter(generateAdapterValues()));
+        setDefault(formatValue(getHour(today(), isAmPm)));
     }
 
-    @Override
-    protected String initDefault() {
-        return String.valueOf(getHour(today(), isAmPm));
-    }
-
-    @Override
     protected List<String> generateAdapterValues() {
         final List<String> hours = new ArrayList<>();
 
         if (isAmPm) {
-            hours.add(getFormattedValue(12));
+            hours.add(formatValue(12));
             for (int hour = hoursStep; hour < maxHour; hour += hoursStep) {
-                hours.add(getFormattedValue(hour));
+                hours.add(formatValue(hour));
             }
         } else {
             for (int hour = minHour; hour <= maxHour; hour += hoursStep) {
-                hours.add(getFormattedValue(hour));
+                hours.add(formatValue(hour));
             }
         }
 
         return hours;
     }
 
-    @Override
-    public int findIndexOfDate(@NonNull Date date) {
-        if (isAmPm) {
-            final int hours = date.getHours();
-            if (hours >= MAX_HOUR_AM_PM) {
-                Date copy = new Date(date.getTime());
-                copy.setHours(hours % MAX_HOUR_AM_PM);
-                return super.findIndexOfDate(copy);
-            }
-        }
-        return super.findIndexOfDate(date);
-    }
-
-    protected String getFormattedValue(Object value) {
-        Object valueItem = value;
-        if (value instanceof Date) {
-            Calendar instance = Calendar.getInstance();
-            instance.setTime((Date) value);
-            valueItem = instance.get(Calendar.HOUR_OF_DAY);
-        }
-        return String.format(getCurrentLocale(), FORMAT, valueItem);
+    private String formatValue(int value) {
+        return String.format(getCurrentLocale(), FORMAT, value);
     }
 
     @Override
@@ -97,8 +75,8 @@ public class WheelHourPicker extends WheelPicker<String> {
                 hour -= MAX_HOUR_AM_PM;
             }
 
-            super.setDefault(getFormattedValue(hour));
-        } catch (Exception e){
+            super.setDefault(formatValue(hour));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -110,7 +88,7 @@ public class WheelHourPicker extends WheelPicker<String> {
         } else {
             setMaxHour(MAX_HOUR_DEFAULT);
         }
-        updateAdapter();
+        setAdapter(new WheelAdapter(generateAdapterValues()));
     }
 
     public void setMaxHour(int maxHour) {
@@ -177,6 +155,24 @@ public class WheelHourPicker extends WheelPicker<String> {
         if (finishedLoopListener != null) {
             finishedLoopListener.onFinishedLoop(this);
         }
+    }
+
+    @Override
+    public void setDefaultDate(Date date) {
+        setDefault(formatValue(getHour(date, isAmPm)));
+    }
+
+    @Override
+    public void selectDate(Date date) {
+        int position = findIndexOfDate(date);
+        scrollTo(position);
+        setSelectedItemPosition(position);
+    }
+
+    @Override
+    public int findIndexOfDate(Date date) {
+        String value = formatValue(getHour(date, isAmPm));
+        return adapter.getItemPosition(value);
     }
 
     public interface FinishedLoopListener {

@@ -12,11 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.github.florent37.singledateandtimepicker.widget.DateTimeWheelPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelHourPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
-import com.github.florent37.singledateandtimepicker.widget.WheelPicker;
+import com.github.florent37.wheelpicker.WheelPicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public static final boolean IS_CYCLIC_DEFAULT = true;
     public static final boolean IS_CURVED_DEFAULT = false;
-    public static final boolean MUST_BE_ON_FUTUR_DEFAULT = false;
+    public static final boolean MUST_BE_ON_FUTURE_DEFAULT = false;
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
     private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
     private static final int PM_HOUR_ADDITION = 12;
@@ -90,12 +91,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         inflate(context, R.layout.single_day_picker, this);
 
-        //yearsPicker = (WeelYearPicker) findViewById(R.id.yearPicker);
-        //monthPicker = (WeelMonthPicker) findViewById(R.id.monthPicker);
-        daysPicker = (WheelDayPicker) findViewById(R.id.daysPicker);
-        minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
-        hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
-        amPmPicker = (WheelAmPmPicker) findViewById(R.id.amPmPicker);
+        //yearsPicker = findViewById(R.id.yearPicker);
+        //monthPicker = findViewById(R.id.monthPicker);
+        daysPicker = findViewById(R.id.daysPicker);
+        minutesPicker = findViewById(R.id.minutesPicker);
+        hoursPicker = findViewById(R.id.hoursPicker);
+        amPmPicker = findViewById(R.id.amPmPicker);
         dtSelector = findViewById(R.id.dtSelector);
 
         pickers.addAll(Arrays.asList(
@@ -287,7 +288,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void run() {
                 if (minDate != null && isBeforeMinDate(getDate())) {
                     for (WheelPicker p : pickers) {
-                        p.scrollTo(p.findIndexOfDate(minDate));
+                        if (p instanceof DateTimeWheelPicker) {
+                            p.scrollTo(((DateTimeWheelPicker) p).findIndexOfDate(minDate));
+                        }
                     }
                 }
             }
@@ -300,7 +303,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void run() {
                 if (maxDate != null && isAfterMaxDate(getDate())) {
                     for (WheelPicker p : pickers) {
-                        p.scrollTo(p.findIndexOfDate(maxDate));
+                        if (p instanceof DateTimeWheelPicker) {
+                            p.scrollTo(((DateTimeWheelPicker) p).findIndexOfDate(maxDate));
+                        }
                     }
                 }
             }
@@ -357,8 +362,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         if (date != null) {
             this.defaultDate = date;
 
-            for (WheelPicker picker : pickers) {
-                picker.setDefaultDate(defaultDate);
+            for (WheelPicker p : pickers) {
+                if (p instanceof DateTimeWheelPicker) {
+                    ((DateTimeWheelPicker) p).setDefaultDate(defaultDate);
+                }
             }
         }
     }
@@ -369,8 +376,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
 
         final Date date = calendar.getTime();
-        for (WheelPicker picker : pickers) {
-            picker.selectDate(date);
+        for (WheelPicker p : pickers) {
+            if (p instanceof DateTimeWheelPicker) {
+                ((DateTimeWheelPicker) p).selectDate(date);
+            }
         }
     }
 
@@ -406,7 +415,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setTextSize(a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(R.dimen.WheelItemTextSize)));
         setCurved(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT));
         setCyclic(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT));
-        setMustBeOnFuture(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT));
+        setMustBeOnFuture(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTURE_DEFAULT));
         setVisibleItemCount(a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT));
 
         displayMonth = a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonth, displayMonth);

@@ -1,4 +1,4 @@
-package com.github.florent37.singledateandtimepicker.widget;
+package com.github.florent37.wheelpicker;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,7 +15,6 @@ import android.graphics.Region;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,14 +23,11 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
-import com.github.florent37.singledateandtimepicker.R;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public abstract class WheelPicker<V> extends View {
+
+    public static final int NO_POSITION = -1;
 
     public static final int SCROLL_STATE_IDLE = 0;
     public static final int SCROLL_STATE_DRAGGING = 1;
@@ -39,12 +35,13 @@ public abstract class WheelPicker<V> extends View {
     public static final int ALIGN_CENTER = 0;
     public static final int ALIGN_LEFT = 1;
     public static final int ALIGN_RIGHT = 2;
+
     protected final static String FORMAT = "%1$02d"; // two digits
     private final Handler handler = new Handler();
     protected V defaultValue;
     protected int lastScrollPosition;
     protected Listener<WheelPicker, V> listener;
-    protected Adapter<V> adapter = new Adapter<>();
+    protected WheelAdapter<V> adapter = new WheelAdapter<>();
     private Paint paint;
     private Scroller scroller;
     private VelocityTracker tracker;
@@ -71,8 +68,8 @@ public abstract class WheelPicker<V> extends View {
     private int mItemAlign;
     private int mItemHeight, mHalfItemHeight;
     private int mHalfWheelHeight;
-    private int selectedItemPosition;
-    private int currentItemPosition;
+    private int selectedItemPosition = NO_POSITION;
+    private int currentItemPosition = NO_POSITION;
     private int minFlingY, maxFlingY;
     private int minimumVelocity = 50, maximumVelocity = 8000;
     private int wheelCenterX, wheelCenterY;
@@ -170,21 +167,7 @@ public abstract class WheelPicker<V> extends View {
             maximumVelocity = conf.getScaledMaximumFlingVelocity();
             touchSlop = conf.getScaledTouchSlop();
         }
-
-        init();
-        defaultValue = initDefault();
-        adapter.setData(generateAdapterValues());
-        currentItemPosition = adapter.getItemPosition(defaultValue);
-        selectedItemPosition = currentItemPosition;
     }
-
-    protected abstract void init();
-    protected abstract V initDefault();
-    protected void updateAdapter(){
-        adapter.setData(generateAdapterValues());
-        notifyDatasetChanged();
-    }
-    protected abstract List<V> generateAdapterValues();
 
     @Override
     protected void onAttachedToWindow() {
@@ -237,25 +220,13 @@ public abstract class WheelPicker<V> extends View {
         }
     }
 
-    protected void updateDefault() {
-        setSelectedItemPosition(getDefaultItemPosition());
-    }
-
     public void setDefault(V defaultValue) {
         this.defaultValue = defaultValue;
-        updateDefault();
-    }
-
-    public void setDefaultDate(Date date){
-        if (adapter != null && adapter.getItemCount() > 0) {
-            final int indexOfDate = findIndexOfDate(date);
-            this.defaultValue = adapter.getData().get(indexOfDate);
-            setSelectedItemPosition(indexOfDate);
+        currentItemPosition = adapter.getItemPosition(defaultValue);
+        if (currentItemPosition == NO_POSITION) {
+            currentItemPosition = 0;
         }
-    }
-
-    public void selectDate(Date date){
-        setSelectedItemPosition(findIndexOfDate(date));
+        setSelectedItemPosition(currentItemPosition);
     }
 
     public void setListener(Listener listener) {
@@ -637,7 +608,7 @@ public abstract class WheelPicker<V> extends View {
         if (lastScrollPosition != position) {
             if (listener != null) {
                 listener.onCurrentScrolled(this, position, item);
-                if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0){
+                if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0) {
                     onFinishedLoop();
                 }
             }
@@ -645,12 +616,8 @@ public abstract class WheelPicker<V> extends View {
         }
     }
 
-    protected void onFinishedLoop(){
-
-    }
-
-    protected String getFormattedValue(Object value) {
-        return String.valueOf(value);
+    protected void onFinishedLoop() {
+        // No default action
     }
 
     public int getVisibleItemCount() {
@@ -700,7 +667,7 @@ public abstract class WheelPicker<V> extends View {
         return adapter.getData().indexOf(defaultValue);
     }
 
-    public void setAdapter(Adapter adapter) {
+    public void setAdapter(WheelAdapter adapter) {
         this.adapter = adapter;
 
         updateItemTextAlign();
@@ -900,55 +867,6 @@ public abstract class WheelPicker<V> extends View {
         postInvalidate();
     }
 
-    /**
-     * TODO: {@link Adapter#data} could contain 'Data' class objects. 'Data' could be composed of
-     * a String: displayedValue (the value to be displayed in the wheel) and
-     * a Date/Calendar: comparisonDate (a reference date/calendar that will help to find the index).
-     * This could clean this method and {@link #getFormattedValue(Object)}.
-     * <p>
-     * Finds the index in the wheel for a date
-     *
-     * @param date the targeted date
-     * @return the index closed to {@code date}. Returns 0 if not found.
-     */
-    public int findIndexOfDate(@NonNull Date date) {
-        String formatItem = getFormattedValue(date);
-
-        if (this instanceof WheelDayPicker) {
-            String today = getFormattedValue(new Date());
-            if (today.equals(formatItem)) {
-                return getDefaultItemPosition();
-            }
-        }
-
-        int formatItemInt = Integer.MIN_VALUE;
-        try {
-            formatItemInt = Integer.parseInt(formatItem);
-        } catch (NumberFormatException e) {
-        }
-
-        final int itemCount = adapter.getItemCount();
-        int index = 0;
-        for (int i = 0; i < itemCount; ++i) {
-            final String object = adapter.getItemText(i);
-
-            if (formatItemInt != Integer.MIN_VALUE) {
-                // displayed values are Integers
-                int objectInt = Integer.parseInt(object);
-                if (this instanceof WheelHourPicker && ((WheelHourPicker) this).isAmPm) {
-                    // In case of hours and AM/PM mode, apply modulo 12
-                    objectInt = objectInt % 12;
-                }
-                if (objectInt <= formatItemInt) {
-                    index = i;
-                }
-            } else if (formatItem.equals(object)) {
-                return i;
-            }
-        }
-        return index;
-    }
-
     @TargetApi(Build.VERSION_CODES.N)
     public Locale getCurrentLocale() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -1025,53 +943,4 @@ public abstract class WheelPicker<V> extends View {
         void onCurrentScrolled(PICKER picker, int position, V value);
     }
 
-    public static class Adapter<V> implements BaseAdapter {
-        private List<V> data;
-
-        public Adapter() {
-            this(new ArrayList<V>());
-        }
-
-        public Adapter(List<V> data) {
-            this.data = new ArrayList<V>();
-            this.data.addAll(data);
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-
-        @Override
-        public V getItem(int position) {
-            final int itemCount = getItemCount();
-            return data.get((position + itemCount) % itemCount);
-        }
-
-        @Override
-        public String getItemText(int position) {
-            return String.valueOf(data.get(position));
-        }
-
-        public List<V> getData() {
-            return data;
-        }
-
-        public void setData(List<V> data) {
-            this.data.clear();
-            this.data.addAll(data);
-        }
-
-        public void addData(List<V> data) {
-            this.data.addAll(data);
-        }
-
-        public int getItemPosition(V value) {
-            int position = -1;
-            if (data != null) {
-                return data.indexOf(value);
-            }
-            return position;
-        }
-    }
 }
