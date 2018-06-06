@@ -1,0 +1,17 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.sdk
+
+    defaultConfig {
+        minSdkVersion project.minSdk
+        targetSdkVersion project.sdk
+        versionCode 1
+        versionName "1.0"
+    }
+
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:' + project.supportVersion
+}

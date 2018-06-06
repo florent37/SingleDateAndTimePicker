@@ -1,13 +1,12 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
+import com.github.florent37.wheelpicker.WheelAdapter;
+import com.github.florent37.wheelpicker.WheelPicker;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndT
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_MINUTES;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
-public class WheelMinutePicker extends WheelPicker<String> {
+public class WheelMinutePicker extends WheelPicker<String> implements DateTimeWheelPicker {
 
     private int stepMinutes;
 
@@ -24,62 +23,36 @@ public class WheelMinutePicker extends WheelPicker<String> {
 
     public WheelMinutePicker(Context context) {
         super(context);
+        init();
     }
 
     public WheelMinutePicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
-    @Override
     protected void init() {
         stepMinutes = STEP_MINUTES_DEFAULT;
+        setAdapter(new WheelAdapter(generateAdapterValues()));
+        setDefault(formatMinutes(new Date().getMinutes()));
     }
 
-    @Override
-    protected String initDefault() {
-        return getFormattedValue(Calendar.getInstance().get(Calendar.MINUTE));
-    }
-
-    @Override
     protected List<String> generateAdapterValues() {
         final List<String> minutes = new ArrayList<>();
         for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += stepMinutes) {
-            minutes.add(getFormattedValue(min));
+            minutes.add(formatMinutes(min));
         }
         return minutes;
     }
 
-    private int findIndexOfMinute(int minute) {
-        final int itemCount = adapter.getItemCount();
-        for (int i = 0; i < itemCount; ++i) {
-            final String object = adapter.getItemText(i);
-            final Integer value = Integer.valueOf(object);
-            if (minute < value) {
-                return i - 1;
-            }
-        }
-        return 0;
-    }
-
-    @Override
-    public int findIndexOfDate(@NonNull Date date) {
-        return findIndexOfMinute(DateHelper.getMinuteOf(date));
-    }
-
-    protected String getFormattedValue(Object value) {
-        Object valueItem = value;
-        if (value instanceof Date) {
-            final Calendar instance = Calendar.getInstance();
-            instance.setTime((Date) value);
-            valueItem = instance.get(Calendar.MINUTE);
-        }
-        return String.format(getCurrentLocale(), FORMAT, valueItem);
+    private String formatMinutes(int minutes) {
+        return String.format(getCurrentLocale(), FORMAT, minutes);
     }
 
     public void setStepMinutes(int stepMinutes) {
         if (stepMinutes < 60 && stepMinutes > 0) {
             this.stepMinutes = stepMinutes;
-            updateAdapter();
+            setAdapter(new WheelAdapter(generateAdapterValues()));
         }
     }
 
@@ -115,6 +88,24 @@ public class WheelMinutePicker extends WheelPicker<String> {
         if (onFinishedLoopListener != null) {
             onFinishedLoopListener.onFinishedLoop(this);
         }
+    }
+
+    @Override
+    public void setDefaultDate(Date date) {
+        setDefault(formatMinutes(date.getMinutes()));
+    }
+
+    @Override
+    public void selectDate(Date date) {
+        int position = findIndexOfDate(date);
+        scrollTo(position);
+        setSelectedItemPosition(position);
+    }
+
+    @Override
+    public int findIndexOfDate(Date date) {
+        String value = formatMinutes(date.getMinutes());
+        return adapter.getItemPosition(value);
     }
 
     public interface OnMinuteChangedListener {

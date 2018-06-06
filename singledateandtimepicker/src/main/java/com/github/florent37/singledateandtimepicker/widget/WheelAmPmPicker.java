@@ -1,21 +1,19 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
+import com.github.florent37.wheelpicker.WheelAdapter;
+import com.github.florent37.wheelpicker.WheelPicker;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WheelAmPmPicker extends WheelPicker<String> {
+public class WheelAmPmPicker extends WheelPicker<String> implements DateTimeWheelPicker {
 
     public static final int INDEX_AM = 0;
     public static final int INDEX_PM = 1;
@@ -25,42 +23,29 @@ public class WheelAmPmPicker extends WheelPicker<String> {
 
     public WheelAmPmPicker(Context context) {
         super(context);
+        init();
     }
 
     public WheelAmPmPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
-    @Override
     protected void init() {
+        setAdapter(new WheelAdapter(generateAdapterValues()));
 
-    }
-
-    @Override
-    protected String initDefault() {
         if (DateHelper.getHour(DateHelper.today(), true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
-            return getContext().getString(R.string.picker_pm);
+            setDefault(getContext().getString(R.string.picker_pm));
         } else {
-            return getContext().getString(R.string.picker_am);
+            setDefault(getContext().getString(R.string.picker_am));
         }
     }
 
-    @Override
-    protected List<String> generateAdapterValues(){
+    protected List<String> generateAdapterValues() {
         return Arrays.asList(
                 getContext().getString(R.string.picker_am),
                 getContext().getString(R.string.picker_pm)
         );
-    }
-
-    @Override
-    public int findIndexOfDate(@NonNull Date date) {
-        final int hours = date.getHours();
-        if (hours >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
-            return 1;
-        } else {
-            return 0;
-        }
     }
 
     public void setAmPmListener(@Nullable AmPmListener amPmListener) {
@@ -85,22 +70,37 @@ public class WheelAmPmPicker extends WheelPicker<String> {
         return position == INDEX_AM;
     }
 
-    @Override
-    protected String getFormattedValue(Object value) {
-        if (value instanceof Date) {
-            Calendar instance = Calendar.getInstance();
-            instance.setTime((Date) value);
-            return getResources().getString(instance.get(Calendar.AM_PM) == Calendar.PM ? R.string.picker_pm : R.string.picker_am);
-        }
-        return String.valueOf(value);
-    }
-
     public boolean isAm() {
         return getCurrentItemPosition() == INDEX_AM;
     }
 
     public boolean isPm() {
         return getCurrentItemPosition() == INDEX_PM;
+    }
+
+    @Override
+    public void setDefaultDate(Date date) {
+        if (DateHelper.getHour(date, true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
+            setDefault(getContext().getString(R.string.picker_pm));
+        } else {
+            setDefault(getContext().getString(R.string.picker_am));
+        }
+    }
+
+    @Override
+    public void selectDate(Date date) {
+        int position = findIndexOfDate(date);
+        scrollTo(position);
+        setSelectedItemPosition(position);
+    }
+
+    @Override
+    public int findIndexOfDate(Date date) {
+        if (DateHelper.getHour(date, true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
+            return adapter.getItemPosition(getContext().getString(R.string.picker_pm));
+        } else {
+            return adapter.getItemPosition(getContext().getString(R.string.picker_am));
+        }
     }
 
     public interface AmPmListener {

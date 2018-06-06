@@ -3,7 +3,8 @@ package com.github.florent37.singledateandtimepicker.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
+import com.github.florent37.wheelpicker.WheelAdapter;
+import com.github.florent37.wheelpicker.WheelPicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,10 +13,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getMonth;
 import static com.github.florent37.singledateandtimepicker.DateHelper.today;
 
-public class WheelMonthPicker extends WheelPicker<String> {
+public class WheelMonthPicker extends WheelPicker<String> implements DateTimeWheelPicker {
+
+    private final SimpleDateFormat monthFormatter = new SimpleDateFormat("MMMM", Locale.getDefault());
 
     private int lastScrollPosition;
 
@@ -23,36 +25,30 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
     public WheelMonthPicker(Context context) {
         this(context, null);
+        init();
     }
 
     public WheelMonthPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
-    @Override
     protected void init() {
-
+        setAdapter(new WheelAdapter(generateAdapterValues()));
+        setDefault(monthFormatter.format(today()));
     }
 
-    @Override
-    protected List<String> generateAdapterValues(){
+    protected List<String> generateAdapterValues() {
         final List<String> monthList = new ArrayList<>();
 
-        final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", Locale.getDefault());
         final Calendar cal = Calendar.getInstance(Locale.getDefault());
 
         for (int i = 0; i < 12; i++) {
             cal.set(Calendar.MONTH, i);
-            monthList.add(month_date.format(cal.getTime()));
+            monthList.add(monthFormatter.format(cal.getTime()));
         }
 
         return monthList;
-    }
-
-
-    @Override
-    protected String initDefault() {
-        return String.valueOf(getMonth(today()));
     }
 
     public void setListener(MonthSelectedListener listener) {
@@ -74,12 +70,22 @@ public class WheelMonthPicker extends WheelPicker<String> {
         }
     }
 
-    private int convertItemToMinute(Object item) {
-        return Integer.valueOf(String.valueOf(item));
+    @Override
+    public void setDefaultDate(Date date) {
+        setDefault(monthFormatter.format(date));
     }
 
-    public int getCurrentMinute() {
-        return convertItemToMinute(adapter.getItem(getCurrentItemPosition()));
+    @Override
+    public void selectDate(Date date) {
+        int position = findIndexOfDate(date);
+        scrollTo(position);
+        setSelectedItemPosition(position);
+    }
+
+    @Override
+    public int findIndexOfDate(Date date) {
+        String value = monthFormatter.format(date);
+        return adapter.getItemPosition(value);
     }
 
     public interface MonthSelectedListener {
