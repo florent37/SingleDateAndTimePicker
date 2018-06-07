@@ -143,6 +143,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             picker.setIsAmPm(isAmPm);
         }
 
+        picker.setDisplayYears(displayYears);
+        picker.setDisplayMonths(displayMonth);
         picker.setDisplayDays(displayDays);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
@@ -283,11 +285,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean mustBeOnFuture;
         private int minutesStep = STEP_MINUTES_DEFAULT;
 
-        private boolean displayDays = true;
-        private boolean displayMinutes  = true;
+        private boolean displayDays = false;
+        private boolean displayMinutes  = false;
         private boolean displayHours  = true;
-        private boolean displayMonth = false;
-        private boolean displayYears = false;
+        private boolean displayMonth = true;
+        private boolean displayYears = true;
 
         @Nullable
         private Boolean isAmPm;

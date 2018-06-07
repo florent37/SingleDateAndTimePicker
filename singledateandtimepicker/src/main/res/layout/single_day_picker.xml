@@ -15,6 +15,24 @@
         android:orientation="horizontal"
         >
 
+        <com.github.florent37.singledateandtimepicker.widget.WheelYearPicker
+            android:id="@+id/yearPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right"
+            />
+
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker
+            android:id="@+id/monthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right"
+            />
+
+
         <com.github.florent37.singledateandtimepicker.widget.WheelDayPicker
             android:id="@+id/daysPicker"
             android:layout_width="wrap_content"
