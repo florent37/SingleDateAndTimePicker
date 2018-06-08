@@ -35,7 +35,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues(){
+    protected List<String> generateAdapterValues() {
         final List<String> monthList = new ArrayList<>();
 
         final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", Locale.getDefault());
@@ -55,7 +55,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
         return String.valueOf(getMonth(today()));
     }
 
-    public void setListener(MonthSelectedListener listener) {
+    public void setOnMonthSelectedListener(MonthSelectedListener listener) {
         this.listener = listener;
     }
 
@@ -74,12 +74,8 @@ public class WheelMonthPicker extends WheelPicker<String> {
         }
     }
 
-    private int convertItemToMinute(Object item) {
-        return Integer.valueOf(String.valueOf(item));
-    }
-
-    public int getCurrentMinute() {
-        return convertItemToMinute(adapter.getItem(getCurrentItemPosition()));
+    public int getCurrentMonth() {
+        return getCurrentItemPosition();
     }
 
     public interface MonthSelectedListener {

@@ -285,11 +285,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean mustBeOnFuture;
         private int minutesStep = STEP_MINUTES_DEFAULT;
 
-        private boolean displayDays = false;
-        private boolean displayMinutes  = false;
+        private boolean displayDays = true;
+        private boolean displayMinutes  = true;
         private boolean displayHours  = true;
-        private boolean displayMonth = true;
-        private boolean displayYears = true;
+        private boolean displayMonth = false;
+        private boolean displayYears = false;
 
         @Nullable
         private Boolean isAmPm;

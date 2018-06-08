@@ -5,19 +5,18 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class WheelYearPicker extends WheelPicker<String> {
 
     private SimpleDateFormat simpleDateFormat;
+    protected int minYear;
+    protected int maxYear;
 
     private OnYearSelectedListener onYearSelectedListener;
 
@@ -31,7 +30,12 @@ public class WheelYearPicker extends WheelPicker<String> {
 
     @Override
     protected void init() {
-        simpleDateFormat = new SimpleDateFormat("EEE d MMM", getCurrentLocale());
+        simpleDateFormat = new SimpleDateFormat("YYYY", getCurrentLocale());
+
+        Calendar instance = Calendar.getInstance();
+        int currentYear = instance.get(Calendar.YEAR);
+        this.minYear = currentYear - SingleDateAndTimeConstants.MIN_YEAR_DIFF;
+        this.maxYear = currentYear + SingleDateAndTimeConstants.MAX_YEAR_DIFF;
     }
 
     @Override
@@ -44,19 +48,22 @@ public class WheelYearPicker extends WheelPicker<String> {
         return getResources().getString(R.string.picker_today);
     }
 
-    public WheelYearPicker setDayFormatter(SimpleDateFormat simpleDateFormat) {
-        this.simpleDateFormat = simpleDateFormat;
-        adapter.setData(generateAdapterValues());
-        notifyDatasetChanged();
-        return this;
-    }
-
     @Override
     protected void onItemSelected(int position, String item) {
         if (onYearSelectedListener != null) {
-            final Date date = convertItemToDate(position);
-            onYearSelectedListener.onYearSelected(this, position, item, date);
+            final int year = convertItemToYear(position);
+            onYearSelectedListener.onYearSelected(this, position, year);
         }
+    }
+
+    public void setMaxYear(int maxYear) {
+        this.maxYear = maxYear;
+        notifyDatasetChanged();
+    }
+
+    public void setMinYear(int minYear) {
+        this.minYear = minYear;
+        notifyDatasetChanged();
     }
 
     @Override
@@ -64,10 +71,9 @@ public class WheelYearPicker extends WheelPicker<String> {
         final List<String> years = new ArrayList<>();
 
         final Calendar instance = Calendar.getInstance();
-        int currentYear = instance.get(Calendar.YEAR);
-        instance.set(Calendar.YEAR, currentYear - 100);
+        instance.set(Calendar.YEAR, minYear-1);
 
-        for (int i = currentYear - 100; i < currentYear + 100; i++) {
+        for (int i = minYear; i <= maxYear; i++) {
             instance.add(Calendar.YEAR, 1);
             years.add(getFormattedValue(instance.getTime()));
         }
@@ -83,49 +89,15 @@ public class WheelYearPicker extends WheelPicker<String> {
         this.onYearSelectedListener = onYearSelectedListener;
     }
 
-    public Date getCurrentDate() {
-        return convertItemToDate(super.getCurrentItemPosition());
+    public int getCurrentYear() {
+        return convertItemToYear(super.getCurrentItemPosition());
     }
 
-    private Date convertItemToDate(int itemPosition) {
-        Date date = null;
-        final String itemText = adapter.getItemText(itemPosition);
-        final Calendar todayCalendar = Calendar.getInstance();
-
-        final int todayPosition = adapter.getData().indexOf(getTodayText());
-
-        if (getTodayText().equals(itemText)) {
-            date = todayCalendar.getTime();
-        } else {
-            try {
-                date = simpleDateFormat.parse(itemText);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (date != null) {
-            //try to know the year
-            final Calendar dateCalendar = DateHelper.getCalendarOfDate(date);
-
-            todayCalendar.add(Calendar.YEAR, (itemPosition - todayPosition));
-
-            dateCalendar.set(Calendar.YEAR, todayCalendar.get(Calendar.YEAR));
-            date = dateCalendar.getTime();
-        }
-
-        return date;
-    }
-
-    public void setTodayText(String todayText) {
-        int index = adapter.getData().indexOf(getTodayText());
-        if (index != -1) {
-            adapter.getData().set(index, todayText);
-            notifyDatasetChanged();
-        }
+    private int convertItemToYear(int itemPosition) {
+        return minYear + itemPosition;
     }
 
     public interface OnYearSelectedListener {
-        void onYearSelected(WheelYearPicker picker, int position, String name, Date date);
+        void onYearSelected(WheelYearPicker picker, int position, int year);
     }
 }

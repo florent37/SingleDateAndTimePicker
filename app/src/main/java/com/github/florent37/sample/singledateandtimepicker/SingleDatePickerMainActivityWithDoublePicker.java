@@ -150,9 +150,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     public void simpleClicked() {
 
         final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 30);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 1991);
+        calendar.set(Calendar.DAY_OF_MONTH, 4); // 4. Feb. 2018
+        calendar.set(Calendar.MONTH, 1);
+        calendar.set(Calendar.YEAR, 2018);
         calendar.set(Calendar.HOUR_OF_DAY, 11);
         calendar.set(Calendar.MINUTE, 13);
 

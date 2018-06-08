@@ -28,6 +28,8 @@
             android:id="@+id/monthPicker"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             app:wheel_atmospheric="true"
             app:wheel_item_align="right"
             />

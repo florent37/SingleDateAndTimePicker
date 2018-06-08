@@ -120,6 +120,22 @@ public class SingleDateAndTimePicker extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
+        yearsPicker.setOnYearSelectedListener(new WheelYearPicker.OnYearSelectedListener() {
+            @Override
+            public void onYearSelected(WheelYearPicker picker, int position, int year) {
+                updateListener();
+                checkMinMaxDate(picker);
+            }
+        });
+
+        monthPicker.setOnMonthSelectedListener(new WheelMonthPicker.MonthSelectedListener() {
+            @Override
+            public void onMonthSelected(WheelMonthPicker picker, int monthIndex, String monthName) {
+                updateListener();
+                checkMinMaxDate(picker);
+            }
+        });
+
         daysPicker
                 .setOnDaySelectedListener(new WheelDayPicker.OnDaySelectedListener() {
                     @Override
@@ -353,8 +369,20 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final int minute = minutesPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
-        final Date dayDate = daysPicker.getCurrentDate();
-        calendar.setTime(dayDate);
+
+        if (displayDays) {
+            final Date dayDate = daysPicker.getCurrentDate();
+            calendar.setTime(dayDate);
+        } else {
+            if (displayMonth) {
+                calendar.set(Calendar.MONTH, monthPicker.getCurrentMonth());
+            }
+
+            if (displayYears) {
+                calendar.set(Calendar.YEAR, yearsPicker.getCurrentYear());
+            }
+        }
+
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
 
@@ -425,12 +453,21 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setMustBeOnFuture(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT));
         setVisibleItemCount(a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT));
 
+
         setDisplayDays(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
         setDisplayDays(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays));
         setDisplayMinutes(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes));
         setDisplayHours(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayHours, displayHours));
         setDisplayMonths(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonth, displayMonth));
         setDisplayYears(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
+
+        if (displayYears) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(this.minDate);
+            yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
+            calendar.setTime(this.maxDate);
+            yearsPicker.setMaxYear(calendar.get(Calendar.YEAR));
+        }
 
         a.recycle();
     }
