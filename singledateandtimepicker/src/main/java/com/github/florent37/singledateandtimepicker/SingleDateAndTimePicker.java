@@ -298,6 +298,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMinDate(Date minDate) {
         this.minDate = minDate;
+        setMinYear();
     }
 
     public Date getMaxDate() {
@@ -306,6 +307,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMaxDate(Date maxDate) {
         this.maxDate = maxDate;
+        setMinYear();
     }
 
     private void checkMinMaxDate(final WheelPicker picker) {
@@ -438,6 +440,17 @@ public class SingleDateAndTimePicker extends LinearLayout {
         return mustBeOnFuture;
     }
 
+    private void setMinYear() {
+
+        if (displayYears && this.minDate != null && this.maxDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(this.minDate);
+            yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
+            calendar.setTime(this.maxDate);
+            yearsPicker.setMaxYear(calendar.get(Calendar.YEAR));
+        }
+    }
+
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SingleDateAndTimePicker);
 
@@ -461,13 +474,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setDisplayMonths(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonth, displayMonth));
         setDisplayYears(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
 
-        if (displayYears) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(this.minDate);
-            yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
-            calendar.setTime(this.maxDate);
-            yearsPicker.setMaxYear(calendar.get(Calendar.YEAR));
-        }
+        setMinYear();
 
         a.recycle();
     }
