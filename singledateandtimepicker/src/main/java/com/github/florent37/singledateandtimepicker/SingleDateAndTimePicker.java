@@ -140,6 +140,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void onMonthSelected(WheelMonthPicker picker, int monthIndex, String monthName) {
                 updateListener();
                 checkMinMaxDate(picker);
+
+                if (displayDaysOfMonth) {
+                    updateDaysOfMonth();
+                }
             }
         });
 
@@ -149,6 +153,17 @@ public class SingleDateAndTimePicker extends LinearLayout {
                     public void onDayOfMonthSelected(WheelDayOfMonthPicker picker, int dayIndex) {
                         updateListener();
                         checkMinMaxDate(picker);
+                    }
+                });
+
+        daysOfMonthPicker
+                .setOnFinishedLoopListener(new WheelDayOfMonthPicker.FinishedLoopListener() {
+                    @Override
+                    public void onFinishedLoop(WheelDayOfMonthPicker picker) {
+                        if (displayMonth) {
+                            monthPicker.scrollTo(monthPicker.getCurrentItemPosition() + 1);
+                            updateDaysOfMonth();
+                        }
                     }
                 });
 
@@ -224,6 +239,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDisplayDaysOfMonth(boolean displayDaysOfMonth) {
         this.displayDaysOfMonth = displayDaysOfMonth;
         daysOfMonthPicker.setVisibility(displayDaysOfMonth ? VISIBLE : GONE);
+
+        if (displayDaysOfMonth) {
+            updateDaysOfMonth();
+        }
     }
 
     public void setDisplayDays(boolean displayDays) {
@@ -450,6 +469,15 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
+    private void updateDaysOfMonth() {
+        final Date date = getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        daysOfMonthPicker.setDaysInMonth(daysInMonth);
+        daysOfMonthPicker.updateAdapter();
+    }
+
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
         if (mustBeOnFuture) {
@@ -499,6 +527,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setMinYear();
 
         a.recycle();
+
+        if (displayDaysOfMonth) {
+            updateDaysOfMonth();
+        }
     }
 
     public interface OnDateChangedListener {

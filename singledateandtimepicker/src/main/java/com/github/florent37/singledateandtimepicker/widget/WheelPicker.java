@@ -183,7 +183,7 @@ public abstract class WheelPicker<V> extends View {
 
     protected abstract V initDefault();
 
-    protected void updateAdapter() {
+    public void updateAdapter() {
         adapter.setData(generateAdapterValues());
         notifyDatasetChanged();
     }
