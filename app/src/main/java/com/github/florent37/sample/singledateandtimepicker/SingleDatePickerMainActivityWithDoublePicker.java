@@ -167,6 +167,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 .displayHours(true)
                 .displayMinutes(true)
+                .displayDays(false)
+                .displayMonth(true)
+                .displayDaysOfMonth(true)
                 .defaultDate(defaultDate)
 
                 //.mustBeOnFuture()

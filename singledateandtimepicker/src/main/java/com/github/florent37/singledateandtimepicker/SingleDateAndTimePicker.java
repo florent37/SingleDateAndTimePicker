@@ -76,9 +76,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private Date defaultDate;
 
     private boolean displayYears = false;
-    private boolean displayMonth = true;
-    private boolean displayDaysOfMonth = true;
-    private boolean displayDays = false;
+    private boolean displayMonth = false;
+    private boolean displayDaysOfMonth = false;
+    private boolean displayDays = true;
     private boolean displayMinutes = true;
     private boolean displayHours = true;
 

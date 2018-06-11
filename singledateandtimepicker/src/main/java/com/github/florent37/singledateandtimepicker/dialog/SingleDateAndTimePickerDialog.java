@@ -47,7 +47,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             @Override
             public void onLoaded(View view) {
                 init(view);
-                if(displayListener != null){
+                if (displayListener != null) {
                     displayListener.onDisplayed(picker);
                 }
             }
@@ -139,13 +139,14 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             picker.setDefaultDate(defaultDate);
         }
 
-        if(isAmPm != null){
+        if (isAmPm != null) {
             picker.setIsAmPm(isAmPm);
         }
 
         picker.setDisplayYears(displayYears);
         picker.setDisplayMonths(displayMonth);
         picker.setDisplayDays(displayDays);
+        picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
     }
@@ -214,6 +215,12 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setDisplayDaysOfMonth(boolean displayDaysOfMonth) {
+        this.displayDaysOfMonth = displayDaysOfMonth;
+        return this;
+    }
+
+
     private SingleDateAndTimePickerDialog setDisplayMonth(boolean displayMonth) {
         this.displayMonth = displayMonth;
         return this;
@@ -251,7 +258,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     }
 
     @Override
-    public void dismiss(){
+    public void dismiss() {
         super.dismiss();
         bottomSheetHelper.dismiss();
     }
@@ -286,9 +293,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private int minutesStep = STEP_MINUTES_DEFAULT;
 
         private boolean displayDays = true;
-        private boolean displayMinutes  = true;
-        private boolean displayHours  = true;
+        private boolean displayMinutes = true;
+        private boolean displayHours = true;
         private boolean displayMonth = false;
+        private boolean displayDaysOfMonth = false;
         private boolean displayYears = false;
 
         @Nullable
@@ -370,6 +378,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder displayDaysOfMonth(boolean displayDaysOfMonth) {
+            this.displayDaysOfMonth = displayDaysOfMonth;
+            return this;
+        }
+
         public Builder displayMonth(boolean displayMonth) {
             this.displayMonth = displayMonth;
             return this;
@@ -438,6 +451,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDisplayHours(displayHours)
                     .setDisplayMonth(displayMonth)
                     .setDisplayYears(displayYears)
+                    .setDisplayDaysOfMonth(displayDaysOfMonth)
                     .setDisplayMinutes(displayMinutes)
                     .setDisplayDays(displayDays)
                     .setDayFormatter(dayFormatter)
@@ -459,7 +473,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                 dialog.setDisplayListener(displayListener);
             }
 
-            if(isAmPm != null){
+            if (isAmPm != null) {
                 dialog.setIsAmPm(isAmPm);
             }
 
@@ -477,8 +491,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
-        public void dismiss(){
-            if(dialog!=null)
+        public void dismiss() {
+            if (dialog != null)
                 dialog.dismiss();
         }
     }
