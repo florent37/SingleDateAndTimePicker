@@ -15,37 +15,6 @@
         android:orientation="horizontal"
         >
 
-        <com.github.florent37.singledateandtimepicker.widget.WheelYearPicker
-            android:id="@+id/yearPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:wheel_atmospheric="true"
-            app:wheel_item_align="right"
-            />
-
-
-        <com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker
-            android:id="@+id/monthPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            app:wheel_atmospheric="true"
-            app:wheel_item_align="right"
-            />
-
-
-        <com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker
-            android:id="@+id/daysOfMonthPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            app:wheel_atmospheric="true"
-            app:wheel_item_align="right"
-            />
-
-
         <com.github.florent37.singledateandtimepicker.widget.WheelDayPicker
             android:id="@+id/daysPicker"
             android:layout_width="wrap_content"
@@ -81,6 +50,34 @@
             app:wheel_visible_item_count="2"
             android:paddingLeft="30dp"
             android:layout_marginRight="15dp"
+            />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker
+            android:id="@+id/daysOfMonthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right"
+            />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker
+            android:id="@+id/monthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right"
+            />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelYearPicker
+            android:id="@+id/yearPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right"
             />
 
     </LinearLayout>

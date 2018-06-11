@@ -21,6 +21,8 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
     private MonthSelectedListener listener;
 
+    private boolean displayMonthNumbers = false;
+
     public WheelMonthPicker(Context context) {
         this(context, null);
     }
@@ -43,7 +45,11 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
         for (int i = 0; i < 12; i++) {
             cal.set(Calendar.MONTH, i);
-            monthList.add(month_date.format(cal.getTime()));
+            if (displayMonthNumbers) {
+                monthList.add(String.format("%02d", i + 1));
+            } else {
+                monthList.add(month_date.format(cal.getTime()));
+            }
         }
 
         return monthList;
@@ -72,6 +78,14 @@ public class WheelMonthPicker extends WheelPicker<String> {
             onItemSelected(position, item);
             lastScrollPosition = position;
         }
+    }
+
+    public boolean displayMonthNumbers() {
+        return displayMonthNumbers;
+    }
+
+    public void setDisplayMonthNumbers(boolean displayMonthNumbers) {
+        this.displayMonthNumbers = displayMonthNumbers;
     }
 
     public int getCurrentMonth() {

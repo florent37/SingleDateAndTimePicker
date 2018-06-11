@@ -149,6 +149,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
+        picker.setDisplayMonthNumbers(displayMonthNumbers);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -207,6 +208,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setDisplayMinutes(boolean displayMinutes) {
         this.displayMinutes = displayMinutes;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setDisplayMonthNumbers(boolean displayMonthNumbers) {
+        this.displayMonthNumbers = displayMonthNumbers;
         return this;
     }
 
@@ -298,6 +304,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean displayMonth = false;
         private boolean displayDaysOfMonth = false;
         private boolean displayYears = false;
+        private boolean displayMonthNumbers = false;
 
         @Nullable
         private Boolean isAmPm;
@@ -428,6 +435,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder displayMonthNumbers(boolean displayMonthNumbers) {
+            this.displayMonthNumbers = displayMonthNumbers;
+            return this;
+        }
+
         public Builder defaultDate(Date defaultDate) {
             this.defaultDate = defaultDate;
             return this;
@@ -453,6 +465,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDisplayYears(displayYears)
                     .setDisplayDaysOfMonth(displayDaysOfMonth)
                     .setDisplayMinutes(displayMinutes)
+                    .setDisplayMonthNumbers(displayMonthNumbers)
                     .setDisplayDays(displayDays)
                     .setDayFormatter(dayFormatter)
                     .setMustBeOnFuture(mustBeOnFuture);

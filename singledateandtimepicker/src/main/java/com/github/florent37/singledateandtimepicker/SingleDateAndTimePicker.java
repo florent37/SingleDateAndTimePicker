@@ -234,6 +234,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDisplayMonths(boolean displayMonths) {
         this.displayMonth = displayMonths;
         monthPicker.setVisibility(displayMonths ? VISIBLE : GONE);
+        checkSettings();
     }
 
     public void setDisplayDaysOfMonth(boolean displayDaysOfMonth) {
@@ -243,11 +244,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
         if (displayDaysOfMonth) {
             updateDaysOfMonth();
         }
+        checkSettings();
     }
 
     public void setDisplayDays(boolean displayDays) {
         this.displayDays = displayDays;
         daysPicker.setVisibility(displayDays ? VISIBLE : GONE);
+        checkSettings();
     }
 
     public void setDisplayMinutes(boolean displayMinutes) {
@@ -261,6 +264,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         setIsAmPm(this.isAmPm);
         hoursPicker.setIsAmPm(isAmPm);
+    }
+
+    public void setDisplayMonthNumbers(boolean displayMonthNumbers) {
+        this.monthPicker.setDisplayMonthNumbers(displayMonthNumbers);
+        this.monthPicker.updateAdapter();
     }
 
     public void setTodayText(String todayText) {
@@ -423,6 +431,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
             if (displayYears) {
                 calendar.set(Calendar.YEAR, yearsPicker.getCurrentYear());
             }
+
+            if (displayDaysOfMonth) {
+                calendar.set(Calendar.DAY_OF_MONTH, daysOfMonthPicker.getCurrentDay() + 1);
+            }
         }
 
         calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -500,6 +512,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
+    private void checkSettings() {
+        if (displayDays && (displayDaysOfMonth || displayMonth)) {
+            throw new IllegalArgumentException("You can either display days with months or days and months separately");
+        }
+    }
+
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SingleDateAndTimePicker);
 
@@ -523,7 +541,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setDisplayMonths(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonth, displayMonth));
         setDisplayYears(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
         setDisplayDaysOfMonth(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDaysOfMonth, displayDaysOfMonth));
+        setDisplayMonthNumbers(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonthNumbers, monthPicker.displayMonthNumbers()));
 
+        checkSettings();
         setMinYear();
 
         a.recycle();
