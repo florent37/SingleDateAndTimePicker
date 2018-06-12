@@ -470,6 +470,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         for (WheelPicker picker : pickers) {
             picker.selectDate(date);
         }
+
+        if (displayDaysOfMonth) {
+            updateDaysOfMonth();
+        }
     }
 
     private void updateListener() {
