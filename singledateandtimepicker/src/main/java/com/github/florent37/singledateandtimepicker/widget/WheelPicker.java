@@ -918,6 +918,12 @@ public abstract class WheelPicker<V> extends View {
     public int findIndexOfDate(@NonNull Date date) {
         String formatItem = getFormattedValue(date);
 
+        if(this instanceof WheelDayOfMonthPicker){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar.get(Calendar.DAY_OF_MONTH) - 1 ;
+        }
+
         if (this instanceof WheelDayPicker) {
             String today = getFormattedValue(new Date());
             if (today.equals(formatItem)) {
