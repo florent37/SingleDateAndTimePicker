@@ -143,9 +143,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             picker.setIsAmPm(isAmPm);
         }
 
+        picker.setDisplayDays(displayDays);
         picker.setDisplayYears(displayYears);
         picker.setDisplayMonths(displayMonth);
-        picker.setDisplayDays(displayDays);
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);

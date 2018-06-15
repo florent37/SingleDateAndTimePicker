@@ -88,7 +88,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 .displayMinutes(true)
                 .displayHours(true)
-                .displayDays(false)
+                .displayDays(true)
                 //.displayMonth(true)
                 //.displayYears(true)
 
