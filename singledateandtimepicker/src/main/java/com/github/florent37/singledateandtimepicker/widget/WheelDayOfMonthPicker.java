@@ -25,7 +25,7 @@ public class WheelDayOfMonthPicker extends WheelPicker<String> {
 
     @Override
     protected void init() {
-
+        // no-op here
     }
 
     @Override
