@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="picker_today">Hôm nay</string>
+    <string name="picker_am">SA</string>
+    <string name="picker_pm">CH</string>
+</resources>
+
