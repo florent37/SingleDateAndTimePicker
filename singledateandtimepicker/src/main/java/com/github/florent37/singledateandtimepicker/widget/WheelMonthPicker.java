@@ -21,6 +21,8 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
     private MonthSelectedListener listener;
 
+    private boolean displayMonthNumbers = false;
+
     public WheelMonthPicker(Context context) {
         this(context, null);
     }
@@ -35,7 +37,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues(){
+    protected List<String> generateAdapterValues() {
         final List<String> monthList = new ArrayList<>();
 
         final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", Locale.getDefault());
@@ -43,7 +45,11 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
         for (int i = 0; i < 12; i++) {
             cal.set(Calendar.MONTH, i);
-            monthList.add(month_date.format(cal.getTime()));
+            if (displayMonthNumbers) {
+                monthList.add(String.format("%02d", i + 1));
+            } else {
+                monthList.add(month_date.format(cal.getTime()));
+            }
         }
 
         return monthList;
@@ -55,7 +61,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
         return String.valueOf(getMonth(today()));
     }
 
-    public void setListener(MonthSelectedListener listener) {
+    public void setOnMonthSelectedListener(MonthSelectedListener listener) {
         this.listener = listener;
     }
 
@@ -74,12 +80,16 @@ public class WheelMonthPicker extends WheelPicker<String> {
         }
     }
 
-    private int convertItemToMinute(Object item) {
-        return Integer.valueOf(String.valueOf(item));
+    public boolean displayMonthNumbers() {
+        return displayMonthNumbers;
     }
 
-    public int getCurrentMinute() {
-        return convertItemToMinute(adapter.getItem(getCurrentItemPosition()));
+    public void setDisplayMonthNumbers(boolean displayMonthNumbers) {
+        this.displayMonthNumbers = displayMonthNumbers;
+    }
+
+    public int getCurrentMonth() {
+        return getCurrentItemPosition();
     }
 
     public interface MonthSelectedListener {

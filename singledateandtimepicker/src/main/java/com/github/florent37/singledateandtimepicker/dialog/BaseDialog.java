@@ -50,8 +50,10 @@ public abstract class BaseDialog {
     protected boolean displayDays;
     protected boolean displayMinutes;
     protected boolean displayHours;
+    protected boolean displayDaysOfMonth;
     protected boolean displayMonth;
     protected boolean displayYears;
+    protected boolean displayMonthNumbers;
 
     @Nullable
     protected Boolean isAmPm;

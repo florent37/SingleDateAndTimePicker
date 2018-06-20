@@ -27,6 +27,7 @@ import android.widget.Scroller;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -179,11 +180,14 @@ public abstract class WheelPicker<V> extends View {
     }
 
     protected abstract void init();
+
     protected abstract V initDefault();
-    protected void updateAdapter(){
+
+    public void updateAdapter() {
         adapter.setData(generateAdapterValues());
         notifyDatasetChanged();
     }
+
     protected abstract List<V> generateAdapterValues();
 
     @Override
@@ -246,7 +250,7 @@ public abstract class WheelPicker<V> extends View {
         updateDefault();
     }
 
-    public void setDefaultDate(Date date){
+    public void setDefaultDate(Date date) {
         if (adapter != null && adapter.getItemCount() > 0) {
             final int indexOfDate = findIndexOfDate(date);
             this.defaultValue = adapter.getData().get(indexOfDate);
@@ -254,7 +258,7 @@ public abstract class WheelPicker<V> extends View {
         }
     }
 
-    public void selectDate(Date date){
+    public void selectDate(Date date) {
         setSelectedItemPosition(findIndexOfDate(date));
     }
 
@@ -637,7 +641,7 @@ public abstract class WheelPicker<V> extends View {
         if (lastScrollPosition != position) {
             if (listener != null) {
                 listener.onCurrentScrolled(this, position, item);
-                if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0){
+                if (lastScrollPosition == adapter.getItemCount() - 1 && position == 0) {
                     onFinishedLoop();
                 }
             }
@@ -645,7 +649,7 @@ public abstract class WheelPicker<V> extends View {
         }
     }
 
-    protected void onFinishedLoop(){
+    protected void onFinishedLoop() {
 
     }
 
@@ -914,11 +918,30 @@ public abstract class WheelPicker<V> extends View {
     public int findIndexOfDate(@NonNull Date date) {
         String formatItem = getFormattedValue(date);
 
+        if(this instanceof WheelDayOfMonthPicker){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar.get(Calendar.DAY_OF_MONTH) - 1 ;
+        }
+
         if (this instanceof WheelDayPicker) {
             String today = getFormattedValue(new Date());
             if (today.equals(formatItem)) {
                 return getDefaultItemPosition();
             }
+        }
+
+        if (this instanceof WheelMonthPicker) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar.get(Calendar.MONTH);
+        }
+
+        if (this instanceof WheelYearPicker) {
+            WheelYearPicker yearPick = (WheelYearPicker) this;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return calendar.get(Calendar.YEAR) - yearPick.minYear;
         }
 
         int formatItemInt = Integer.MIN_VALUE;

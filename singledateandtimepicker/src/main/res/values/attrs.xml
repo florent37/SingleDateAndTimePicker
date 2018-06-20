@@ -40,7 +40,9 @@
         <attr name="picker_displayMonth" format="boolean"/>
         <attr name="picker_displayYears" format="boolean"/>
         <attr name="picker_displayDays" format="boolean"/>
+        <attr name="picker_displayDaysOfMonth" format="boolean" />
         <attr name="picker_displayMinutes" format="boolean"/>
         <attr name="picker_displayHours" format="boolean"/>
+        <attr name="picker_displayMonthNumbers" format="boolean" />
     </declare-styleable>
 </resources>

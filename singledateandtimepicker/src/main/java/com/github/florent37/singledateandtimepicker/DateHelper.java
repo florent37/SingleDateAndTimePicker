@@ -40,4 +40,8 @@ public class DateHelper {
     public static int getMonth(Date date) {
         return getCalendarOfDate(date).get(Calendar.MONTH);
     }
+
+    public static int getDay(Date date){
+        return getCalendarOfDate(date).get(Calendar.DAY_OF_MONTH);
+    }
 }
