@@ -60,6 +60,24 @@ new DoubleDateAndTimePickerDialog.Builder(context)
         }).display();
 ```
 
+## Display days, months and years
+
+[![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/years_crop.png)](https://www.github.com/florent37/SingleDateAndTimePicker)
+
+```java
+new SingleDateAndTimePickerDialog.Builder(this)
+
+            .bottomSheet()
+            .curved()
+            .displayMinutes(false)
+            .displayHours(false)
+            .displayDays(false)
+            .displayMonth(true)
+            .displayYears(true)
+            .displayDaysOfMonth(true)
+            .display();
+```
+
 ## Include in a layout
 
 [![screen](https://raw.githubusercontent.com/florent37/SingleDateAndTimePicker/master/media/layout_small.png)](https://www.github.com/florent37/SingleDateAndTimePicker)

@@ -88,7 +88,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 .displayMinutes(true)
                 .displayHours(true)
-                .displayDays(false)
+                .displayDays(true)
                 //.displayMonth(true)
                 //.displayYears(true)
 
@@ -150,9 +150,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     public void simpleClicked() {
 
         final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 30);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.YEAR, 1991);
+        calendar.set(Calendar.DAY_OF_MONTH, 4); // 4. Feb. 2018
+        calendar.set(Calendar.MONTH, 1);
+        calendar.set(Calendar.YEAR, 2018);
         calendar.set(Calendar.HOUR_OF_DAY, 11);
         calendar.set(Calendar.MINUTE, 13);
 
@@ -165,9 +165,14 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 //.backgroundColor(Color.BLACK)
                 //.mainColor(Color.GREEN)
 
-                .displayHours(true)
-                .displayMinutes(true)
+                .displayHours(false)
+                .displayMinutes(false)
+                .displayDays(false)
+                .displayMonth(true)
+                .displayDaysOfMonth(true)
+                .displayYears(true)
                 .defaultDate(defaultDate)
+                .displayMonthNumbers(true)
 
                 //.mustBeOnFuture()
 
