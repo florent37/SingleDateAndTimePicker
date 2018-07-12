@@ -927,7 +927,7 @@ public abstract class WheelPicker<V> extends View {
         if (this instanceof WheelDayPicker) {
             String today = getFormattedValue(new Date());
             if (today.equals(formatItem)) {
-                return getDefaultItemPosition();
+                return ((WheelDayPicker)this).getTodayTextPosition();
             }
         }
 

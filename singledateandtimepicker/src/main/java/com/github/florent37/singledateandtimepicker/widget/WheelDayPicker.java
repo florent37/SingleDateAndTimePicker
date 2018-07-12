@@ -2,6 +2,7 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -22,6 +23,8 @@ public class WheelDayPicker extends WheelPicker<String> {
 
     private OnDaySelectedListener onDaySelectedListener;
 
+    private String todayText;
+
     public WheelDayPicker(Context context) {
         super(context);
     }
@@ -38,11 +41,6 @@ public class WheelDayPicker extends WheelPicker<String> {
     @Override
     protected String initDefault() {
         return getTodayText();
-    }
-
-    @NonNull
-    private String getTodayText() {
-        return getResources().getString(R.string.picker_today);
     }
 
     public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
@@ -126,11 +124,21 @@ public class WheelDayPicker extends WheelPicker<String> {
         return date;
     }
 
+    public int getTodayTextPosition() {
+        return adapter.getData().indexOf(getTodayText());
+    }
+
+    @NonNull
+    private String getTodayText() {
+        return TextUtils.isEmpty(todayText) ? getResources().getString(R.string.picker_today) : todayText;
+    }
+
     public void setTodayText(String todayText) {
-        int index = adapter.getData().indexOf(getTodayText());
+        int index = getTodayTextPosition();
         if (index != -1) {
             adapter.getData().set(index, todayText);
             notifyDatasetChanged();
+            this.todayText = todayText;
         }
     }
 
