@@ -30,7 +30,7 @@ public class WheelYearPicker extends WheelPicker<String> {
 
     @Override
     protected void init() {
-        simpleDateFormat = new SimpleDateFormat("YYYY", getCurrentLocale());
+        simpleDateFormat = new SimpleDateFormat("yyyy", getCurrentLocale());
 
         Calendar instance = Calendar.getInstance();
         int currentYear = instance.get(Calendar.YEAR);
