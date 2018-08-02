@@ -1068,7 +1068,7 @@ public abstract class WheelPicker<V> extends View {
         @Override
         public V getItem(int position) {
             final int itemCount = getItemCount();
-            return data.get((position + itemCount) % itemCount);
+            return itemCount == 0 ? null : data.get((position + itemCount) % itemCount);
         }
 
         @Override
