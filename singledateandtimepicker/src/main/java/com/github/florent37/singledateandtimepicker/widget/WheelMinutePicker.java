@@ -58,7 +58,7 @@ public class WheelMinutePicker extends WheelPicker<String> {
                 return i - 1;
             }
         }
-        return 0;
+        return itemCount - 1;
     }
 
     @Override
