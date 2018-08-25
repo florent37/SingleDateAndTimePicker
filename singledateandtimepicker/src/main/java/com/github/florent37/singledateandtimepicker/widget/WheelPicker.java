@@ -704,6 +704,10 @@ public abstract class WheelPicker<V> extends View {
         return adapter.getData().indexOf(defaultValue);
     }
 
+    public int getTodayItemPosition() {
+        return adapter.getData().indexOf(getResources().getString(R.string.picker_today));
+    }
+
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
 
@@ -918,16 +922,16 @@ public abstract class WheelPicker<V> extends View {
     public int findIndexOfDate(@NonNull Date date) {
         String formatItem = getFormattedValue(date);
 
-        if(this instanceof WheelDayOfMonthPicker){
+        if (this instanceof WheelDayOfMonthPicker) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            return calendar.get(Calendar.DAY_OF_MONTH) - 1 ;
+            return calendar.get(Calendar.DAY_OF_MONTH) - 1;
         }
 
         if (this instanceof WheelDayPicker) {
             String today = getFormattedValue(new Date());
             if (today.equals(formatItem)) {
-                return getDefaultItemPosition();
+                return getTodayItemPosition();
             }
         }
 
