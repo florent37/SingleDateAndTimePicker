@@ -83,7 +83,6 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private boolean displayHours = true;
 
     private boolean isAmPm;
-    private int selectorHeight;
 
     public SingleDateAndTimePicker(Context context) {
         this(context, null);
@@ -101,13 +100,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         inflate(context, R.layout.single_day_picker, this);
 
-        yearsPicker = (WheelYearPicker) findViewById(R.id.yearPicker);
-        monthPicker = (WheelMonthPicker) findViewById(R.id.monthPicker);
-        daysOfMonthPicker = (WheelDayOfMonthPicker) findViewById(R.id.daysOfMonthPicker);
-        daysPicker = (WheelDayPicker) findViewById(R.id.daysPicker);
-        minutesPicker = (WheelMinutePicker) findViewById(R.id.minutesPicker);
-        hoursPicker = (WheelHourPicker) findViewById(R.id.hoursPicker);
-        amPmPicker = (WheelAmPmPicker) findViewById(R.id.amPmPicker);
+        yearsPicker = findViewById(R.id.yearPicker);
+        monthPicker = findViewById(R.id.monthPicker);
+        daysOfMonthPicker = findViewById(R.id.daysOfMonthPicker);
+        daysPicker = findViewById(R.id.daysPicker);
+        minutesPicker = findViewById(R.id.minutesPicker);
+        hoursPicker = findViewById(R.id.hoursPicker);
+        amPmPicker = findViewById(R.id.amPmPicker);
         dtSelector = findViewById(R.id.dtSelector);
 
         pickers.addAll(Arrays.asList(
@@ -489,6 +488,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final Date date = getDate();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        updateDaysOfMonth(calendar);
+    }
+
+    private void updateDaysOfMonth(@NonNull Calendar calendar) {
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         daysOfMonthPicker.setDaysInMonth(daysInMonth);
         daysOfMonthPicker.updateAdapter();
@@ -551,7 +554,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         a.recycle();
 
         if (displayDaysOfMonth) {
-            updateDaysOfMonth();
+            updateDaysOfMonth(Calendar.getInstance());
         }
     }
 
