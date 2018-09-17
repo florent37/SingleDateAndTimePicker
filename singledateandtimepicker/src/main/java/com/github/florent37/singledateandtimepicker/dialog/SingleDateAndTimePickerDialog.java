@@ -5,6 +5,8 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.R;
@@ -27,6 +29,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private String title;
     @Nullable
     private Integer titleTextSize;
+    @Nullable
+    private Integer bottomSheetHeight;
     @Nullable
     private String todayText;
     @Nullable
@@ -64,6 +68,14 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private void init(View view) {
         picker = (SingleDateAndTimePicker) view.findViewById(R.id.picker);
+
+        if (picker != null) {
+            if (bottomSheetHeight != null) {
+                ViewGroup.LayoutParams params = picker.getLayoutParams();
+                params.height = bottomSheetHeight;
+                picker.setLayoutParams(params);
+            }
+        }
 
         final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
         if (buttonOk != null) {
@@ -191,6 +203,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setBottomSheetHeight(@Nullable Integer bottomSheetHeight) {
+        this.bottomSheetHeight = bottomSheetHeight;
+        return this;
+    }
+
     public SingleDateAndTimePickerDialog setTodayText(@Nullable String todayText) {
         this.todayText = todayText;
         return this;
@@ -308,6 +325,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private Integer titleTextSize;
 
         @Nullable
+        private Integer bottomSheetHeight;
+
+        @Nullable
         private String todayText;
 
         private boolean bottomSheet;
@@ -360,6 +380,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder titleTextSize(@Nullable Integer titleTextSize) {
             this.titleTextSize = titleTextSize;
+            return this;
+        }
+
+        public Builder bottomSheetHeight(@Nullable Integer bottomSheetHeight) {
+            this.bottomSheetHeight = bottomSheetHeight;
             return this;
         }
 
@@ -477,6 +502,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
                     .setTitleTextSize(titleTextSize)
+                    .setBottomSheetHeight(bottomSheetHeight)
                     .setTodayText(todayText)
                     .setListener(listener)
                     .setCurved(curved)
