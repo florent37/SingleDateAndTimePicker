@@ -35,6 +35,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private String tab0Text, tab1Text, title;
     @Nullable
+    private Integer titleTextSize;
+    @Nullable
     private String todayText;
     @Nullable
     private String buttonOkText;
@@ -86,6 +88,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                 titleTextView.setText(title);
                 if (titleTextColor != null) {
                     titleTextView.setTextColor(titleTextColor);
+                }
+                if (titleTextSize != null) {
+                    titleTextView.setTextSize(titleTextSize);
                 }
             }
             if (mainColor != null && titleLayout != null) {
@@ -156,6 +161,10 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
             if (mainColor != null) {
                 buttonOk.setTextColor(mainColor);
+            }
+
+            if (titleTextSize != null) {
+                buttonOk.setTextSize(titleTextSize);
             }
         }
 
@@ -271,6 +280,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
     public DoubleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setTitleTextSize(@Nullable Integer titleTextSize) {
+        this.titleTextSize = titleTextSize;
         return this;
     }
 
@@ -432,6 +446,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         @Nullable
         private String title;
         @Nullable
+        private Integer titleTextSize;
+        @Nullable
         private String buttonOkText;
         @Nullable
         private String todayText;
@@ -479,6 +495,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder title(@Nullable String title) {
             this.title = title;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder titleTextSize(@Nullable Integer titleTextSize) {
+            this.titleTextSize = titleTextSize;
             return this;
         }
 
@@ -611,6 +632,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         public DoubleDateAndTimePickerDialog build() {
             final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
+                    .setTitleTextSize(titleTextSize)
                     .setTodayText(todayText)
                     .setListener(listener)
                     .setCurved(curved)

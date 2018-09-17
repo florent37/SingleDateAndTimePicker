@@ -26,6 +26,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private String title;
     @Nullable
+    private Integer titleTextSize;
+    @Nullable
     private String todayText;
     @Nullable
     private DisplayListener displayListener;
@@ -76,6 +78,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             if (mainColor != null) {
                 buttonOk.setTextColor(mainColor);
             }
+
+            if (titleTextSize != null) {
+                buttonOk.setTextSize(titleTextSize);
+            }
         }
 
         final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
@@ -98,6 +104,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (titleTextColor != null) {
                 titleTextView.setTextColor(titleTextColor);
+            }
+
+            if (titleTextSize != null) {
+                titleTextView.setTextSize(titleTextSize);
             }
         }
 
@@ -173,6 +183,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setTitle(@Nullable String title) {
         this.title = title;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setTitleTextSize(@Nullable Integer titleTextSize) {
+        this.titleTextSize = titleTextSize;
         return this;
     }
 
@@ -290,6 +305,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private String title;
 
         @Nullable
+        private Integer titleTextSize;
+
+        @Nullable
         private String todayText;
 
         private boolean bottomSheet;
@@ -337,6 +355,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder title(@Nullable String title) {
             this.title = title;
+            return this;
+        }
+
+        public Builder titleTextSize(@Nullable Integer titleTextSize) {
+            this.titleTextSize = titleTextSize;
             return this;
         }
 
@@ -453,6 +476,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
+                    .setTitleTextSize(titleTextSize)
                     .setTodayText(todayText)
                     .setListener(listener)
                     .setCurved(curved)
