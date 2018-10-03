@@ -18,12 +18,9 @@ new SingleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
             //.minutesStep(15)
-            
             //.displayHours(false)
             //.displayMinutes(false)
-
             //.todayText("aujourd'hui")
-            
             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                                 @Override
                                 public void onDisplayed(SingleDateAndTimePicker picker) {
@@ -66,7 +63,6 @@ new DoubleDateAndTimePickerDialog.Builder(context)
 
 ```java
 new SingleDateAndTimePickerDialog.Builder(this)
-
             .bottomSheet()
             .curved()
             .displayMinutes(false)
@@ -116,9 +112,7 @@ new DoubleDateAndTimePickerDialog.Builder(context)
 You can change the minutes steps (default : 5min)
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
-
             .minutesStep(15)
-
             .display();
 ```
 
@@ -128,11 +122,9 @@ And change some colors
 
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
-
             .backgroundColor(Color.BLACK)
             .mainColor(Color.GREEN)
             .titleColor(Color.WHITE)
-
             .display();
 ```
 
@@ -142,11 +134,9 @@ Force user to select a date between a range
 
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
-
             .defaultDate(defaultDate)
             .minDateRange(minDate)
             .maxDateRange(maxDate)
-
             .display();
 ```
 
@@ -154,9 +144,7 @@ Or simply force user to select a future date
 
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
-
             .mustBeOnFuture()
-
             .display();
 ```
 
