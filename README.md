@@ -84,7 +84,6 @@ new SingleDateAndTimePickerDialog.Builder(this)
         android:layout_height="230dp"
         app:picker_curved="true"
         app:picker_cyclic="true"
-        app:picker_canBeOnPast="false"
         app:picker_visibleItemCount="7"
         />
 ```
