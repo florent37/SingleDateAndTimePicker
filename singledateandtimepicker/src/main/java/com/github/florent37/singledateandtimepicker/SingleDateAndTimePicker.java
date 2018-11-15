@@ -131,6 +131,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
             public void onYearSelected(WheelYearPicker picker, int position, int year) {
                 updateListener();
                 checkMinMaxDate(picker);
+
+                if (displayDaysOfMonth) {
+                    updateDaysOfMonth();
+                }
             }
         });
 
@@ -432,7 +436,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
             }
 
             if (displayDaysOfMonth) {
-                calendar.set(Calendar.DAY_OF_MONTH, daysOfMonthPicker.getCurrentDay() + 1);
+                int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                if (daysOfMonthPicker.getCurrentDay() >= daysInMonth) {
+                    calendar.set(Calendar.DAY_OF_MONTH, daysInMonth);
+                } else {
+                    calendar.set(Calendar.DAY_OF_MONTH, daysOfMonthPicker.getCurrentDay() + 1);
+                }
             }
         }
 
