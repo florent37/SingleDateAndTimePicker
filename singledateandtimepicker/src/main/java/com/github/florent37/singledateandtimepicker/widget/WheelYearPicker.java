@@ -5,11 +5,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.R;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class WheelYearPicker extends WheelPicker<String> {
@@ -36,16 +35,6 @@ public class WheelYearPicker extends WheelPicker<String> {
         int currentYear = instance.get(Calendar.YEAR);
         this.minYear = currentYear - SingleDateAndTimeConstants.MIN_YEAR_DIFF;
         this.maxYear = currentYear + SingleDateAndTimeConstants.MAX_YEAR_DIFF;
-    }
-
-    @Override
-    protected String initDefault() {
-        return getTodayText();
-    }
-
-    @NonNull
-    private String getTodayText() {
-        return getResources().getString(R.string.picker_today);
     }
 
     @Override
@@ -79,6 +68,16 @@ public class WheelYearPicker extends WheelPicker<String> {
         }
 
         return years;
+    }
+    @Override
+    public int findIndexOfDate(@NonNull Date date) {
+        final Calendar instance = Calendar.getInstance();
+        instance.setTime(date);
+        int dateYear = instance.get(Calendar.YEAR);
+        int idx = dateYear - minYear;
+        if (idx < 0 || idx > (maxYear - minYear))
+            return -1; //not in our range
+        return idx;
     }
 
     protected String getFormattedValue(Object value) {

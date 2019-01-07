@@ -1,13 +1,13 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
-
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getDay;
-import static com.github.florent37.singledateandtimepicker.DateHelper.today;
 
 public class WheelDayOfMonthPicker extends WheelPicker<String> {
 
@@ -38,11 +38,12 @@ public class WheelDayOfMonthPicker extends WheelPicker<String> {
 
         return dayList;
     }
-
-
     @Override
-    protected String initDefault() {
-        return String.valueOf(getDay(today()));
+    public int findIndexOfDate(@NonNull Date date) {
+        Calendar dateCalandar = Calendar.getInstance();
+        dateCalandar.setTime(date);
+        int idx = dateCalandar.get(Calendar.DAY_OF_MONTH);
+        return idx - 1;
     }
 
     public void setOnFinishedLoopListener(FinishedLoopListener finishedLoopListener) {

@@ -1,9 +1,8 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-
-import com.github.florent37.singledateandtimepicker.DateHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,8 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getMonth;
-import static com.github.florent37.singledateandtimepicker.DateHelper.today;
 
 public class WheelMonthPicker extends WheelPicker<String> {
 
@@ -57,11 +54,6 @@ public class WheelMonthPicker extends WheelPicker<String> {
     }
 
 
-    @Override
-    protected String initDefault() {
-        return String.valueOf(getMonth(today()));
-    }
-
     public void setOnMonthSelectedListener(MonthSelectedListener listener) {
         this.listener = listener;
     }
@@ -79,6 +71,14 @@ public class WheelMonthPicker extends WheelPicker<String> {
             onItemSelected(position, item);
             lastScrollPosition = position;
         }
+    }
+
+    @Override
+    public int findIndexOfDate(@NonNull Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int idx = calendar.get(Calendar.MONTH);
+        return idx; //we dont subtract because first month is 0
     }
 
     public boolean displayMonthNumbers() {

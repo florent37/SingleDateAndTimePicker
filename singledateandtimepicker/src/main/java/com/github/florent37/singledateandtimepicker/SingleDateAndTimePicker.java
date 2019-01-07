@@ -362,41 +362,35 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     private void checkMinMaxDate(final WheelPicker picker) {
-        checkBeforeMinDate(picker);
-        checkAfterMaxDate(picker);
-    }
-
-    private void checkBeforeMinDate(final WheelPicker picker) {
-        picker.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (minDate != null && isBeforeMinDate(getDate())) {
-                    for (WheelPicker p : pickers) {
-                        p.scrollTo(p.findIndexOfDate(minDate));
+        final Date currentDate = getDate();
+        if (isBeforeMinDate(currentDate) || isAfterMaxDate(currentDate)) {
+            picker.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int index;
+                    if (isBeforeMinDate(currentDate)){
+                        index = picker.findIndexOfDate(minDate);
+                    }
+                    else{
+                        index = picker.findIndexOfDate(maxDate);
+                    }
+                    if (index != -1) { //FIXME: add logging
+                        picker.scrollTo(index);
                     }
                 }
-            }
-        }, DELAY_BEFORE_CHECK_PAST);
-    }
-
-    private void checkAfterMaxDate(final WheelPicker picker) {
-        picker.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (maxDate != null && isAfterMaxDate(getDate())) {
-                    for (WheelPicker p : pickers) {
-                        p.scrollTo(p.findIndexOfDate(maxDate));
-                    }
-                }
-            }
-        }, DELAY_BEFORE_CHECK_PAST);
+            }, DELAY_BEFORE_CHECK_PAST);
+        }
     }
 
     private boolean isBeforeMinDate(Date date) {
+        if (minDate == null)
+            return false;
         return getCalendarOfDate(date).before(getCalendarOfDate(minDate));
     }
 
     private boolean isAfterMaxDate(Date date) {
+        if (maxDate == null)
+            return false;
         return getCalendarOfDate(date).after(getCalendarOfDate(maxDate));
     }
 
@@ -462,7 +456,15 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDefaultDate(Date date) {
         if (date != null) {
             this.defaultDate = date;
+            if (isAfterMaxDate(date)){
+                this.defaultDate = minDate;
+            }
+            else if (isBeforeMinDate(date)){
+                this.defaultDate = maxDate;
+            }
 
+            updateDaysOfMonth();
+            
             for (WheelPicker picker : pickers) {
                 picker.setDefaultDate(defaultDate);
             }

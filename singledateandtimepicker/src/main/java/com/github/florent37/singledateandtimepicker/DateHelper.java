@@ -44,4 +44,34 @@ public class DateHelper {
     public static int getDay(Date date){
         return getCalendarOfDate(date).get(Calendar.DAY_OF_MONTH);
     }
+
+    public static boolean isSameDay(Date a, Date b)
+    {
+        return a.getYear()  == b.getYear()  &&
+                a.getMonth() == b.getMonth() &&
+                a.getDate()   == b.getDate();
+    }
+
+    //returns the difference in days: endDate - startDate  (negative if endDate is before startDate)
+    public static int daysBetween(Date endDate, Date startDate)
+    {
+        //there is a fast and potentially incorrect implementation, and a slow yet correct one, we're
+        // going with a hybrid approach that is both fast and correct, stackoverflow: /3796841
+
+        long diffTime = endDate.getTime() - startDate.getTime();
+        int diffDays = (int) (diffTime / (1000 * 60 * 60 * 24));
+
+        Calendar assumed = Calendar.getInstance();
+        assumed.setTime(startDate);
+        assumed.add(Calendar.DAY_OF_YEAR, diffDays);
+
+        int diff = assumed.getTime().before(endDate) ? 1 : -1; //we're either undershooting or overshooting
+
+        while(!isSameDay(assumed.getTime(), endDate)){
+            assumed.add(Calendar.DAY_OF_YEAR, diff);
+            diffDays += diff;
+        }
+
+        return diffDays;
+    }
 }

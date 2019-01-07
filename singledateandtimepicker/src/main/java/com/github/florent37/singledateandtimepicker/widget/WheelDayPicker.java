@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,11 +34,6 @@ public class WheelDayPicker extends WheelPicker<String> {
         simpleDateFormat = new SimpleDateFormat("EEE d MMM", getCurrentLocale());
     }
 
-    @Override
-    protected String initDefault() {
-        return getTodayText();
-    }
-
     @NonNull
     private String getTodayText() {
         return getResources().getString(R.string.picker_today);
@@ -65,23 +59,32 @@ public class WheelDayPicker extends WheelPicker<String> {
         final List<String> days = new ArrayList<>();
 
         Calendar instance = Calendar.getInstance();
-        instance.add(Calendar.DATE, -1 * DAYS_PADDING - 1);
-        for (int i = (-1) * DAYS_PADDING; i < 0; ++i) {
+        Date today = instance.getTime();
+        instance.setTime(defaultDate);
+
+        instance.add(Calendar.DATE, -DAYS_PADDING);
+        for (int i = 0; i < (2 * DAYS_PADDING + 1); ++i) {
+            if (DateHelper.isSameDay(today, instance.getTime())){
+                days.add(getTodayText());
+            }
+            else {
+                days.add(getFormattedValue(instance.getTime()));
+            }
             instance.add(Calendar.DAY_OF_MONTH, 1);
-            days.add(getFormattedValue(instance.getTime()));
-        }
-
-        //today
-        days.add(getTodayText());
-
-        instance = Calendar.getInstance();
-
-        for (int i = 0; i < DAYS_PADDING; ++i) {
-            instance.add(Calendar.DATE, 1);
-            days.add(getFormattedValue(instance.getTime()));
         }
 
         return days;
+    }
+
+    @Override
+    public int findIndexOfDate(Date d){
+
+        int diffDays = DateHelper.daysBetween(d, defaultDate);
+        int mid = adapter.getItemCount() / 2;
+        if (Math.abs(diffDays) > mid){
+            return -1;
+        }
+        return mid + diffDays;
     }
 
     protected String getFormattedValue(Object value) {
@@ -97,37 +100,17 @@ public class WheelDayPicker extends WheelPicker<String> {
     }
 
     private Date convertItemToDate(int itemPosition) {
-        Date date = null;
-        final String itemText = adapter.getItemText(itemPosition);
-        final Calendar todayCalendar = Calendar.getInstance();
+        Calendar instance = Calendar.getInstance();
+        instance.setTime(defaultDate);
 
-        final int todayPosition = adapter.getData().indexOf(getTodayText());
+        int diffDays = itemPosition - adapter.getItemCount() / 2;
+        instance.add(Calendar.DAY_OF_YEAR, diffDays);
 
-        if (getTodayText().equals(itemText)) {
-            date = todayCalendar.getTime();
-        } else {
-            try {
-                date = simpleDateFormat.parse(itemText);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (date != null) {
-            //try to know the year
-            final Calendar dateCalendar = DateHelper.getCalendarOfDate(date);
-
-            todayCalendar.add(Calendar.DATE, (itemPosition - todayPosition));
-
-            dateCalendar.set(Calendar.YEAR, todayCalendar.get(Calendar.YEAR));
-            date = dateCalendar.getTime();
-        }
-
-        return date;
+        return instance.getTime();
     }
 
     public void setTodayText(String todayText) {
-        int index = adapter.getData().indexOf(getTodayText());
+        int index = findIndexOfDate(DateHelper.today()); //FIXME: add logging
         if (index != -1) {
             adapter.getData().set(index, todayText);
             notifyDatasetChanged();

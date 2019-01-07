@@ -35,36 +35,32 @@ public class WheelMinutePicker extends WheelPicker<String> {
         stepMinutes = STEP_MINUTES_DEFAULT;
     }
 
-    @Override
-    protected String initDefault() {
-        return getFormattedValue(Calendar.getInstance().get(Calendar.MINUTE));
+    private ArrayList<Integer> generateMinutes(){
+        ArrayList<Integer> values = new ArrayList<>();
+        for (int i=MIN_MINUTES; i<=MAX_MINUTES; i+=stepMinutes){
+            values.add(i);
+        }
+        return values;
     }
 
     @Override
     protected List<String> generateAdapterValues() {
         final List<String> minutes = new ArrayList<>();
-        for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += stepMinutes) {
-            minutes.add(getFormattedValue(min));
+        for (int minute : generateMinutes()) {
+            minutes.add(getFormattedValue(minute));
         }
         return minutes;
     }
 
-    private int findIndexOfMinute(int minute) {
-        final int itemCount = adapter.getItemCount();
-        for (int i = 0; i < itemCount; ++i) {
-            final String object = adapter.getItemText(i);
-            final Integer value = Integer.valueOf(object);
-
-            if (minute == value) {
-                return i;
-            }
-
-            if (minute < value) {
-                return i - 1;
-            }
+    private int findIndexOfMinute(int currentMinute) {
+        ArrayList<Integer> minutes = generateMinutes();
+        int idx = 0;
+        for(; idx < (minutes.size() - 1); idx++){
+            int minute = minutes.get(idx);
+            if (minute >= currentMinute)
+                break;
         }
-        return itemCount - 1;
-
+        return idx;
     }
 
     @Override

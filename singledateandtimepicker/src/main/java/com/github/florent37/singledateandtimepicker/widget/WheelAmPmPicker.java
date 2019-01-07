@@ -34,14 +34,6 @@ public class WheelAmPmPicker extends WheelPicker<String> {
 
     }
 
-    @Override
-    protected String initDefault() {
-        if (DateHelper.getHour(DateHelper.today(), true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
-            return getContext().getString(R.string.picker_pm);
-        } else {
-            return getContext().getString(R.string.picker_am);
-        }
-    }
 
     @Override
     protected List<String> generateAdapterValues(){

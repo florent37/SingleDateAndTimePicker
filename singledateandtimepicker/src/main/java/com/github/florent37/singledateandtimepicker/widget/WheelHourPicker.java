@@ -4,15 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getHour;
-import static com.github.florent37.singledateandtimepicker.DateHelper.today;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_DEFAULT;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_HOUR_DEFAULT;
@@ -43,41 +39,56 @@ public class WheelHourPicker extends WheelPicker<String> {
         hoursStep = STEP_HOURS_DEFAULT;
     }
 
-    @Override
-    protected String initDefault() {
-        return String.valueOf(getHour(today(), isAmPm));
+    private ArrayList<Integer> generateHours(){
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        if (isAmPm){
+            values.add(12);
+            for(int i=hoursStep; i < maxHour; i += hoursStep){
+                values.add(i);
+            }
+        }
+        else{
+            for(int i=minHour; i <= maxHour; i += hoursStep){
+                values.add(i);
+            }
+        }
+        return values;
     }
 
     @Override
     protected List<String> generateAdapterValues() {
         final List<String> hours = new ArrayList<>();
 
-        if (isAmPm) {
-            hours.add(getFormattedValue(12));
-            for (int hour = hoursStep; hour < maxHour; hour += hoursStep) {
-                hours.add(getFormattedValue(hour));
-            }
-        } else {
-            for (int hour = minHour; hour <= maxHour; hour += hoursStep) {
-                hours.add(getFormattedValue(hour));
-            }
+        for (int hour : generateHours()){
+            hours.add(getFormattedValue(hour));
         }
-
         return hours;
+    }
+
+    private int findIndexOfHour(int currentHour){
+        ArrayList<Integer> hours = generateHours();
+        int idx = 0;
+        for (; idx < (hours.size() - 1); idx++){
+            int hour = hours.get(idx);
+            if (isAmPm) {
+                hour %= 12;
+                currentHour %= 12;
+            }
+            if (hour >= currentHour)
+                break;
+        }
+        return idx;
     }
 
     @Override
     public int findIndexOfDate(@NonNull Date date) {
-        if (isAmPm) {
-            final int hours = date.getHours();
-            if (hours >= MAX_HOUR_AM_PM) {
-                Date copy = new Date(date.getTime());
-                copy.setHours(hours % MAX_HOUR_AM_PM);
-                return super.findIndexOfDate(copy);
-            }
-        }
-        return super.findIndexOfDate(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        return findIndexOfHour(currentHour);
     }
+
+
 
     protected String getFormattedValue(Object value) {
         Object valueItem = value;
@@ -87,20 +98,6 @@ public class WheelHourPicker extends WheelPicker<String> {
             valueItem = instance.get(Calendar.HOUR_OF_DAY);
         }
         return String.format(getCurrentLocale(), FORMAT, valueItem);
-    }
-
-    @Override
-    public void setDefault(String defaultValue) {
-        try {
-            int hour = Integer.parseInt(defaultValue);
-            if (isAmPm && hour >= MAX_HOUR_AM_PM) {
-                hour -= MAX_HOUR_AM_PM;
-            }
-
-            super.setDefault(getFormattedValue(hour));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     public void setIsAmPm(boolean isAmPm) {
@@ -136,21 +133,12 @@ public class WheelHourPicker extends WheelPicker<String> {
 
     private int convertItemToHour(Object item) {
         Integer hour = Integer.valueOf(String.valueOf(item));
-        if (!isAmPm) {
-            return hour;
-        }
-
-        if (hour == 12) {
-            hour = 0;
-        }
-
-        return hour;
+        return findIndexOfHour(hour);
     }
 
     public int getCurrentHour() {
         return convertItemToHour(adapter.getItem(getCurrentItemPosition()));
     }
-
 
     @Override
     protected void onItemSelected(int position, String item) {
