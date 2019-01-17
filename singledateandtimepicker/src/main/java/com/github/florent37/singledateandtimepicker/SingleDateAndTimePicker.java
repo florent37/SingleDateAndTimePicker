@@ -462,6 +462,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDefaultDate(Date date) {
         if (date != null) {
             this.defaultDate = date;
+            
+            updateDaysOfMonth();
 
             for (WheelPicker picker : pickers) {
                 picker.setDefaultDate(defaultDate);
