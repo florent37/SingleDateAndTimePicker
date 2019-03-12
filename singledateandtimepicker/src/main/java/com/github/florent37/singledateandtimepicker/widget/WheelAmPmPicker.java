@@ -37,17 +37,17 @@ public class WheelAmPmPicker extends WheelPicker<String> {
     @Override
     protected String initDefault() {
         if (DateHelper.getHour(DateHelper.today(), true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
-            return getContext().getString(R.string.picker_pm);
+            return getLocalizedString(R.string.picker_pm);
         } else {
-            return getContext().getString(R.string.picker_am);
+            return getLocalizedString(R.string.picker_am);
         }
     }
 
     @Override
     protected List<String> generateAdapterValues(){
         return Arrays.asList(
-                getContext().getString(R.string.picker_am),
-                getContext().getString(R.string.picker_pm)
+                getLocalizedString(R.string.picker_am),
+                getLocalizedString(R.string.picker_pm)
         );
     }
 
@@ -88,7 +88,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
         if (value instanceof Date) {
             Calendar instance = Calendar.getInstance();
             instance.setTime((Date) value);
-            return getResources().getString(instance.get(Calendar.AM_PM) == Calendar.PM ? R.string.picker_pm : R.string.picker_am);
+            return getLocalizedString(instance.get(Calendar.AM_PM) == Calendar.PM ? R.string.picker_pm : R.string.picker_am);
         }
         return String.valueOf(value);
     }

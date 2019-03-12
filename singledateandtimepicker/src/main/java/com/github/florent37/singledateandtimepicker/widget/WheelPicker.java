@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Camera;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
+import com.github.florent37.singledateandtimepicker.LocaleHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ public abstract class WheelPicker<V> extends View {
     protected int lastScrollPosition;
     protected Listener<WheelPicker, V> listener;
     protected Adapter<V> adapter = new Adapter<>();
+    private Locale customLocale;
     private Paint paint;
     private Scroller scroller;
     private VelocityTracker tracker;
@@ -264,6 +268,10 @@ public abstract class WheelPicker<V> extends View {
 
     public void setListener(Listener listener) {
         this.listener = listener;
+    }
+
+    public void setCustomLocale(Locale customLocale) {
+    	this.customLocale = customLocale;
     }
 
     @Override
@@ -705,7 +713,7 @@ public abstract class WheelPicker<V> extends View {
     }
 
     public int getTodayItemPosition() {
-        return adapter.getData().indexOf(getResources().getString(R.string.picker_today));
+        return adapter.getData().indexOf(getLocalizedString(R.string.picker_today));
     }
 
     public void setAdapter(Adapter adapter) {
@@ -976,8 +984,15 @@ public abstract class WheelPicker<V> extends View {
         return index;
     }
 
+    public String getLocalizedString(@StringRes int stringRes) {
+        return LocaleHelper.getString(getContext(), getCurrentLocale(), stringRes);
+    }
+
     @TargetApi(Build.VERSION_CODES.N)
     public Locale getCurrentLocale() {
+        if (customLocale != null) {
+            return customLocale;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return getResources().getConfiguration().getLocales().get(0);
         } else {

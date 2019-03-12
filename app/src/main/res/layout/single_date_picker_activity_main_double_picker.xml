@@ -138,6 +138,34 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/singleDateLocaleLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:srcCompat="@drawable/ic_event_available_black_24dp"
+                />
+
+            <TextView
+                android:id="@+id/singleDateLocaleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:text="Click me to open single dialog for DATE with German Locale"
+                android:textColor="@color/textColor"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

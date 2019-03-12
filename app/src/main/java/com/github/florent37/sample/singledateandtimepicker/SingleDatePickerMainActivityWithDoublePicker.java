@@ -1,6 +1,5 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
     @BindView(R.id.doubleText)
     TextView doubleText;
+
     @BindView(R.id.singleText)
     TextView singleText;
 
@@ -33,11 +33,14 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     @BindView(R.id.singleDateText)
     TextView singleDateText;
 
+    @BindView(R.id.singleDateLocaleText)
+    TextView singleDateLocaleText;
 
 
     SimpleDateFormat simpleDateFormat;
     SimpleDateFormat simpleTimeFormat;
     SimpleDateFormat simpleDateOnlyFormat;
+    SimpleDateFormat simpleDateLocaleFormat;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
     DoubleDateAndTimePickerDialog.Builder doubleBuilder;
 
@@ -52,6 +55,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         this.simpleTimeFormat = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
 
         this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
+
+        this.simpleDateLocaleFormat = new SimpleDateFormat("EEE d MMM", Locale.GERMAN);
     }
 
     @Override
@@ -245,5 +250,32 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                     }
                 });
         doubleBuilder.display();
+    }
+
+    @OnClick(R.id.singleDateLocaleLayout)
+    public void singleDateLocaleClicked() {
+        singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+                .customLocale(Locale.GERMAN)
+                .bottomSheet()
+                .curved()
+                .displayHours(false)
+                .displayMinutes(false)
+                .displayDays(true)
+
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+
+                    }
+                })
+
+                .title("")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        singleDateLocaleText.setText(simpleDateLocaleFormat.format(date));
+                    }
+                });
+        singleBuilder.display();
     }
 }

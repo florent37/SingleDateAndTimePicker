@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -263,6 +264,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab1.setDayFormatter(dayFormatter);
         }
 
+        if (customLocale != null) {
+            pickerTab0.setCustomLocale(customLocale);
+            pickerTab1.setCustomLocale(customLocale);
+        }
+
         if (secondDateAfterFirst) {
             pickerTab0.addOnDateChangedListener(new SingleDateAndTimePicker.OnDateChangedListener() {
                 @Override
@@ -354,6 +360,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
     public DoubleDateAndTimePickerDialog setDayFormatter(SimpleDateFormat dayFormatter) {
         this.dayFormatter = dayFormatter;
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setCustomLocale(Locale locale) {
+        this.customLocale = locale;
         return this;
     }
 
@@ -485,6 +496,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         private SimpleDateFormat dayFormatter;
 
+        private Locale customLocale;
+
         @ColorInt
         @Nullable
         private Integer backgroundColor = null;
@@ -556,6 +569,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder dayFormatter(SimpleDateFormat dayFormatter) {
             this.dayFormatter = dayFormatter;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder customLocale(Locale locale) {
+            this.customLocale = locale;
             return this;
         }
 
@@ -684,6 +702,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setTab0Date(tab0Date)
                     .setTab1Date(tab1Date)
                     .setDayFormatter(dayFormatter)
+                    .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
                     .setSecondDateAfterFirst(secondDateAfterFirst);
 

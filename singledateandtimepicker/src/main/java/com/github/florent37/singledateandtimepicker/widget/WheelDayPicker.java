@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
 
 public class WheelDayPicker extends WheelPicker<String> {
 
+    private static final String DAY_FORMAT_PATTERN = "EEE d MMM";
+
     private SimpleDateFormat simpleDateFormat;
+    private SimpleDateFormat customDateFormat;
 
     private OnDaySelectedListener onDaySelectedListener;
 
@@ -32,7 +36,13 @@ public class WheelDayPicker extends WheelPicker<String> {
 
     @Override
     protected void init() {
-        simpleDateFormat = new SimpleDateFormat("EEE d MMM", getCurrentLocale());
+        simpleDateFormat = new SimpleDateFormat(DAY_FORMAT_PATTERN, getCurrentLocale());
+    }
+
+    @Override
+    public void setCustomLocale(Locale customLocale) {
+        super.setCustomLocale(customLocale);
+        simpleDateFormat = new SimpleDateFormat(DAY_FORMAT_PATTERN, getCurrentLocale());
     }
 
     @Override
@@ -42,14 +52,7 @@ public class WheelDayPicker extends WheelPicker<String> {
 
     @NonNull
     private String getTodayText() {
-        return getResources().getString(R.string.picker_today);
-    }
-
-    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
-        this.simpleDateFormat = simpleDateFormat;
-        adapter.setData(generateAdapterValues());
-        notifyDatasetChanged();
-        return this;
+        return getLocalizedString(R.string.picker_today);
     }
 
     @Override
@@ -85,7 +88,13 @@ public class WheelDayPicker extends WheelPicker<String> {
     }
 
     protected String getFormattedValue(Object value) {
-        return simpleDateFormat.format(value);
+        return getDateFormat().format(value);
+    }
+
+    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
+        this.customDateFormat = simpleDateFormat;
+        updateAdapter();
+        return this;
     }
 
     public void setOnDaySelectedListener(OnDaySelectedListener onDaySelectedListener) {
@@ -94,6 +103,13 @@ public class WheelDayPicker extends WheelPicker<String> {
 
     public Date getCurrentDate() {
         return convertItemToDate(super.getCurrentItemPosition());
+    }
+
+    private SimpleDateFormat getDateFormat() {
+        if (customDateFormat != null) {
+            return customDateFormat;
+        }
+        return simpleDateFormat;
     }
 
     private Date convertItemToDate(int itemPosition) {
@@ -107,7 +123,7 @@ public class WheelDayPicker extends WheelPicker<String> {
             date = todayCalendar.getTime();
         } else {
             try {
-                date = simpleDateFormat.parse(itemText);
+                date = getDateFormat().parse(itemText);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
