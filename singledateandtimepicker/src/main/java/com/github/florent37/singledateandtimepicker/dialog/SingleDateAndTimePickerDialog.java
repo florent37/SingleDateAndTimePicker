@@ -16,6 +16,7 @@ import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -143,6 +144,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         if (dayFormatter != null) {
             picker.setDayFormatter(dayFormatter);
+        }
+
+        if (customLocale != null) {
+            picker.setCustomLocale(customLocale);
         }
 
         if (mainColor != null) {
@@ -274,6 +279,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setCustomLocale(Locale locale) {
+        this.customLocale = locale;
+        return this;
+    }
+
     public SingleDateAndTimePickerDialog setIsAmPm(boolean isAmPm) {
         this.isAmPm = Boolean.valueOf(isAmPm);
         return this;
@@ -368,6 +378,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         @Nullable
         private SimpleDateFormat dayFormatter;
+
+        @Nullable
+        private Locale customLocale;
 
         public Builder(Context context) {
             this.context = context;
@@ -498,6 +511,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder customLocale(Locale locale) {
+            this.customLocale = locale;
+            return this;
+        }
+
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -518,6 +536,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDisplayMonthNumbers(displayMonthNumbers)
                     .setDisplayDays(displayDays)
                     .setDayFormatter(dayFormatter)
+                    .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture);
 
             if (mainColor != null) {

@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.github.florent37.singledateandtimepicker.DateHelper.getCalendarOfDate;
 
@@ -333,14 +334,14 @@ public class SingleDateAndTimePicker extends LinearLayout {
         hoursPicker.setIsAmPm(isAmPm);
     }
 
+    public boolean isAmPm() {
+        return isAmPm;
+    }
+
     public void setDayFormatter(SimpleDateFormat simpleDateFormat) {
         if (simpleDateFormat != null) {
             this.daysPicker.setDayFormatter(simpleDateFormat);
         }
-    }
-
-    public boolean isAmPm() {
-        return isAmPm;
     }
 
     public Date getMinDate() {
@@ -359,6 +360,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setMaxDate(Date maxDate) {
         this.maxDate = maxDate;
         setMinYear();
+    }
+
+    public void setCustomLocale(Locale locale) {
+        for (WheelPicker p : pickers) {
+            p.setCustomLocale(locale);
+            p.updateAdapter();
+        }
     }
 
     private void checkMinMaxDate(final WheelPicker picker) {
