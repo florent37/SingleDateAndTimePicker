@@ -53,7 +53,10 @@ public class WheelAmPmPicker extends WheelPicker<String> {
 
     @Override
     public int findIndexOfDate(@NonNull Date date) {
-        final int hours = date.getHours();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTime(date);
+        final int hours = calendar.get(Calendar.HOUR_OF_DAY);
         if (hours >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
             return 1;
         } else {
@@ -87,6 +90,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
     protected String getFormattedValue(Object value) {
         if (value instanceof Date) {
             Calendar instance = Calendar.getInstance();
+            instance.setTimeZone(DateHelper.getTimeZone());
             instance.setTime((Date) value);
             return getLocalizedString(instance.get(Calendar.AM_PM) == Calendar.PM ? R.string.picker_pm : R.string.picker_am);
         }

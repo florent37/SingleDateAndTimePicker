@@ -37,12 +37,14 @@ public class WheelDayPicker extends WheelPicker<String> {
     @Override
     protected void init() {
         simpleDateFormat = new SimpleDateFormat(DAY_FORMAT_PATTERN, getCurrentLocale());
+        simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
     }
 
     @Override
     public void setCustomLocale(Locale customLocale) {
         super.setCustomLocale(customLocale);
         simpleDateFormat = new SimpleDateFormat(DAY_FORMAT_PATTERN, getCurrentLocale());
+        simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
     }
 
     @Override
@@ -68,6 +70,7 @@ public class WheelDayPicker extends WheelPicker<String> {
         final List<String> days = new ArrayList<>();
 
         Calendar instance = Calendar.getInstance();
+        instance.setTimeZone(DateHelper.getTimeZone());
         instance.add(Calendar.DATE, -1 * DAYS_PADDING - 1);
         for (int i = (-1) * DAYS_PADDING; i < 0; ++i) {
             instance.add(Calendar.DAY_OF_MONTH, 1);
@@ -78,6 +81,7 @@ public class WheelDayPicker extends WheelPicker<String> {
         days.add(getTodayText());
 
         instance = Calendar.getInstance();
+        instance.setTimeZone(DateHelper.getTimeZone());
 
         for (int i = 0; i < DAYS_PADDING; ++i) {
             instance.add(Calendar.DATE, 1);
@@ -92,6 +96,7 @@ public class WheelDayPicker extends WheelPicker<String> {
     }
 
     public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
+        simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
         this.customDateFormat = simpleDateFormat;
         updateAdapter();
         return this;
@@ -116,6 +121,7 @@ public class WheelDayPicker extends WheelPicker<String> {
         Date date = null;
         final String itemText = adapter.getItemText(itemPosition);
         final Calendar todayCalendar = Calendar.getInstance();
+        todayCalendar.setTimeZone(DateHelper.getTimeZone());
 
         final int todayPosition = adapter.getData().indexOf(getTodayText());
 

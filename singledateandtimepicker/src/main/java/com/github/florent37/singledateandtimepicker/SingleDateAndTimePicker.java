@@ -349,7 +349,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setMinDate(Date minDate) {
-        this.minDate = minDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTime(minDate);
+        this.minDate = calendar.getTime();
         setMinYear();
     }
 
@@ -358,7 +361,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setMaxDate(Date maxDate) {
-        this.maxDate = maxDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTime(maxDate);
+        this.maxDate = calendar.getTime();
         setMinYear();
     }
 
@@ -430,7 +436,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final int minute = minutesPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
-
+        calendar.setTimeZone(DateHelper.getTimeZone());
         if (displayDays) {
             final Date dayDate = daysPicker.getCurrentDate();
             calendar.setTime(dayDate);
@@ -469,7 +475,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setDefaultDate(Date date) {
         if (date != null) {
-            this.defaultDate = date;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTime(date);
+            this.defaultDate = calendar.getTime();
             
             updateDaysOfMonth();
 
@@ -506,6 +515,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private void updateDaysOfMonth() {
         final Date date = getDate();
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
         calendar.setTime(date);
         updateDaysOfMonth(calendar);
     }
@@ -519,7 +529,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
         if (mustBeOnFuture) {
-            minDate = Calendar.getInstance().getTime(); //minDate is Today
+            Calendar now = Calendar.getInstance();
+            now.setTimeZone(DateHelper.getTimeZone());
+            minDate = now.getTime(); //minDate is Today
         }
     }
 
@@ -531,6 +543,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         if (displayYears && this.minDate != null && this.maxDate != null) {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
             calendar.setTime(this.minDate);
             yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
             calendar.setTime(this.maxDate);
@@ -573,7 +586,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         a.recycle();
 
         if (displayDaysOfMonth) {
-            updateDaysOfMonth(Calendar.getInstance());
+            Calendar now = Calendar.getInstance();
+            now.setTimeZone(DateHelper.getTimeZone());
+            updateDaysOfMonth(now);
         }
     }
 
