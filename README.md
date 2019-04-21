@@ -153,7 +153,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
 ```groovy
-compile 'com.github.florent37:singledateandtimepicker:(last version)'
+implementation 'com.github.florent37:SingleDateAndTimePicker:v2.0.4'
 ```
 
 # Credits
