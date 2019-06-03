@@ -481,7 +481,6 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
-
     public void selectDate(Calendar calendar) {
         if (calendar == null) {
             return;
