@@ -470,14 +470,17 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDefaultDate(Date date) {
         if (date != null) {
             this.defaultDate = date;
-            
-            updateDaysOfMonth();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            updateDaysOfMonth(calendar);
 
             for (WheelPicker picker : pickers) {
                 picker.setDefaultDate(defaultDate);
             }
         }
     }
+
 
     public void selectDate(Calendar calendar) {
         if (calendar == null) {
