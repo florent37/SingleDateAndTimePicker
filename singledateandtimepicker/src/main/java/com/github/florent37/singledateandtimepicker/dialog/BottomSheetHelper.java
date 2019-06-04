@@ -74,10 +74,11 @@ public class BottomSheetHelper {
             @Override
             public boolean onPreDraw() {
               view.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (listener != null) {
-                    listener.onLoaded(view);
-                }
-              return true;
+              if (listener != null) {
+                listener.onLoaded(view);
+              }
+              animateBottomSheet();
+              return false;
             }
           });
         }
@@ -92,23 +93,6 @@ public class BottomSheetHelper {
 
   public void display() {
     init();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        final ObjectAnimator objectAnimator =
-            ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getHeight(), 0);
-        objectAnimator.addListener(new AnimatorListenerAdapter() {
-
-          @Override
-          public void onAnimationEnd(Animator animation) {
-            if (listener != null) {
-              listener.onOpen();
-            }
-          }
-        });
-        objectAnimator.start();
-      }
-    }, 200);
   }
 
   public void hide() {
@@ -138,6 +122,21 @@ public class BottomSheetHelper {
 
   private void remove() {
     if (view.getWindowToken() != null) windowManager.removeView(view);
+  }
+
+  private void animateBottomSheet() {
+    final ObjectAnimator objectAnimator =
+        ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getHeight(), 0);
+    objectAnimator.addListener(new AnimatorListenerAdapter() {
+
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        if (listener != null) {
+          listener.onOpen();
+        }
+      }
+    });
+    objectAnimator.start();
   }
 
   public interface Listener {
