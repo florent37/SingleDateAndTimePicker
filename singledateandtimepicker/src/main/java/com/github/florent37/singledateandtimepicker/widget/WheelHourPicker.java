@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
+import com.github.florent37.singledateandtimepicker.DateHelper;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,6 +83,7 @@ public class WheelHourPicker extends WheelPicker<String> {
         Object valueItem = value;
         if (value instanceof Date) {
             Calendar instance = Calendar.getInstance();
+            instance.setTimeZone(DateHelper.getTimeZone());
             instance.setTime((Date) value);
             valueItem = instance.get(Calendar.HOUR_OF_DAY);
         }

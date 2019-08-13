@@ -3,10 +3,23 @@ package com.github.florent37.singledateandtimepicker;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateHelper {
+
+    private static TimeZone timeZone;
+
+    public static void setTimeZone(TimeZone timeZoneValue)  {
+        timeZone = timeZoneValue;
+    }
+
+    public static TimeZone getTimeZone() {
+        return timeZone;
+    }
+
     public static Calendar getCalendarOfDate(Date date){
         final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.setTimeZone(timeZone);
         calendar.setTime(date);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -34,7 +47,9 @@ public class DateHelper {
     }
 
     public static Date today() {
-        return Calendar.getInstance(Locale.getDefault()).getTime();
+        Calendar now  = Calendar.getInstance(Locale.getDefault());
+        now.setTimeZone(timeZone);
+        return now.getTime();
     }
 
     public static int getMonth(Date date) {

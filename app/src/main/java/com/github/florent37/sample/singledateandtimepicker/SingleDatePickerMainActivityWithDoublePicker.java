@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -81,7 +82,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
-
+                .setTimeZone(TimeZone.getDefault())
                 .bottomSheet()
                 .curved()
 
@@ -122,7 +123,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
-
+                .setTimeZone(TimeZone.getDefault())
                 .bottomSheet()
                 .curved()
 
@@ -164,6 +165,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+                .setTimeZone(TimeZone.getDefault())
                 .bottomSheet()
                 .curved()
 
@@ -218,6 +220,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date maxDate = calendarMax.getTime();
 
         doubleBuilder = new DoubleDateAndTimePickerDialog.Builder(this)
+                .setTimeZone(TimeZone.getDefault())
                 //.bottomSheet()
                 //.curved()
 
