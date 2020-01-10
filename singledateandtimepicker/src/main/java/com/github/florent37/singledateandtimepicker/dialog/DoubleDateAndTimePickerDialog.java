@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -123,8 +124,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             titleLayout.setVisibility(View.GONE);
         }
 
-        pickerTab0.setTodayText(todayText);
-        pickerTab1.setTodayText(todayText);
+        pickerTab0.setTodayText(new DateWithLabel(todayText, new Date()));
+        pickerTab1.setTodayText(new DateWithLabel(todayText, new Date()));
 
         final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
         if (sheetContentLayout != null) {

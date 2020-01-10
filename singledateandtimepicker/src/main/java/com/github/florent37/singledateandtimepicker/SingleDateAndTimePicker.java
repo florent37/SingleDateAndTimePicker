@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 import com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayPicker;
@@ -275,8 +276,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
         this.monthPicker.updateAdapter();
     }
 
-    public void setTodayText(String todayText) {
-        if (todayText != null && !todayText.isEmpty()) {
+    public void setTodayText(DateWithLabel todayText) {
+        if (todayText != null && todayText.first != null && !todayText.first.isEmpty()) {
             daysPicker.setTodayText(todayText);
         }
     }
@@ -561,7 +562,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SingleDateAndTimePicker);
 
         final Resources resources = getResources();
-        setTodayText(a.getString(R.styleable.SingleDateAndTimePicker_picker_todayText));
+        setTodayText(new DateWithLabel(a.getString(R.styleable.SingleDateAndTimePicker_picker_todayText), new Date()));
         setTextColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_textColor, ContextCompat.getColor(context, R.color.picker_default_text_color)));
         setSelectedTextColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectedTextColor, ContextCompat.getColor(context, R.color.picker_default_selected_text_color)));
         setSelectorColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectorColor, ContextCompat.getColor(context, R.color.picker_default_selector_color)));
