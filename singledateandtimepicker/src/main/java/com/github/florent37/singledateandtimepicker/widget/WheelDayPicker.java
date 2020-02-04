@@ -82,6 +82,11 @@ public class WheelDayPicker extends WheelPicker<String> {
             minPadding = dayDifference;
         }
 
+        if (maxDate != null) {
+            int dayDifference = calculateDayDifference(maxDate);
+            maxPadding = dayDifference;
+        }
+
         Calendar instance = Calendar.getInstance();
         instance.setTimeZone(DateHelper.getTimeZone());
         instance.add(Calendar.DATE, -1 * minPadding - 1);
