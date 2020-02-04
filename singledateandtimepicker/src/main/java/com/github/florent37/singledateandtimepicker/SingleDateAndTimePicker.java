@@ -33,7 +33,7 @@ import static com.github.florent37.singledateandtimepicker.DateHelper.getCalenda
 
 public class SingleDateAndTimePicker extends LinearLayout {
 
-    public static final boolean IS_CYCLIC_DEFAULT = true;
+    public static final boolean IS_CYCLIC_DEFAULT = false;
     public static final boolean IS_CURVED_DEFAULT = false;
     public static final boolean MUST_BE_ON_FUTUR_DEFAULT = false;
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
@@ -179,6 +179,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
                         checkMinMaxDate(picker);
                     }
                 });
+
+        daysPicker.setMinDate(minDate);
+        daysPicker.setMaxDate(maxDate);
 
         minutesPicker
                 .setOnMinuteChangedListener(new WheelMinutePicker.OnMinuteChangedListener() {

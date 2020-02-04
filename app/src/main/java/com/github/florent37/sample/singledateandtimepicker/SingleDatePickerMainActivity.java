@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+
+import java.util.Calendar;
 import java.util.Date;
 
 public class SingleDatePickerMainActivity extends AppCompatActivity {
@@ -14,7 +16,9 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_date_picker_activity_main);
 
-        final SingleDateAndTimePicker singleDateAndTimePicker = (SingleDateAndTimePicker) findViewById(R.id.single_day_picker);
+        final SingleDateAndTimePicker singleDateAndTimePicker = findViewById(R.id.single_day_picker);
+        singleDateAndTimePicker.selectDate(Calendar.getInstance());
+
         singleDateAndTimePicker.addOnDateChangedListener(new SingleDateAndTimePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(String displayed, Date date) {
@@ -28,6 +32,11 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
                 singleDateAndTimePicker.setEnabled(!singleDateAndTimePicker.isEnabled());
             }
         });
+
+        Calendar minDate = Calendar.getInstance();
+        minDate.add(Calendar.DAY_OF_MONTH, -3);
+
+        singleDateAndTimePicker.setMinDate(minDate.getTime());
     }
 
     private void display(String toDisplay) {

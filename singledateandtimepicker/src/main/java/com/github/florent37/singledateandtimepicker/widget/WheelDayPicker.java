@@ -2,6 +2,7 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -9,6 +10,7 @@ import com.github.florent37.singledateandtimepicker.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +27,8 @@ public class WheelDayPicker extends WheelPicker<String> {
     private SimpleDateFormat customDateFormat;
 
     private OnDaySelectedListener onDaySelectedListener;
+    private Date minDate;
+    private Date maxDate;
 
     public WheelDayPicker(Context context) {
         super(context);
@@ -69,10 +73,18 @@ public class WheelDayPicker extends WheelPicker<String> {
     protected List<String> generateAdapterValues() {
         final List<String> days = new ArrayList<>();
 
+        int minPadding = DAYS_PADDING;
+        int maxPadding = DAYS_PADDING;
+
+        if (minDate != null) {
+            minPadding = 1;
+        }
+
         Calendar instance = Calendar.getInstance();
         instance.setTimeZone(DateHelper.getTimeZone());
-        instance.add(Calendar.DATE, -1 * DAYS_PADDING - 1);
-        for (int i = (-1) * DAYS_PADDING; i < 0; ++i) {
+        instance.add(Calendar.DATE, -1 * minPadding - 1);
+
+        for (int i = (-1) * minPadding; i < 0; ++i) {
             instance.add(Calendar.DAY_OF_MONTH, 1);
             days.add(getFormattedValue(instance.getTime()));
         }
@@ -83,7 +95,7 @@ public class WheelDayPicker extends WheelPicker<String> {
         instance = Calendar.getInstance();
         instance.setTimeZone(DateHelper.getTimeZone());
 
-        for (int i = 0; i < DAYS_PADDING; ++i) {
+        for (int i = 0; i < maxPadding; ++i) {
             instance.add(Calendar.DATE, 1);
             days.add(getFormattedValue(instance.getTime()));
         }
@@ -95,7 +107,21 @@ public class WheelDayPicker extends WheelPicker<String> {
         return getDateFormat().format(value);
     }
 
-    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
+    public void setMinDate(@Nullable Date date) {
+        if (date != null) {
+            this.minDate = date;
+            updateAdapter();
+        }
+    }
+
+    public void setMaxDate(Date date) {
+        if (date != null) {
+            this.maxDate = date;
+            updateAdapter();
+        }
+    }
+
+    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat) {
         simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
         this.customDateFormat = simpleDateFormat;
         updateAdapter();
