@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
 
@@ -77,7 +78,8 @@ public class WheelDayPicker extends WheelPicker<String> {
         int maxPadding = DAYS_PADDING;
 
         if (minDate != null) {
-            minPadding = 1;
+            int dayDifference = calculateDayDifference(minDate);
+            minPadding = dayDifference;
         }
 
         Calendar instance = Calendar.getInstance();
@@ -101,6 +103,12 @@ public class WheelDayPicker extends WheelPicker<String> {
         }
 
         return days;
+    }
+
+    private int calculateDayDifference(Date minDate) {
+        Date today = Calendar.getInstance().getTime();
+        long diffInMillies = Math.abs(today.getTime() - minDate.getTime());
+        return (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
     protected String getFormattedValue(Object value) {
