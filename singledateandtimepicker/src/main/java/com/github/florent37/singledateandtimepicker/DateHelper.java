@@ -14,6 +14,9 @@ public class DateHelper {
     }
 
     public static TimeZone getTimeZone() {
+        if(timeZone == null){
+            timeZone = TimeZone.getDefault();
+        }
         return timeZone;
     }
 
