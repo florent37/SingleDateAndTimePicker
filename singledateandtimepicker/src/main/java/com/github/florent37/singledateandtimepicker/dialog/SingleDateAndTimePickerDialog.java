@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
 import java.text.SimpleDateFormat;
@@ -126,7 +127,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
-        picker.setTodayText(todayText);
+        picker.setTodayText(new DateWithLabel(todayText, new Date()));
 
         final View pickerTitleHeader = view.findViewById(R.id.pickerTitleHeader);
         if (mainColor != null && pickerTitleHeader != null) {
