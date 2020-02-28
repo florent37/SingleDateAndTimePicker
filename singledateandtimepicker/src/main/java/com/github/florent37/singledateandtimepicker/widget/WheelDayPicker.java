@@ -136,17 +136,34 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
             }
         }
 
-        if (date != null) {
-            //try to know the year
-            final Calendar dateCalendar = DateHelper.getCalendarOfDate(date);
+        //Handling leap year.
+        SimpleDateFormat sourceDateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+        Date sourceDate = null;
+        try {
+            int year = todayCalendar.get(Calendar.YEAR);
 
-            todayCalendar.add(Calendar.DATE, (itemPosition - todayPosition));
-
-            dateCalendar.set(Calendar.YEAR, todayCalendar.get(Calendar.YEAR));
-            date = dateCalendar.getTime();
+            sourceDate = sourceDateFormat.parse(itemText+" "+ year);
+            String formadfdsxftStN = DateUtils.formatFull(sourceDate);
+        } catch (ParseException e) {
+            Log.e("ERROR",e.toString());
         }
 
-        return date;
+        if(sourceDate == null){
+            sourceDate = date;
+        }
+        
+        //This is no need.
+//         if (date != null) {
+//             //try to know the year
+//             final Calendar dateCalendar = DateHelper.getCalendarOfDate(date);
+
+//             todayCalendar.add(Calendar.DATE, (itemPosition - todayPosition));
+
+//             dateCalendar.set(Calendar.YEAR, todayCalendar.get(Calendar.YEAR));
+//             date = dateCalendar.getTime();
+//         }
+
+        return sourceDate;
     }
 
     public void setTodayText(DateWithLabel today) {
