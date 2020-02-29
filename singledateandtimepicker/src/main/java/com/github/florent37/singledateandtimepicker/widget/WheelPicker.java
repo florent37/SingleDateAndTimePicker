@@ -258,8 +258,10 @@ public abstract class WheelPicker<V> extends View {
     public void setDefaultDate(Date date) {
         if (adapter != null && adapter.getItemCount() > 0) {
             final int indexOfDate = findIndexOfDate(date);
-            this.defaultValue = adapter.getData().get(indexOfDate);
-            setSelectedItemPosition(indexOfDate);
+            if(indexOfDate >= 0) {
+                this.defaultValue = adapter.getData().get(indexOfDate);
+                setSelectedItemPosition(indexOfDate);
+            }
         }
     }
 
@@ -1096,7 +1098,11 @@ public abstract class WheelPicker<V> extends View {
 
         @Override
         public String getItemText(int position) {
-            return String.valueOf(data.get(position));
+            try {
+                return String.valueOf(data.get(position));
+            } catch (Throwable t){
+                return  "";
+            }
         }
 
         public List<V> getData() {
