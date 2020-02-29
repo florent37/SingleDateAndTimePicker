@@ -7,7 +7,7 @@ import java.util.TimeZone;
 
 public class DateHelper {
 
-    private static TimeZone timeZone;
+    private static TimeZone timeZone = TimeZone.getDefault();
 
     public static void setTimeZone(TimeZone timeZoneValue)  {
         timeZone = timeZoneValue;
