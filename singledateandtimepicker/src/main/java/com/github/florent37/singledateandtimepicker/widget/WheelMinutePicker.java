@@ -37,7 +37,9 @@ public class WheelMinutePicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        return getFormattedValue(Calendar.getInstance().get(Calendar.MINUTE));
+        Calendar now = Calendar.getInstance();
+        now.setTimeZone(DateHelper.getTimeZone());
+        return getFormattedValue(now.get(Calendar.MINUTE));
     }
 
     @Override
@@ -76,6 +78,7 @@ public class WheelMinutePicker extends WheelPicker<String> {
         Object valueItem = value;
         if (value instanceof Date) {
             final Calendar instance = Calendar.getInstance();
+            instance.setTimeZone(DateHelper.getTimeZone());
             instance.setTime((Date) value);
             valueItem = instance.get(Calendar.MINUTE);
         }

@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
+import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.LocaleHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
@@ -932,6 +933,7 @@ public abstract class WheelPicker<V> extends View {
 
         if (this instanceof WheelDayOfMonthPicker) {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.DAY_OF_MONTH) - 1;
         }
@@ -945,6 +947,7 @@ public abstract class WheelPicker<V> extends View {
 
         if (this instanceof WheelMonthPicker) {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.MONTH);
         }
@@ -952,6 +955,7 @@ public abstract class WheelPicker<V> extends View {
         if (this instanceof WheelYearPicker) {
             WheelYearPicker yearPick = (WheelYearPicker) this;
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.YEAR) - yearPick.minYear;
         }

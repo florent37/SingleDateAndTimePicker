@@ -9,14 +9,17 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 import com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -124,7 +127,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
-        picker.setTodayText(todayText);
+        picker.setTodayText(new DateWithLabel(todayText, new Date()));
 
         final View pickerTitleHeader = view.findViewById(R.id.pickerTitleHeader);
         if (mainColor != null && pickerTitleHeader != null) {
@@ -513,6 +516,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder customLocale(Locale locale) {
             this.customLocale = locale;
+            return this;
+        }
+
+        public Builder setTimeZone(TimeZone timeZone) {
+            DateHelper.setTimeZone(timeZone);
             return this;
         }
 

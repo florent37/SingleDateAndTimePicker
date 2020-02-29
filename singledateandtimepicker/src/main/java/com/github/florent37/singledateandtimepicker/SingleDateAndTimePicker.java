@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 import com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayPicker;
@@ -275,8 +276,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
         this.monthPicker.updateAdapter();
     }
 
-    public void setTodayText(String todayText) {
-        if (todayText != null && !todayText.isEmpty()) {
+    public void setTodayText(DateWithLabel todayText) {
+        if (todayText != null && todayText.first != null && !todayText.first.isEmpty()) {
             daysPicker.setTodayText(todayText);
         }
     }
@@ -349,7 +350,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setMinDate(Date minDate) {
-        this.minDate = minDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTime(minDate);
+        this.minDate = calendar.getTime();
         setMinYear();
     }
 
@@ -358,7 +362,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setMaxDate(Date maxDate) {
-        this.maxDate = maxDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTime(maxDate);
+        this.maxDate = calendar.getTime();
         setMinYear();
     }
 
@@ -430,7 +437,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final int minute = minutesPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
-
+        calendar.setTimeZone(DateHelper.getTimeZone());
         if (displayDays) {
             final Date dayDate = daysPicker.getCurrentDate();
             calendar.setTime(dayDate);
@@ -469,11 +476,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setDefaultDate(Date date) {
         if (date != null) {
-            this.defaultDate = date;
-
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
             calendar.setTime(date);
-            updateDaysOfMonth(calendar);
+            this.defaultDate = calendar.getTime();
+            
+            updateDaysOfMonth();
 
             for (WheelPicker picker : pickers) {
                 picker.setDefaultDate(defaultDate);
@@ -508,6 +516,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private void updateDaysOfMonth() {
         final Date date = getDate();
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(DateHelper.getTimeZone());
         calendar.setTime(date);
         updateDaysOfMonth(calendar);
     }
@@ -521,7 +530,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
         if (mustBeOnFuture) {
-            minDate = Calendar.getInstance().getTime(); //minDate is Today
+            Calendar now = Calendar.getInstance();
+            now.setTimeZone(DateHelper.getTimeZone());
+            minDate = now.getTime(); //minDate is Today
         }
     }
 
@@ -533,6 +544,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         if (displayYears && this.minDate != null && this.maxDate != null) {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(DateHelper.getTimeZone());
             calendar.setTime(this.minDate);
             yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
             calendar.setTime(this.maxDate);
@@ -550,7 +562,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SingleDateAndTimePicker);
 
         final Resources resources = getResources();
-        setTodayText(a.getString(R.styleable.SingleDateAndTimePicker_picker_todayText));
+        setTodayText(new DateWithLabel(a.getString(R.styleable.SingleDateAndTimePicker_picker_todayText), new Date()));
         setTextColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_textColor, ContextCompat.getColor(context, R.color.picker_default_text_color)));
         setSelectedTextColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectedTextColor, ContextCompat.getColor(context, R.color.picker_default_selected_text_color)));
         setSelectorColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectorColor, ContextCompat.getColor(context, R.color.picker_default_selector_color)));
@@ -575,7 +587,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         a.recycle();
 
         if (displayDaysOfMonth) {
-            updateDaysOfMonth(Calendar.getInstance());
+            Calendar now = Calendar.getInstance();
+            now.setTimeZone(DateHelper.getTimeZone());
+            updateDaysOfMonth(now);
         }
     }
 

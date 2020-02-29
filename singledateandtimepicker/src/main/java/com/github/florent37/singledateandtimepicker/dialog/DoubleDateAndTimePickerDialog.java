@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -20,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -121,8 +124,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             titleLayout.setVisibility(View.GONE);
         }
 
-        pickerTab0.setTodayText(todayText);
-        pickerTab1.setTodayText(todayText);
+        pickerTab0.setTodayText(new DateWithLabel(todayText, new Date()));
+        pickerTab1.setTodayText(new DateWithLabel(todayText, new Date()));
 
         final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
         if (sheetContentLayout != null) {
@@ -675,6 +678,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder setTab1DisplayMinutes(boolean tab1Minutes) {
             this.tab1Minutes = tab1Minutes;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder setTimeZone(TimeZone timeZone) {
+            DateHelper.setTimeZone(timeZone);
             return this;
         }
 
