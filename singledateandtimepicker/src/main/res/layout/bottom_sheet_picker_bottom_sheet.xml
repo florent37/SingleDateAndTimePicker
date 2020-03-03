@@ -1,10 +1,8 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_sheet_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/sheetContentLayout"
@@ -13,41 +11,25 @@
         android:layout_gravity="bottom"
         android:background="@android:color/white"
         android:elevation="4dp"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            >
+            android:layout_height="1dp">
 
             <TextView
                 android:id="@+id/sheetTitle"
-                android:minWidth="80dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center_vertical"
-                android:gravity="center"
-                android:background="?android:attr/selectableItemBackground"
-                android:text="title here"
                 android:layout_marginLeft="12dp"
-                android:textColor="@color/picker_button_background_selected"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:id="@+id/buttonOk"
-                android:minWidth="80dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end|center_vertical"
-                android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"
-                android:text="@android:string/ok"
-                android:textAllCaps="true"
+                android:gravity="center"
+                android:minWidth="80dp"
+                android:visibility="gone"
+                android:text="title here"
                 android:textColor="@color/picker_button_background_selected"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </FrameLayout>
 
@@ -60,8 +42,24 @@
             app:picker_cyclic="true"
             app:picker_selectedTextColor="@color/picker_button_background_selected"
             app:picker_textSize="20sp"
-            app:picker_visibleItemCount="7"
-            />
+            app:picker_visibleItemCount="7" />
+
+        <TextView
+            android:id="@+id/buttonOk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/shape_rounded_button_bg"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Select"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </FrameLayout>
