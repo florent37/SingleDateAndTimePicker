@@ -123,7 +123,15 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         final Calendar todayCalendar = Calendar.getInstance();
         todayCalendar.setTimeZone(DateHelper.getTimeZone());
 
-        final int todayPosition = adapter.getData().indexOf(getTodayText());
+        int todayPosition = -1;
+        final List<DateWithLabel> data = adapter.getData();
+
+        for(int i = 0; i < data.size(); i++) {
+            if (data.get(i).first.equals(getTodayText())) {
+                todayPosition = i;
+                break;
+            }
+        }
 
         if (getTodayText().equals(itemText)) {
             date = todayCalendar.getTime();
@@ -136,10 +144,12 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
     }
 
     public void setTodayText(DateWithLabel today) {
-        int index = adapter.getData().indexOf(getTodayText());
-        if (index != -1) {
-            adapter.getData().set(index, today);
-            notifyDatasetChanged();
+        final List<DateWithLabel> data = adapter.getData();
+        for(int i = 0; i < data.size(); i++) {
+            if (data.get(i).first.equals(getTodayText())) {
+                adapter.getData().set(i, today);
+                notifyDatasetChanged();
+            }
         }
     }
 

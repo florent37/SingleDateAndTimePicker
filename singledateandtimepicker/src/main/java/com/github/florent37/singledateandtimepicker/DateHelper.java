@@ -59,4 +59,27 @@ public class DateHelper {
     public static int getDay(Date date){
         return getCalendarOfDate(date).get(Calendar.DAY_OF_MONTH);
     }
+
+    public static int compareDateIgnoreTime(Date first, Date second) {
+        Date firstZeroTime = getZeroTimeDate(first);
+        Date secondZeroTime = getZeroTimeDate(second);
+
+        return firstZeroTime.compareTo(secondZeroTime);
+    }
+
+    private static Date getZeroTimeDate(Date date) {
+        Date res = date;
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime( res );
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        res = calendar.getTime();
+
+        return res;
+    }
+
 }
