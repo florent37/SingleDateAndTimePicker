@@ -1,7 +1,6 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -14,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
+import androidx.annotation.NonNull;
+
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.DAYS_PADDING;
 
 public class WheelDayPicker extends WheelPicker<DateWithLabel> {
 
@@ -59,7 +60,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
     @Override
     protected void onItemSelected(int position, DateWithLabel item) {
         if (onDaySelectedListener != null) {
-            onDaySelectedListener.onDaySelected(this, position, item.first, item.second);
+            onDaySelectedListener.onDaySelected(this, position, item.label, item.date);
         }
     }
 
@@ -127,7 +128,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         final List<DateWithLabel> data = adapter.getData();
 
         for(int i = 0; i < data.size(); i++) {
-            if (data.get(i).first.equals(getTodayText())) {
+            if (data.get(i).label.equals(getTodayText())) {
                 todayPosition = i;
                 break;
             }
@@ -146,7 +147,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
     public void setTodayText(DateWithLabel today) {
         final List<DateWithLabel> data = adapter.getData();
         for(int i = 0; i < data.size(); i++) {
-            if (data.get(i).first.equals(getTodayText())) {
+            if (data.get(i).label.equals(getTodayText())) {
                 adapter.getData().set(i, today);
                 notifyDatasetChanged();
             }

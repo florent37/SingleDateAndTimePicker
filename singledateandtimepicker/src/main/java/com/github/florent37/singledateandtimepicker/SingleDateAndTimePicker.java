@@ -278,7 +278,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setTodayText(DateWithLabel todayText) {
-        if (todayText != null && todayText.first != null && !todayText.first.isEmpty()) {
+        if (todayText != null && todayText.label != null && !todayText.label.isEmpty()) {
             daysPicker.setTodayText(todayText);
         }
     }

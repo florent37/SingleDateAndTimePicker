@@ -15,8 +15,6 @@ import android.graphics.Region;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -34,6 +32,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 public abstract class WheelPicker<V> extends View {
 
@@ -719,7 +720,7 @@ public abstract class WheelPicker<V> extends View {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i) instanceof DateWithLabel) {
                 DateWithLabel dwl = (DateWithLabel) list.get(i);
-                if (dwl.first.equals(getLocalizedString(R.string.picker_today))) {
+                if (dwl.label.equals(getLocalizedString(R.string.picker_today))) {
                     return i;
                 }
             }
