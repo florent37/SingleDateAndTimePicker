@@ -3,9 +3,6 @@ package com.github.florent37.singledateandtimepicker.dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,6 +20,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -225,8 +226,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         pickerTab0.setMustBeOnFuture(mustBeOnFuture);
         pickerTab1.setMustBeOnFuture(mustBeOnFuture);
 
-        pickerTab0.setStepMinutes(minutesStep);
-        pickerTab1.setStepMinutes(minutesStep);
+        pickerTab0.setStepSizeMinutes(minutesStep);
+        pickerTab1.setStepSizeMinutes(minutesStep);
 
         if (mainColor != null) {
             pickerTab0.setSelectedTextColor(mainColor);

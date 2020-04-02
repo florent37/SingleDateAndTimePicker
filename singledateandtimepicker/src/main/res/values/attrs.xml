@@ -44,5 +44,7 @@
         <attr name="picker_displayMinutes" format="boolean"/>
         <attr name="picker_displayHours" format="boolean"/>
         <attr name="picker_displayMonthNumbers" format="boolean" />
+        <attr name="picker_stepSizeMinutes" format="integer" />
+        <attr name="picker_stepSizeHours" format="integer" />
     </declare-styleable>
 </resources>

@@ -3,9 +3,6 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,6 +26,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import static com.github.florent37.singledateandtimepicker.DateHelper.getCalendarOfDate;
 
@@ -466,12 +467,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         return calendar.getTime();
     }
 
-    public void setStepMinutes(int minutesStep) {
-        minutesPicker.setStepMinutes(minutesStep);
+    public void setStepSizeMinutes(int minutesStep) {
+        minutesPicker.setStepSizeMinutes(minutesStep);
     }
 
-    public void setHoursStep(int hoursStep) {
-        hoursPicker.setHoursStep(hoursStep);
+    public void setStepSizeHours(int hoursStep) {
+        hoursPicker.setStepSizeHours(hoursStep);
     }
 
     public void setDefaultDate(Date date) {
@@ -572,6 +573,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setCyclic(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT));
         setMustBeOnFuture(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT));
         setVisibleItemCount(a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT));
+
+        setStepSizeMinutes(a.getInt(R.styleable.SingleDateAndTimePicker_picker_stepSizeMinutes, 1));
+        setStepSizeHours(a.getInt(R.styleable.SingleDateAndTimePicker_picker_stepSizeHours, 1));
 
         setDisplayDays(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays));
         setDisplayMinutes(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes));

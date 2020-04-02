@@ -1,9 +1,6 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,6 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -140,7 +141,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         }
         picker.setMustBeOnFuture(mustBeOnFuture);
 
-        picker.setStepMinutes(minutesStep);
+        picker.setStepSizeMinutes(minutesStep);
 
         if (dayFormatter != null) {
             picker.setDayFormatter(dayFormatter);

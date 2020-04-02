@@ -1,7 +1,6 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -11,11 +10,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 import static com.github.florent37.singledateandtimepicker.DateHelper.getHour;
 import static com.github.florent37.singledateandtimepicker.DateHelper.today;
-import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_AM_PM;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_DEFAULT;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_HOUR_DEFAULT;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_HOURS_DEFAULT;
 
 public class WheelHourPicker extends WheelPicker<String> {
 
@@ -128,7 +130,7 @@ public class WheelHourPicker extends WheelPicker<String> {
         notifyDatasetChanged();
     }
 
-    public void setHoursStep(int hoursStep) {
+    public void setStepSizeHours(int hoursStep) {
         if (hoursStep >= MIN_HOUR_DEFAULT && hoursStep <= MAX_HOUR_DEFAULT) {
             this.hoursStep = hoursStep;
         }

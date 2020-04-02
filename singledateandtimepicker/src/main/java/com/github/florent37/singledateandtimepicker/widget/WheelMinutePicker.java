@@ -1,7 +1,6 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -10,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_MINUTES;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_MINUTES;
@@ -85,7 +86,7 @@ public class WheelMinutePicker extends WheelPicker<String> {
         return String.format(getCurrentLocale(), FORMAT, valueItem);
     }
 
-    public void setStepMinutes(int stepMinutes) {
+    public void setStepSizeMinutes(int stepMinutes) {
         if (stepMinutes < 60 && stepMinutes > 0) {
             this.stepMinutes = stepMinutes;
             updateAdapter();
