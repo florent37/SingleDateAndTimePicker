@@ -39,7 +39,7 @@ public class WheelMinutePicker extends WheelPicker<String> {
     @Override
     protected String initDefault() {
         Calendar now = Calendar.getInstance();
-        now.setTimeZone(DateHelper.getTimeZone());
+        now.setTimeZone(dateHelper.getTimeZone());
         return getFormattedValue(now.get(Calendar.MINUTE));
     }
 
@@ -72,14 +72,14 @@ public class WheelMinutePicker extends WheelPicker<String> {
 
     @Override
     public int findIndexOfDate(@NonNull Date date) {
-        return findIndexOfMinute(DateHelper.getMinuteOf(date));
+        return findIndexOfMinute(dateHelper.getMinuteOf(date));
     }
 
     protected String getFormattedValue(Object value) {
         Object valueItem = value;
         if (value instanceof Date) {
             final Calendar instance = Calendar.getInstance();
-            instance.setTimeZone(DateHelper.getTimeZone());
+            instance.setTimeZone(dateHelper.getTimeZone());
             instance.setTime((Date) value);
             valueItem = instance.get(Calendar.MINUTE);
         }

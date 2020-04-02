@@ -5,18 +5,26 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class DateHelper {
+    // Don't use static, as timezone may change while app is alive
+    private TimeZone timeZone = TimeZone.getDefault();
 
-    private static TimeZone timeZone = TimeZone.getDefault();
+    public DateHelper() {
+        this.timeZone = TimeZone.getDefault();
+    }
 
-    public static void setTimeZone(TimeZone timeZoneValue)  {
+    public DateHelper(TimeZone timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public void setTimeZone(TimeZone timeZoneValue) {
         timeZone = timeZoneValue;
     }
 
-    public static TimeZone getTimeZone() {
+    public TimeZone getTimeZone() {
         return timeZone;
     }
 
-    public static Calendar getCalendarOfDate(Date date){
+    public Calendar getCalendarOfDate(Date date) {
         final Calendar calendar = Calendar.getInstance(timeZone);
         calendar.setTime(date);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -24,36 +32,36 @@ public class DateHelper {
         return calendar;
     }
 
-    public static int getHour(Date date){
+    public int getHour(Date date) {
         return getCalendarOfDate(date).get(Calendar.HOUR);
     }
 
-    public static int getHourOfDay(Date date){
+    public int getHourOfDay(Date date) {
         return getCalendarOfDate(date).get(Calendar.HOUR);
     }
 
-    public static int getHour(Date date, boolean isAmPm){
-        if(isAmPm){
+    public int getHour(Date date, boolean isAmPm) {
+        if (isAmPm) {
             return getHourOfDay(date);
         } else {
             return getHour(date);
         }
     }
 
-    public static int getMinuteOf(Date date) {
+    public int getMinuteOf(Date date) {
         return getCalendarOfDate(date).get(Calendar.MINUTE);
     }
 
-    public static Date today() {
-        Calendar now  = Calendar.getInstance(timeZone);
+    public Date today() {
+        Calendar now = Calendar.getInstance(timeZone);
         return now.getTime();
     }
 
-    public static int getMonth(Date date) {
+    public int getMonth(Date date) {
         return getCalendarOfDate(date).get(Calendar.MONTH);
     }
 
-    public static int getDay(Date date){
+    public int getDay(Date date) {
         return getCalendarOfDate(date).get(Calendar.DAY_OF_MONTH);
     }
 
@@ -72,5 +80,4 @@ public class DateHelper {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-
 }

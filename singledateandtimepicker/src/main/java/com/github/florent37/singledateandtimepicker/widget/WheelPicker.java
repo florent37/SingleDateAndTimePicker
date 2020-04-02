@@ -46,6 +46,7 @@ public abstract class WheelPicker<V> extends View {
     public static final int ALIGN_RIGHT = 2;
     private static final int MAX_ANGLE = 90;
     protected final static String FORMAT = "%1$02d"; // two digits
+    protected DateHelper dateHelper = new DateHelper(); // Overwritten from Single..Picker
     private final Handler handler = new Handler();
     protected V defaultValue;
     protected int lastScrollPosition;
@@ -945,7 +946,7 @@ public abstract class WheelPicker<V> extends View {
 
         if (this instanceof WheelDayOfMonthPicker) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.DAY_OF_MONTH) - 1;
         }
@@ -959,7 +960,7 @@ public abstract class WheelPicker<V> extends View {
 
         if (this instanceof WheelMonthPicker) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.MONTH);
         }
@@ -967,7 +968,7 @@ public abstract class WheelPicker<V> extends View {
         if (this instanceof WheelYearPicker) {
             WheelYearPicker yearPick = (WheelYearPicker) this;
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.YEAR) - yearPick.minYear;
         }
@@ -1015,6 +1016,14 @@ public abstract class WheelPicker<V> extends View {
             //noinspection deprecation
             return getResources().getConfiguration().locale;
         }
+    }
+
+    public void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
+    public DateHelper getDateHelper() {
+        return dateHelper;
     }
 
     public interface BaseAdapter<V> {

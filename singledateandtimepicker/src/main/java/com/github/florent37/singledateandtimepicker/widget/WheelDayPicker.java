@@ -3,7 +3,6 @@ package com.github.florent37.singledateandtimepicker.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.text.SimpleDateFormat;
@@ -37,14 +36,14 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
     @Override
     protected void init() {
         simpleDateFormat = new SimpleDateFormat(DAY_FORMAT_PATTERN, getCurrentLocale());
-        simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
+        simpleDateFormat.setTimeZone(dateHelper.getTimeZone());
     }
 
     @Override
     public void setCustomLocale(Locale customLocale) {
         super.setCustomLocale(customLocale);
         simpleDateFormat = new SimpleDateFormat(DAY_FORMAT_PATTERN, getCurrentLocale());
-        simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
+        simpleDateFormat.setTimeZone(dateHelper.getTimeZone());
     }
 
     @Override
@@ -69,7 +68,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         final List<DateWithLabel> days = new ArrayList<>();
 
         Calendar instance = Calendar.getInstance();
-        instance.setTimeZone(DateHelper.getTimeZone());
+        instance.setTimeZone(dateHelper.getTimeZone());
         instance.add(Calendar.DATE, -1 * DAYS_PADDING - 1);
         for (int i = (-1) * DAYS_PADDING; i < 0; ++i) {
             instance.add(Calendar.DAY_OF_MONTH, 1);
@@ -81,7 +80,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         days.add(new DateWithLabel(getTodayText(), new Date()));
 
         instance = Calendar.getInstance();
-        instance.setTimeZone(DateHelper.getTimeZone());
+        instance.setTimeZone(dateHelper.getTimeZone());
 
         for (int i = 0; i < DAYS_PADDING; ++i) {
             instance.add(Calendar.DATE, 1);
@@ -97,7 +96,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
     }
 
     public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
-        simpleDateFormat.setTimeZone(DateHelper.getTimeZone());
+        simpleDateFormat.setTimeZone(dateHelper.getTimeZone());
         this.customDateFormat = simpleDateFormat;
         updateAdapter();
         return this;
@@ -119,10 +118,10 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
     }
 
     private Date convertItemToDate(int itemPosition) {
-        Date date = null;
+        Date date;
         final String itemText = adapter.getItemText(itemPosition);
         final Calendar todayCalendar = Calendar.getInstance();
-        todayCalendar.setTimeZone(DateHelper.getTimeZone());
+        todayCalendar.setTimeZone(dateHelper.getTimeZone());
 
         int todayPosition = -1;
         final List<DateWithLabel> data = adapter.getData();
@@ -140,7 +139,6 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
             todayCalendar.add(Calendar.DAY_OF_YEAR,(itemPosition - todayPosition));
             date = todayCalendar.getTime();
         }
-
         return date;
     }
 

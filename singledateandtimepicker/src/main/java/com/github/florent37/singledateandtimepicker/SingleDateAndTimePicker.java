@@ -26,12 +26,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getCalendarOfDate;
 
 public class SingleDateAndTimePicker extends LinearLayout {
 
@@ -41,6 +41,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
     private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
     private static final int PM_HOUR_ADDITION = 12;
+    private DateHelper dateHelper = new DateHelper();
 
     private static final CharSequence FORMAT_24_HOUR = "EEE d MMM H:mm";
     private static final CharSequence FORMAT_12_HOUR = "EEE d MMM h:mm a";
@@ -121,8 +122,18 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 monthPicker,
                 yearsPicker
         ));
-
+        for (WheelPicker wheelPicker : pickers) {
+            wheelPicker.setDateHelper(dateHelper);
+        }
         init(context, attrs);
+    }
+
+    public void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        dateHelper.setTimeZone(timeZone);
     }
 
     @Override
@@ -352,7 +363,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMinDate(Date minDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(minDate);
         this.minDate = calendar.getTime();
         setMinYear();
@@ -364,7 +375,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMaxDate(Date maxDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(maxDate);
         this.maxDate = calendar.getTime();
         setMinYear();
@@ -409,11 +420,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     private boolean isBeforeMinDate(Date date) {
-        return getCalendarOfDate(date).before(getCalendarOfDate(minDate));
+        return dateHelper.getCalendarOfDate(date).before(dateHelper.getCalendarOfDate(minDate));
     }
 
     private boolean isAfterMaxDate(Date date) {
-        return getCalendarOfDate(date).after(getCalendarOfDate(maxDate));
+        return dateHelper.getCalendarOfDate(date).after(dateHelper.getCalendarOfDate(maxDate));
     }
 
     public void addOnDateChangedListener(OnDateChangedListener listener) {
@@ -438,7 +449,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final int minute = minutesPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         if (displayDays) {
             final Date dayDate = daysPicker.getCurrentDate();
             calendar.setTime(dayDate);
@@ -460,7 +471,6 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 }
             }
         }
-
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
@@ -479,7 +489,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDefaultDate(Date date) {
         if (date != null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             this.defaultDate = calendar.getTime();
             
@@ -518,7 +528,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private void updateDaysOfMonth() {
         final Date date = getDate();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(date);
         updateDaysOfMonth(calendar);
     }
@@ -533,7 +543,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         this.mustBeOnFuture = mustBeOnFuture;
         if (mustBeOnFuture) {
             Calendar now = Calendar.getInstance();
-            now.setTimeZone(DateHelper.getTimeZone());
+            now.setTimeZone(dateHelper.getTimeZone());
             minDate = now.getTime(); //minDate is Today
         }
     }
@@ -546,7 +556,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         if (displayYears && this.minDate != null && this.maxDate != null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(this.minDate);
             yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
             calendar.setTime(this.maxDate);
@@ -590,10 +600,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setMinYear();
 
         a.recycle();
-
         if (displayDaysOfMonth) {
             Calendar now = Calendar.getInstance();
-            now.setTimeZone(DateHelper.getTimeZone());
+            now.setTimeZone(dateHelper.getTimeZone());
             updateDaysOfMonth(now);
         }
     }

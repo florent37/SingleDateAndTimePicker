@@ -2,16 +2,16 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class WheelYearPicker extends WheelPicker<String> {
 
@@ -34,7 +34,7 @@ public class WheelYearPicker extends WheelPicker<String> {
         simpleDateFormat = new SimpleDateFormat("yyyy", getCurrentLocale());
 
         Calendar instance = Calendar.getInstance();
-        instance.setTimeZone(DateHelper.getTimeZone());
+        instance.setTimeZone(dateHelper.getTimeZone());
         int currentYear = instance.get(Calendar.YEAR);
         this.minYear = currentYear - SingleDateAndTimeConstants.MIN_YEAR_DIFF;
         this.maxYear = currentYear + SingleDateAndTimeConstants.MAX_YEAR_DIFF;
@@ -73,7 +73,7 @@ public class WheelYearPicker extends WheelPicker<String> {
         final List<String> years = new ArrayList<>();
 
         final Calendar instance = Calendar.getInstance();
-        instance.setTimeZone(DateHelper.getTimeZone());
+        instance.setTimeZone(dateHelper.getTimeZone());
         instance.set(Calendar.YEAR, minYear-1);
 
         for (int i = minYear; i <= maxYear; i++) {

@@ -3,15 +3,10 @@ package com.github.florent37.singledateandtimepicker.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static com.github.florent37.singledateandtimepicker.DateHelper.getMonth;
-import static com.github.florent37.singledateandtimepicker.DateHelper.today;
 
 public class WheelMonthPicker extends WheelPicker<String> {
 
@@ -40,7 +35,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
         final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", getCurrentLocale());
         final Calendar cal = Calendar.getInstance(getCurrentLocale());
-        cal.setTimeZone(DateHelper.getTimeZone());
+        cal.setTimeZone(dateHelper.getTimeZone());
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
         for (int i = 0; i < 12; i++) {
@@ -58,7 +53,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        return String.valueOf(getMonth(today()));
+        return String.valueOf(dateHelper.getMonth(dateHelper.today()));
     }
 
     public void setOnMonthSelectedListener(MonthSelectedListener listener) {

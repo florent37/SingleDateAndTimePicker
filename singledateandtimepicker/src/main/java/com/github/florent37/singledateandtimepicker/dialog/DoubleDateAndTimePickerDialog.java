@@ -36,6 +36,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     private TextView buttonTab1;
     private SingleDateAndTimePicker pickerTab0;
     private SingleDateAndTimePicker pickerTab1;
+    private final DateHelper dateHelper = new DateHelper();
     private View tab0;
     private View tab1;
     @Nullable
@@ -107,7 +108,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         final View titleLayout = view.findViewById(R.id.sheetTitleLayout);
         final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
-        if(title != null) {
+        if (title != null) {
             if (titleTextView != null) {
                 titleTextView.setText(title);
                 if (titleTextColor != null) {
@@ -120,8 +121,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             if (mainColor != null && titleLayout != null) {
                 titleLayout.setBackgroundColor(mainColor);
             }
-        }
-        else {
+        } else {
             titleLayout.setVisibility(View.GONE);
         }
 
@@ -287,8 +287,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     @NonNull
     private StateListDrawable getTabsListDrawable() {
         final StateListDrawable colorState0 = new StateListDrawable();
-        colorState0.addState(new int[] {android.R.attr.state_selected}, new ColorDrawable(mainColor));
-        colorState0.addState(new int[] {-android.R.attr.state_selected}, new ColorDrawable(backgroundColor));
+        colorState0.addState(new int[]{android.R.attr.state_selected}, new ColorDrawable(mainColor));
+        colorState0.addState(new int[]{-android.R.attr.state_selected}, new ColorDrawable(backgroundColor));
         return colorState0;
     }
 
@@ -417,6 +417,13 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private DoubleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
+        dateHelper.setTimeZone(timeZone);
+        pickerTab0.setTimeZone(timeZone);
+        pickerTab1.setTimeZone(timeZone);
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -424,7 +431,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
     }
 
     @Override
-    public void dismiss(){
+    public void dismiss() {
         super.dismiss();
         bottomSheetHelper.dismiss();
     }
@@ -531,6 +538,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private boolean tab1Days = true;
         private boolean tab1Hours = true;
         private boolean tab1Minutes = true;
+        private TimeZone timeZone;
 
         public Builder(Context context) {
             this.context = context;
@@ -683,7 +691,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         }
 
         public DoubleDateAndTimePickerDialog.Builder setTimeZone(TimeZone timeZone) {
-            DateHelper.setTimeZone(timeZone);
+            this.timeZone = timeZone;
             return this;
         }
 
@@ -713,7 +721,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setDayFormatter(dayFormatter)
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
-                    .setSecondDateAfterFirst(secondDateAfterFirst);
+                    .setSecondDateAfterFirst(secondDateAfterFirst)
+                    .setTimeZone(timeZone);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
@@ -741,9 +750,10 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
-        public void dismiss(){
-            if(dialog!=null)
+        public void dismiss() {
+            if (dialog != null) {
                 dialog.dismiss();
+            }
         }
     }
 }
