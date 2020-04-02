@@ -17,7 +17,11 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_date_picker_activity_main);
 
-        final SingleDateAndTimePicker singleDateAndTimePicker = (SingleDateAndTimePicker) findViewById(R.id.single_day_picker);
+        final SingleDateAndTimePicker singleDateAndTimePicker = findViewById(R.id.single_day_picker);
+        // Example for setting default selected date to yesterday
+//        Calendar instance = Calendar.getInstance();
+//        instance.add(Calendar.DATE, -1 );
+//        singleDateAndTimePicker.setDefaultDate(instance.getTime());
         singleDateAndTimePicker.addOnDateChangedListener(new SingleDateAndTimePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(String displayed, Date date) {
