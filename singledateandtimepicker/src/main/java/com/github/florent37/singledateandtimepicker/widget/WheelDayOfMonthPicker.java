@@ -26,7 +26,7 @@ public class WheelDayOfMonthPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> dayList = new ArrayList<>();
 
         for (int i = 1; i <= daysInMonth; i++) {

@@ -30,7 +30,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> monthList = new ArrayList<>();
 
         final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", getCurrentLocale());

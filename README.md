@@ -160,7 +160,8 @@ Some/most options are also available via XML:
         app:picker_selectorColor="@android:color/transparent"
         app:picker_stepSizeHours="2"
         app:picker_stepSizeMinutes="5"
-        app:picker_cyclic="false"
+        app:picker_cyclic="false"        
+        app:picker_dayCount="31"
         app:picker_mustBeOnFuture="true"
         app:picker_visibleItemCount="7"
         />

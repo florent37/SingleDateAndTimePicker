@@ -97,6 +97,7 @@ public abstract class WheelPicker<V> extends View {
     private boolean hasAtmospheric;
     private boolean isCyclic;
     private boolean isCurved;
+    private boolean showOnlyFutureDate;
 
     private boolean isClick;
     private boolean isForceFinishScroll;
@@ -181,7 +182,7 @@ public abstract class WheelPicker<V> extends View {
 
         init();
         defaultValue = initDefault();
-        adapter.setData(generateAdapterValues());
+        adapter.setData(generateAdapterValues(showOnlyFutureDate));
         currentItemPosition = adapter.getItemPosition(defaultValue);
         selectedItemPosition = currentItemPosition;
     }
@@ -191,11 +192,11 @@ public abstract class WheelPicker<V> extends View {
     protected abstract V initDefault();
 
     public void updateAdapter() {
-        adapter.setData(generateAdapterValues());
+        adapter.setData(generateAdapterValues(showOnlyFutureDate));
         notifyDatasetChanged();
     }
 
-    protected abstract List<V> generateAdapterValues();
+    protected abstract List<V> generateAdapterValues(boolean showOnlyFutureDates);
 
     @Override
     protected void onAttachedToWindow() {
@@ -1024,6 +1025,14 @@ public abstract class WheelPicker<V> extends View {
 
     public DateHelper getDateHelper() {
         return dateHelper;
+    }
+
+    public void setShowOnlyFutureDate(boolean showOnlyFutureDate) {
+        this.showOnlyFutureDate = showOnlyFutureDate;
+    }
+
+    public boolean getShowOnlyFutureDate() {
+        return showOnlyFutureDate;
     }
 
     public interface BaseAdapter<V> {

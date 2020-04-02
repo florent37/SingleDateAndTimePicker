@@ -3,8 +3,6 @@ package com.github.florent37.singledateandtimepicker.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +47,7 @@ public class WheelHourPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> hours = new ArrayList<>();
 
         if (isAmPm) {

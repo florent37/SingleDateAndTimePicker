@@ -69,7 +69,7 @@ public class WheelYearPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> years = new ArrayList<>();
 
         final Calendar instance = Calendar.getInstance();

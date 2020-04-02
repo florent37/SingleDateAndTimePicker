@@ -32,6 +32,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.DAYS_PADDING;
+
 
 public class SingleDateAndTimePicker extends LinearLayout {
 
@@ -541,6 +543,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
+        daysPicker.setShowOnlyFutureDate(mustBeOnFuture);
         if (mustBeOnFuture) {
             Calendar now = Calendar.getInstance();
             now.setTimeZone(dateHelper.getTimeZone());
@@ -588,6 +591,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setStepSizeMinutes(a.getInt(R.styleable.SingleDateAndTimePicker_picker_stepSizeMinutes, 1));
         setStepSizeHours(a.getInt(R.styleable.SingleDateAndTimePicker_picker_stepSizeHours, 1));
 
+        daysPicker.setDayCount(a.getInt(R.styleable.SingleDateAndTimePicker_picker_dayCount, DAYS_PADDING));
         setDisplayDays(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays));
         setDisplayMinutes(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes));
         setDisplayHours(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayHours, displayHours));
@@ -605,6 +609,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             now.setTimeZone(dateHelper.getTimeZone());
             updateDaysOfMonth(now);
         }
+        daysPicker.updateAdapter(); // For MustBeFuture and dayCount
     }
 
     public interface OnDateChangedListener {

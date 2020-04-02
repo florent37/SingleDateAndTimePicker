@@ -1,17 +1,17 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class WheelAmPmPicker extends WheelPicker<String> {
 
@@ -44,7 +44,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues(){
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates){
         return Arrays.asList(
                 getLocalizedString(R.string.picker_am),
                 getLocalizedString(R.string.picker_pm)

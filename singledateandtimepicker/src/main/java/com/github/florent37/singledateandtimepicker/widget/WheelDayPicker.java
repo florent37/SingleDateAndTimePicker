@@ -22,6 +22,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
 
     private SimpleDateFormat simpleDateFormat;
     private SimpleDateFormat customDateFormat;
+    private int dayCount = DAYS_PADDING;
 
     private OnDaySelectedListener onDaySelectedListener;
 
@@ -63,14 +64,19 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         }
     }
 
+    public void setDayCount(int dayCount) {
+        this.dayCount = dayCount;
+    }
+
     @Override
-    protected List<DateWithLabel> generateAdapterValues() {
+    protected List<DateWithLabel> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<DateWithLabel> days = new ArrayList<>();
 
         Calendar instance = Calendar.getInstance();
         instance.setTimeZone(dateHelper.getTimeZone());
-        instance.add(Calendar.DATE, -1 * DAYS_PADDING - 1);
-        for (int i = (-1) * DAYS_PADDING; i < 0; ++i) {
+        int startDayOffset = showOnlyFutureDates ? 0 : -1 * dayCount;
+        instance.add(Calendar.DATE, startDayOffset - 1);
+        for (int i = startDayOffset; i < 0; ++i) {
             instance.add(Calendar.DAY_OF_MONTH, 1);
             Date date = instance.getTime();
             days.add(new DateWithLabel(getFormattedValue(date), date));
@@ -82,7 +88,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         instance = Calendar.getInstance();
         instance.setTimeZone(dateHelper.getTimeZone());
 
-        for (int i = 0; i < DAYS_PADDING; ++i) {
+        for (int i = 0; i < dayCount; ++i) {
             instance.add(Calendar.DATE, 1);
             Date date = instance.getTime();
             days.add(new DateWithLabel(getFormattedValue(date), date));
@@ -95,7 +101,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         return getDateFormat().format(value);
     }
 
-    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat){
+    public WheelDayPicker setDayFormatter(SimpleDateFormat simpleDateFormat) {
         simpleDateFormat.setTimeZone(dateHelper.getTimeZone());
         this.customDateFormat = simpleDateFormat;
         updateAdapter();
@@ -126,7 +132,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         int todayPosition = -1;
         final List<DateWithLabel> data = adapter.getData();
 
-        for(int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             if (data.get(i).label.equals(getTodayText())) {
                 todayPosition = i;
                 break;
@@ -136,7 +142,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
         if (getTodayText().equals(itemText)) {
             date = todayCalendar.getTime();
         } else {
-            todayCalendar.add(Calendar.DAY_OF_YEAR,(itemPosition - todayPosition));
+            todayCalendar.add(Calendar.DAY_OF_YEAR, (itemPosition - todayPosition));
             date = todayCalendar.getTime();
         }
         return date;
@@ -144,7 +150,7 @@ public class WheelDayPicker extends WheelPicker<DateWithLabel> {
 
     public void setTodayText(DateWithLabel today) {
         final List<DateWithLabel> data = adapter.getData();
-        for(int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < data.size(); i++) {
             if (data.get(i).label.equals(getTodayText())) {
                 adapter.getData().set(i, today);
                 notifyDatasetChanged();
