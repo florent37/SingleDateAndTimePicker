@@ -101,7 +101,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         defaultDate = new Date();
         isAmPm = !(DateFormat.is24HourFormat(context));
 
-        inflate(context, R.layout.single_day_picker, this);
+        inflate(context, R.layout.single_day_and_time_picker, this);
 
         yearsPicker = findViewById(R.id.yearPicker);
         monthPicker = findViewById(R.id.monthPicker);
