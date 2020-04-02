@@ -14,7 +14,11 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
-
+    // The demo-app uses butterknife which require java8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     android {
         lintOptions {
             abortOnError false
