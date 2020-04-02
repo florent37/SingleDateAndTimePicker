@@ -2,7 +2,6 @@ package com.github.florent37.singledateandtimepicker;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateHelper {
@@ -18,8 +17,7 @@ public class DateHelper {
     }
 
     public static Calendar getCalendarOfDate(Date date){
-        final Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.setTimeZone(timeZone);
+        final Calendar calendar = Calendar.getInstance(timeZone);
         calendar.setTime(date);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -47,8 +45,7 @@ public class DateHelper {
     }
 
     public static Date today() {
-        Calendar now  = Calendar.getInstance(Locale.getDefault());
-        now.setTimeZone(timeZone);
+        Calendar now  = Calendar.getInstance(timeZone);
         return now.getTime();
     }
 
@@ -61,25 +58,19 @@ public class DateHelper {
     }
 
     public static int compareDateIgnoreTime(Date first, Date second) {
-        Date firstZeroTime = getZeroTimeDate(first);
-        Date secondZeroTime = getZeroTimeDate(second);
-
+        Date firstZeroTime = getZeroTimeDateWithoutTimeZone(first);
+        Date secondZeroTime = getZeroTimeDateWithoutTimeZone(second);
         return firstZeroTime.compareTo(secondZeroTime);
     }
 
-    private static Date getZeroTimeDate(Date date) {
-        Date res = date;
-        Calendar calendar = Calendar.getInstance();
-
-        calendar.setTime( res );
+    private static Date getZeroTimeDateWithoutTimeZone(Date date) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-
-        res = calendar.getTime();
-
-        return res;
+        return calendar.getTime();
     }
 
 }
