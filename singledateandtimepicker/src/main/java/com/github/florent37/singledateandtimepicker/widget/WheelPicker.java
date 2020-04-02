@@ -715,7 +715,16 @@ public abstract class WheelPicker<V> extends View {
     }
 
     public int getTodayItemPosition() {
-        return adapter.getData().indexOf(getLocalizedString(R.string.picker_today));
+        List<V> list = adapter.getData();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof DateWithLabel) {
+                DateWithLabel dwl = (DateWithLabel) list.get(i);
+                if (dwl.first.equals(getLocalizedString(R.string.picker_today))) {
+                    return i;
+                }
+            }
+        }
+        return 0;
     }
 
     public void setAdapter(Adapter adapter) {
