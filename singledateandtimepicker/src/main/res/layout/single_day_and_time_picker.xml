@@ -82,4 +82,24 @@
         android:alpha="0.2"
         android:background="@color/picker_default_selector_color" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wheelSelectorHeight"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/picker_divider_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picker_default_divider_height"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/picker_default_divider"/>
+
+        <View
+            android:id="@+id/picker_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picker_default_divider_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/picker_default_divider"/>
+    </RelativeLayout>
 </FrameLayout>

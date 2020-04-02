@@ -164,8 +164,16 @@ Some/most options are also available via XML:
         app:picker_mustBeOnFuture="true"
         app:picker_visibleItemCount="7"
         />
-
 ```
+
+Get divider lines around selected by overwriting one or more of
+```
+    <color name="picker_default_divider_color">@android:color/transparent</color>
+    <dimen name="picker_default_divider_height">1dp</dimen>
+    <drawable name="picker_default_divider">@drawable/picker_divider</drawable>
+```
+Use in conjuction with
+`app:picker_selectorColor="@android:color/transparent"` on layout.
 
 # Download
 
