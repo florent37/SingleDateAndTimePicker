@@ -44,6 +44,7 @@ public abstract class WheelPicker<V> extends View {
     public static final int ALIGN_CENTER = 0;
     public static final int ALIGN_LEFT = 1;
     public static final int ALIGN_RIGHT = 2;
+    private static final int MAX_ANGLE = 90;
     protected final static String FORMAT = "%1$02d"; // two digits
     private final Handler handler = new Handler();
     protected V defaultValue;
@@ -258,7 +259,7 @@ public abstract class WheelPicker<V> extends View {
     public void setDefaultDate(Date date) {
         if (adapter != null && adapter.getItemCount() > 0) {
             final int indexOfDate = findIndexOfDate(date);
-            if(indexOfDate >= 0) {
+            if (indexOfDate >= 0) {
                 this.defaultValue = adapter.getData().get(indexOfDate);
                 setSelectedItemPosition(indexOfDate);
             }
@@ -274,7 +275,7 @@ public abstract class WheelPicker<V> extends View {
     }
 
     public void setCustomLocale(Locale customLocale) {
-    	this.customLocale = customLocale;
+        this.customLocale = customLocale;
     }
 
     @Override
@@ -409,7 +410,7 @@ public abstract class WheelPicker<V> extends View {
             int mDrawnItemCenterY = drawnCenterY + (drawnOffsetPos * mItemHeight) +
                     scrollOffsetY % mItemHeight;
 
-            int distanceToCenter = 0;
+            float distanceToCenter = 0;
             if (isCurved) {
                 // Correct ratio of item's drawn center to wheel center
                 float ratio = (drawnCenterY - Math.abs(drawnCenterY - mDrawnItemCenterY) -
@@ -421,12 +422,12 @@ public abstract class WheelPicker<V> extends View {
                     unit = 1;
                 } else if (mDrawnItemCenterY < drawnCenterY) unit = -1;
 
-                float degree = (-(1 - ratio) * 90 * unit);
+                float degree = (-(1 - ratio) * MAX_ANGLE * unit);
                 if (degree < -90) degree = -90;
                 if (degree > 90) degree = 90;
-                distanceToCenter = computeSpace((int) degree);
+                distanceToCenter = computeSpace(degree);
 
-                int transX = wheelCenterX;
+                float transX = wheelCenterX;
                 switch (mItemAlign) {
                     case ALIGN_LEFT:
                         transX = rectDrawn.left;
@@ -435,7 +436,7 @@ public abstract class WheelPicker<V> extends View {
                         transX = rectDrawn.right;
                         break;
                 }
-                int transY = wheelCenterY - distanceToCenter;
+                float transY = wheelCenterY - distanceToCenter;
 
                 camera.save();
                 camera.rotateX(degree);
@@ -461,7 +462,7 @@ public abstract class WheelPicker<V> extends View {
                 paint.setAlpha(alpha);
             }
             // Correct item's drawn centerY base on curved state
-            int drawnCenterY = isCurved ? this.drawnCenterY - distanceToCenter : mDrawnItemCenterY;
+            float drawnCenterY = isCurved ? this.drawnCenterY - distanceToCenter : mDrawnItemCenterY;
 
             // Judges need to draw different color for current item or not
             if (mSelectedItemTextColor != -1) {
@@ -504,12 +505,12 @@ public abstract class WheelPicker<V> extends View {
         return position >= 0 && position < adapter.getItemCount();
     }
 
-    private int computeSpace(int degree) {
-        return (int) (Math.sin(Math.toRadians(degree)) * mHalfWheelHeight);
+    private float computeSpace(float degree) {
+        return (float) (Math.sin(Math.toRadians(degree)) * mHalfWheelHeight);
     }
 
-    private int computeDepth(int degree) {
-        return (int) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
+    private float computeDepth(float degree) {
+        return (float) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
     }
 
     @Override
@@ -1109,8 +1110,8 @@ public abstract class WheelPicker<V> extends View {
         public String getItemText(int position) {
             try {
                 return String.valueOf(data.get(position));
-            } catch (Throwable t){
-                return  "";
+            } catch (Throwable t) {
+                return "";
             }
         }
 
