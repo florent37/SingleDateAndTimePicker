@@ -1,12 +1,9 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-
-import java.util.Date;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,22 +15,18 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
         setContentView(R.layout.single_date_picker_activity_main);
 
         final SingleDateAndTimePicker singleDateAndTimePicker = findViewById(R.id.single_day_picker);
+        final SingleDateAndTimePicker singleDateAndTimePicker2 = findViewById(R.id.single_day_picker2);
         // Example for setting default selected date to yesterday
 //        Calendar instance = Calendar.getInstance();
 //        instance.add(Calendar.DATE, -1 );
 //        singleDateAndTimePicker.setDefaultDate(instance.getTime());
-        singleDateAndTimePicker.addOnDateChangedListener(new SingleDateAndTimePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(String displayed, Date date) {
-                display(displayed);
-            }
-        });
+        SingleDateAndTimePicker.OnDateChangedListener changeListener = (displayed, date) -> display(displayed);
+        singleDateAndTimePicker.addOnDateChangedListener(changeListener);
+        singleDateAndTimePicker2.addOnDateChangedListener(changeListener);
 
-        findViewById(R.id.toggleEnabled).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                singleDateAndTimePicker.setEnabled(!singleDateAndTimePicker.isEnabled());
-            }
+        findViewById(R.id.toggleEnabled).setOnClickListener(v -> {
+            singleDateAndTimePicker.setEnabled(!singleDateAndTimePicker.isEnabled());
+            singleDateAndTimePicker2.setEnabled(!singleDateAndTimePicker2.isEnabled());
         });
     }
 

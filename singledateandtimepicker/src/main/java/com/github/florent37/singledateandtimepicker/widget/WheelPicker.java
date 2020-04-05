@@ -44,7 +44,7 @@ public abstract class WheelPicker<V> extends View {
     public static final int ALIGN_CENTER = 0;
     public static final int ALIGN_LEFT = 1;
     public static final int ALIGN_RIGHT = 2;
-    private static final int MAX_ANGLE = 90;
+    public static final int MAX_ANGLE = 90;
     protected final static String FORMAT = "%1$02d"; // two digits
     protected DateHelper dateHelper = new DateHelper(); // Overwritten from Single..Picker
     private final Handler handler = new Handler();
@@ -76,6 +76,7 @@ public abstract class WheelPicker<V> extends View {
     private int mIndicatorColor;
     private int mCurtainColor;
     private int mItemSpace;
+    private int mMaxAngle = MAX_ANGLE;
     private int mItemAlign;
     private int mItemHeight, mHalfItemHeight;
     private int mHalfWheelHeight;
@@ -294,7 +295,10 @@ public abstract class WheelPicker<V> extends View {
 
         // Correct view sizes again if curved is enable
         if (isCurved) {
-            resultHeight = (int) (2 * resultHeight / Math.PI);
+            // The text is written on the circle circumference from -mMaxAngle to mMaxAngle.
+            // 2 * sinDegree(mMaxAngle): Height of drawn circle
+            // Math.PI: Circumference of half unit circle, `mMaxAngle / 90f`: The ratio of half-circle we draw on
+            resultHeight = (int) (2 * sinDegree(mMaxAngle) / (Math.PI * mMaxAngle / 90f) * resultHeight);
         }
 
         // Consideration padding influence the view sizes
@@ -389,8 +393,9 @@ public abstract class WheelPicker<V> extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (null != onWheelChangeListener) onWheelChangeListener.onWheelScrolled(scrollOffsetY);
-        if (mItemHeight - mHalfDrawnItemCount <= 0)
+        if (mItemHeight - mHalfDrawnItemCount <= 0) {
             return;
+        }
         int drawnDataStartPos = -scrollOffsetY / mItemHeight - mHalfDrawnItemCount;
         for (int drawnDataPos = drawnDataStartPos + selectedItemPosition,
              drawnOffsetPos = -mHalfDrawnItemCount;
@@ -424,10 +429,8 @@ public abstract class WheelPicker<V> extends View {
                     unit = 1;
                 } else if (mDrawnItemCenterY < drawnCenterY) unit = -1;
 
-                float degree = (-(1 - ratio) * MAX_ANGLE * unit);
-                if (degree < -90) degree = -90;
-                if (degree > 90) degree = 90;
-                distanceToCenter = computeSpace(degree);
+                float degree = clamp((-(1 - ratio) * mMaxAngle * unit), -mMaxAngle, mMaxAngle);
+                distanceToCenter = computeYCoordinateAtAngle(degree);
 
                 float transX = wheelCenterX;
                 switch (mItemAlign) {
@@ -507,12 +510,23 @@ public abstract class WheelPicker<V> extends View {
         return position >= 0 && position < adapter.getItemCount();
     }
 
-    private float computeSpace(float degree) {
-        return (float) (Math.sin(Math.toRadians(degree)) * mHalfWheelHeight);
+    private float computeYCoordinateAtAngle(float degree) {
+        // Compute y-coordinate for item at degree. mMaxAngle is at mHalfWheelHeight
+        return sinDegree(degree) / sinDegree(mMaxAngle) * mHalfWheelHeight;
+    }
+
+    private float sinDegree(float degree) {
+        return (float) Math.sin(Math.toRadians(degree));
     }
 
     private float computeDepth(float degree) {
         return (float) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
+    }
+
+    private float clamp(float value, float min, float max) {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
     }
 
     @Override
@@ -837,6 +851,12 @@ public abstract class WheelPicker<V> extends View {
 
     public void setItemSpace(int space) {
         mItemSpace = space;
+        requestLayout();
+        postInvalidate();
+    }
+
+    public void setCurvedMaxAngle(int maxAngle) {
+        this.mMaxAngle = maxAngle;
         requestLayout();
         postInvalidate();
     }

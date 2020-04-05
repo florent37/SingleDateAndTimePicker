@@ -155,7 +155,9 @@ Some/most options are also available via XML:
     <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
         android:id="@+id/single_day_picker"
         android:layout_width="wrap_content"
-        android:layout_height="230dp"
+        android:layout_height="wrap_content"
+        app:picker_itemSpacing="6dp"
+        app:picker_curvedMaxAngle="45"
         app:picker_curved="true"
         app:picker_selectorColor="@android:color/transparent"
         app:picker_stepSizeHours="2"
@@ -166,6 +168,12 @@ Some/most options are also available via XML:
         app:picker_visibleItemCount="7"
         />
 ```
+
+* picker_itemSpacing: Margin between items. Only has effect with
+  height=wrap-content
+* picker_curvedMaxAngle sets the max angle of top/bottom items. If 45
+  then the visible 'window' of the wheel is a 'quarter' of the circle.
+  If 90 (default) its rolling on a half-circle
 
 Get divider lines around selected by overwriting one or more of
 ```
