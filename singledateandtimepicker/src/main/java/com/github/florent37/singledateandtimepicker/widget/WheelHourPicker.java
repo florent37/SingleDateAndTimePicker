@@ -1,21 +1,19 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.AttributeSet;
-
-import com.github.florent37.singledateandtimepicker.DateHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getHour;
-import static com.github.florent37.singledateandtimepicker.DateHelper.today;
-import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.*;
+import androidx.annotation.NonNull;
+
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_AM_PM;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_HOUR_DEFAULT;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_HOUR_DEFAULT;
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_HOURS_DEFAULT;
 
 public class WheelHourPicker extends WheelPicker<String> {
 
@@ -45,11 +43,11 @@ public class WheelHourPicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        return String.valueOf(getHour(today(), isAmPm));
+        return String.valueOf(dateHelper.getHour(dateHelper.today(), isAmPm));
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> hours = new ArrayList<>();
 
         if (isAmPm) {
@@ -83,7 +81,7 @@ public class WheelHourPicker extends WheelPicker<String> {
         Object valueItem = value;
         if (value instanceof Date) {
             Calendar instance = Calendar.getInstance();
-            instance.setTimeZone(DateHelper.getTimeZone());
+            instance.setTimeZone(dateHelper.getTimeZone());
             instance.setTime((Date) value);
             valueItem = instance.get(Calendar.HOUR_OF_DAY);
         }
@@ -128,7 +126,7 @@ public class WheelHourPicker extends WheelPicker<String> {
         notifyDatasetChanged();
     }
 
-    public void setHoursStep(int hoursStep) {
+    public void setStepSizeHours(int hoursStep) {
         if (hoursStep >= MIN_HOUR_DEFAULT && hoursStep <= MAX_HOUR_DEFAULT) {
             this.hoursStep = hoursStep;
         }

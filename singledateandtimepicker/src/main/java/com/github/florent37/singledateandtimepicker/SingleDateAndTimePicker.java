@@ -3,9 +3,6 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,17 +26,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getCalendarOfDate;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
+import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.DAYS_PADDING;
+
 
 public class SingleDateAndTimePicker extends LinearLayout {
 
     public static final boolean IS_CYCLIC_DEFAULT = true;
     public static final boolean IS_CURVED_DEFAULT = false;
-    public static final boolean MUST_BE_ON_FUTUR_DEFAULT = false;
+    public static final boolean MUST_BE_ON_FUTURE_DEFAULT = false;
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
     private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
     private static final int PM_HOUR_ADDITION = 12;
+    private DateHelper dateHelper = new DateHelper();
 
     private static final CharSequence FORMAT_24_HOUR = "EEE d MMM H:mm";
     private static final CharSequence FORMAT_12_HOUR = "EEE d MMM h:mm a";
@@ -100,7 +104,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         defaultDate = new Date();
         isAmPm = !(DateFormat.is24HourFormat(context));
 
-        inflate(context, R.layout.single_day_picker, this);
+        inflate(context, R.layout.single_day_and_time_picker, this);
 
         yearsPicker = findViewById(R.id.yearPicker);
         monthPicker = findViewById(R.id.monthPicker);
@@ -120,8 +124,18 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 monthPicker,
                 yearsPicker
         ));
-
+        for (WheelPicker wheelPicker : pickers) {
+            wheelPicker.setDateHelper(dateHelper);
+        }
         init(context, attrs);
+    }
+
+    public void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        dateHelper.setTimeZone(timeZone);
     }
 
     @Override
@@ -277,7 +291,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     public void setTodayText(DateWithLabel todayText) {
-        if (todayText != null && todayText.first != null && !todayText.first.isEmpty()) {
+        if (todayText != null && todayText.label != null && !todayText.label.isEmpty()) {
             daysPicker.setTodayText(todayText);
         }
     }
@@ -351,7 +365,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMinDate(Date minDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(minDate);
         this.minDate = calendar.getTime();
         setMinYear();
@@ -363,7 +377,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMaxDate(Date maxDate) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(maxDate);
         this.maxDate = calendar.getTime();
         setMinYear();
@@ -408,11 +422,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     }
 
     private boolean isBeforeMinDate(Date date) {
-        return getCalendarOfDate(date).before(getCalendarOfDate(minDate));
+        return dateHelper.getCalendarOfDate(date).before(dateHelper.getCalendarOfDate(minDate));
     }
 
     private boolean isAfterMaxDate(Date date) {
-        return getCalendarOfDate(date).after(getCalendarOfDate(maxDate));
+        return dateHelper.getCalendarOfDate(date).after(dateHelper.getCalendarOfDate(maxDate));
     }
 
     public void addOnDateChangedListener(OnDateChangedListener listener) {
@@ -437,7 +451,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         final int minute = minutesPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         if (displayDays) {
             final Date dayDate = daysPicker.getCurrentDate();
             calendar.setTime(dayDate);
@@ -459,29 +473,29 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 }
             }
         }
-
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
 
-    public void setStepMinutes(int minutesStep) {
-        minutesPicker.setStepMinutes(minutesStep);
+    public void setStepSizeMinutes(int minutesStep) {
+        minutesPicker.setStepSizeMinutes(minutesStep);
     }
 
-    public void setHoursStep(int hoursStep) {
-        hoursPicker.setHoursStep(hoursStep);
+    public void setStepSizeHours(int hoursStep) {
+        hoursPicker.setStepSizeHours(hoursStep);
     }
 
     public void setDefaultDate(Date date) {
         if (date != null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             this.defaultDate = calendar.getTime();
             
-            updateDaysOfMonth();
+            updateDaysOfMonth(calendar);
 
             for (WheelPicker picker : pickers) {
                 picker.setDefaultDate(defaultDate);
@@ -516,7 +530,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private void updateDaysOfMonth() {
         final Date date = getDate();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(date);
         updateDaysOfMonth(calendar);
     }
@@ -529,9 +543,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setMustBeOnFuture(boolean mustBeOnFuture) {
         this.mustBeOnFuture = mustBeOnFuture;
+        daysPicker.setShowOnlyFutureDate(mustBeOnFuture);
         if (mustBeOnFuture) {
             Calendar now = Calendar.getInstance();
-            now.setTimeZone(DateHelper.getTimeZone());
+            now.setTimeZone(dateHelper.getTimeZone());
             minDate = now.getTime(); //minDate is Today
         }
     }
@@ -544,7 +559,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
         if (displayYears && this.minDate != null && this.maxDate != null) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(DateHelper.getTimeZone());
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(this.minDate);
             yearsPicker.setMinYear(calendar.get(Calendar.YEAR));
             calendar.setTime(this.maxDate);
@@ -570,9 +585,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setTextSize(a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(R.dimen.WheelItemTextSize)));
         setCurved(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT));
         setCyclic(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_cyclic, IS_CYCLIC_DEFAULT));
-        setMustBeOnFuture(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTUR_DEFAULT));
+        setMustBeOnFuture(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_mustBeOnFuture, MUST_BE_ON_FUTURE_DEFAULT));
         setVisibleItemCount(a.getInt(R.styleable.SingleDateAndTimePicker_picker_visibleItemCount, VISIBLE_ITEM_COUNT_DEFAULT));
 
+        setStepSizeMinutes(a.getInt(R.styleable.SingleDateAndTimePicker_picker_stepSizeMinutes, 1));
+        setStepSizeHours(a.getInt(R.styleable.SingleDateAndTimePicker_picker_stepSizeHours, 1));
+
+        daysPicker.setDayCount(a.getInt(R.styleable.SingleDateAndTimePicker_picker_dayCount, DAYS_PADDING));
         setDisplayDays(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDays, displayDays));
         setDisplayMinutes(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMinutes, displayMinutes));
         setDisplayHours(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayHours, displayHours));
@@ -585,12 +604,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setMinYear();
 
         a.recycle();
-
         if (displayDaysOfMonth) {
             Calendar now = Calendar.getInstance();
-            now.setTimeZone(DateHelper.getTimeZone());
+            now.setTimeZone(dateHelper.getTimeZone());
             updateDaysOfMonth(now);
         }
+        daysPicker.updateAdapter(); // For MustBeFuture and dayCount
     }
 
     public interface OnDateChangedListener {

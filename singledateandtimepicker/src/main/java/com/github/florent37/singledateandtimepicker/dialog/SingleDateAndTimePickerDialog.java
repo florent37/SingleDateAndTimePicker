@@ -1,9 +1,6 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,10 +15,15 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
 public class SingleDateAndTimePickerDialog extends BaseDialog {
 
+    private final DateHelper dateHelper = new DateHelper();
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
     private SingleDateAndTimePicker picker;
@@ -69,7 +71,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     private void init(View view) {
         picker = (SingleDateAndTimePicker) view.findViewById(R.id.picker);
-
+        picker.setDateHelper(dateHelper);
         if (picker != null) {
             if (bottomSheetHeight != null) {
                 ViewGroup.LayoutParams params = picker.getLayoutParams();
@@ -140,7 +142,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         }
         picker.setMustBeOnFuture(mustBeOnFuture);
 
-        picker.setStepMinutes(minutesStep);
+        picker.setStepSizeMinutes(minutesStep);
 
         if (dayFormatter != null) {
             picker.setDayFormatter(dayFormatter);
@@ -176,7 +178,6 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
-        picker.setDisplayMonthNumbers(displayMonthNumbers);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -289,6 +290,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private SingleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
+        dateHelper.setTimeZone(timeZone);
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -381,6 +387,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         @Nullable
         private Locale customLocale;
+        private TimeZone timeZone;
 
         public Builder(Context context) {
             this.context = context;
@@ -517,7 +524,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         }
 
         public Builder setTimeZone(TimeZone timeZone) {
-            DateHelper.setTimeZone(timeZone);
+            this.timeZone = timeZone;
             return this;
         }
 
@@ -542,7 +549,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDisplayDays(displayDays)
                     .setDayFormatter(dayFormatter)
                     .setCustomLocale(customLocale)
-                    .setMustBeOnFuture(mustBeOnFuture);
+                    .setMustBeOnFuture(mustBeOnFuture)
+                    .setTimeZone(timeZone);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
@@ -583,4 +591,5 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                 dialog.dismiss();
         }
     }
+
 }

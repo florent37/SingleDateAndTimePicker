@@ -6,9 +6,6 @@ import android.util.AttributeSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.florent37.singledateandtimepicker.DateHelper.getDay;
-import static com.github.florent37.singledateandtimepicker.DateHelper.today;
-
 public class WheelDayOfMonthPicker extends WheelPicker<String> {
 
     private int daysInMonth;
@@ -29,7 +26,7 @@ public class WheelDayOfMonthPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> dayList = new ArrayList<>();
 
         for (int i = 1; i <= daysInMonth; i++) {
@@ -42,7 +39,7 @@ public class WheelDayOfMonthPicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        return String.valueOf(getDay(today()));
+        return String.valueOf(dateHelper.getDay(dateHelper.today()));
     }
 
     public void setOnFinishedLoopListener(FinishedLoopListener finishedLoopListener) {

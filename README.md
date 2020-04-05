@@ -17,7 +17,7 @@ You can now select a date and a time with only one widget !
 new SingleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
-            //.minutesStep(15)
+            //.stepSizeMinutes(15)
             //.displayHours(false)
             //.displayMinutes(false)
             //.todayText("aujourd'hui")
@@ -45,7 +45,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
 new DoubleDateAndTimePickerDialog.Builder(context)
             //.bottomSheet()
             //.curved()
-            //.minutesStep(15)
+            //.stepSizeMinutes(15)
             .title("Double")
             .tab0Text("Depart")
             .tab1Text("Return")
@@ -111,7 +111,7 @@ new DoubleDateAndTimePickerDialog.Builder(context)
 You can change the minutes steps (default : 5min)
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
-            .minutesStep(15)
+            .stepSizeMinutes(15)
             .display();
 ```
 
@@ -129,7 +129,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
 
 # Date range
 
-Force user to select a date between a range
+Require user to select a date between a range
 
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
@@ -139,7 +139,7 @@ new SingleDateAndTimePickerDialog.Builder(context)
             .display();
 ```
 
-Or simply force user to select a future date
+Or simply require user to select a future date
 
 ```java
 new SingleDateAndTimePickerDialog.Builder(context)
@@ -147,13 +147,42 @@ new SingleDateAndTimePickerDialog.Builder(context)
             .display();
 ```
 
+# XML
+
+Some/most options are also available via XML:
+
+```
+    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+        android:id="@+id/single_day_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        app:picker_curved="true"
+        app:picker_selectorColor="@android:color/transparent"
+        app:picker_stepSizeHours="2"
+        app:picker_stepSizeMinutes="5"
+        app:picker_cyclic="false"        
+        app:picker_dayCount="31"
+        app:picker_mustBeOnFuture="true"
+        app:picker_visibleItemCount="7"
+        />
+```
+
+Get divider lines around selected by overwriting one or more of
+```
+    <color name="picker_default_divider_color">@android:color/transparent</color>
+    <dimen name="picker_default_divider_height">1dp</dimen>
+    <drawable name="picker_default_divider">@drawable/picker_divider</drawable>
+```
+Use in conjuction with
+`app:picker_selectorColor="@android:color/transparent"` on layout.
+
 # Download
 
 <a href='https://ko-fi.com/A160LCC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
 ```groovy
-implementation 'com.github.florent37:SingleDateAndTimePicker:2.2.0'
+implementation 'com.github.florent37:singledateandtimepicker:2.2.0'
 //compatible with androidX
 ```
 

@@ -1,17 +1,17 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.DateHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class WheelAmPmPicker extends WheelPicker<String> {
 
@@ -36,7 +36,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        if (DateHelper.getHour(DateHelper.today(), true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
+        if (dateHelper.getHour(dateHelper.today(), true) >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
             return getLocalizedString(R.string.picker_pm);
         } else {
             return getLocalizedString(R.string.picker_am);
@@ -44,7 +44,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
     }
 
     @Override
-    protected List<String> generateAdapterValues(){
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates){
         return Arrays.asList(
                 getLocalizedString(R.string.picker_am),
                 getLocalizedString(R.string.picker_pm)
@@ -54,7 +54,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
     @Override
     public int findIndexOfDate(@NonNull Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(DateHelper.getTimeZone());
+        calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(date);
         final int hours = calendar.get(Calendar.HOUR_OF_DAY);
         if (hours >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
@@ -90,7 +90,7 @@ public class WheelAmPmPicker extends WheelPicker<String> {
     protected String getFormattedValue(Object value) {
         if (value instanceof Date) {
             Calendar instance = Calendar.getInstance();
-            instance.setTimeZone(DateHelper.getTimeZone());
+            instance.setTimeZone(dateHelper.getTimeZone());
             instance.setTime((Date) value);
             return getLocalizedString(instance.get(Calendar.AM_PM) == Calendar.PM ? R.string.picker_pm : R.string.picker_am);
         }
