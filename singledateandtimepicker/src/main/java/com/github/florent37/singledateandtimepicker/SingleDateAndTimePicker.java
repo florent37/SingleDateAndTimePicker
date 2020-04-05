@@ -296,6 +296,18 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
+    public void setItemSpacing(int size) {
+        for (WheelPicker picker : pickers) {
+            picker.setItemSpace(size);
+        }
+    }
+
+    public void setCurvedMaxAngle(int angle) {
+        for (WheelPicker picker : pickers) {
+            picker.setCurvedMaxAngle(angle);
+        }
+    }
+
     public void setCurved(boolean curved) {
         for (WheelPicker picker : pickers) {
             picker.setCurved(curved);
@@ -581,6 +593,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setTextColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_textColor, ContextCompat.getColor(context, R.color.picker_default_text_color)));
         setSelectedTextColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectedTextColor, ContextCompat.getColor(context, R.color.picker_default_selected_text_color)));
         setSelectorColor(a.getColor(R.styleable.SingleDateAndTimePicker_picker_selectorColor, ContextCompat.getColor(context, R.color.picker_default_selector_color)));
+        setItemSpacing(a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_itemSpacing, resources.getDimensionPixelSize(R.dimen.wheelSelectorHeight)));
+        setCurvedMaxAngle(a.getInteger(R.styleable.SingleDateAndTimePicker_picker_curvedMaxAngle, WheelPicker.MAX_ANGLE));
         setSelectorHeight(a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_selectorHeight, resources.getDimensionPixelSize(R.dimen.wheelSelectorHeight)));
         setTextSize(a.getDimensionPixelSize(R.styleable.SingleDateAndTimePicker_picker_textSize, resources.getDimensionPixelSize(R.dimen.WheelItemTextSize)));
         setCurved(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_curved, IS_CURVED_DEFAULT));
