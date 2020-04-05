@@ -182,7 +182,7 @@ Use in conjuction with
 
 In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
 ```groovy
-implementation 'com.github.florent37:singledateandtimepicker:2.2.0'
+implementation 'com.github.florent37:singledateandtimepicker:2.2.1'
 //compatible with androidX
 ```
 
