@@ -156,6 +156,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             picker.setSelectedTextColor(mainColor);
         }
 
+        // displayYears used in setMinDate / setMaxDate
+        picker.setDisplayYears(displayYears);
+
         if (minDate != null) {
             picker.setMinDate(minDate);
         }
@@ -173,7 +176,6 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         }
 
         picker.setDisplayDays(displayDays);
-        picker.setDisplayYears(displayYears);
         picker.setDisplayMonths(displayMonth);
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
