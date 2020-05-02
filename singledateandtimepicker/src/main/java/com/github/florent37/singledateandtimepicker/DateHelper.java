@@ -1,5 +1,7 @@
 package com.github.florent37.singledateandtimepicker;
 
+import androidx.annotation.NonNull;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -20,12 +22,17 @@ public class DateHelper {
         timeZone = timeZoneValue;
     }
 
+    @NonNull
     public TimeZone getTimeZone() {
-        return timeZone;
+        if(this.timeZone == null) {
+            return TimeZone.getDefault();
+        } else {
+            return timeZone;
+        }
     }
 
     public Calendar getCalendarOfDate(Date date) {
-        final Calendar calendar = Calendar.getInstance(timeZone);
+        final Calendar calendar = Calendar.getInstance(getTimeZone());
         calendar.setTime(date);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -53,7 +60,7 @@ public class DateHelper {
     }
 
     public Date today() {
-        Calendar now = Calendar.getInstance(timeZone);
+        Calendar now = Calendar.getInstance(getTimeZone());
         return now.getTime();
     }
 
