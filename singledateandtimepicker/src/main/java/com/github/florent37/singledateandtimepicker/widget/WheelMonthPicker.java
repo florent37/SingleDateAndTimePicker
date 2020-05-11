@@ -1,6 +1,7 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import java.text.SimpleDateFormat;
@@ -15,6 +16,10 @@ public class WheelMonthPicker extends WheelPicker<String> {
     private MonthSelectedListener listener;
 
     private boolean displayMonthNumbers = false;
+
+    public static final String MONTH_FORMAT = "MMMM";
+
+    private String monthFormat;
 
     public WheelMonthPicker(Context context) {
         this(context, null);
@@ -33,7 +38,7 @@ public class WheelMonthPicker extends WheelPicker<String> {
     protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> monthList = new ArrayList<>();
 
-        final SimpleDateFormat month_date = new SimpleDateFormat("MMMM", getCurrentLocale());
+        final SimpleDateFormat month_date = new SimpleDateFormat(getMonthFormat(), getCurrentLocale());
         final Calendar cal = Calendar.getInstance(getCurrentLocale());
         cal.setTimeZone(dateHelper.getTimeZone());
         cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -89,5 +94,22 @@ public class WheelMonthPicker extends WheelPicker<String> {
 
     public interface MonthSelectedListener {
         void onMonthSelected(WheelMonthPicker picker, int monthIndex, String monthName);
+    }
+
+    public void setMonthFormat(String format)
+    {
+        this.monthFormat = format;
+    }
+
+    public String getMonthFormat()
+    {
+       if(TextUtils.isEmpty(this.monthFormat))
+       {
+           return MONTH_FORMAT;
+       }
+       else
+       {
+           return this.monthFormat;
+       }
     }
 }

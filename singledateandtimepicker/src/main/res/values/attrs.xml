@@ -49,5 +49,6 @@
         <attr name="picker_dayCount" format="integer" />
         <attr name="picker_stepSizeMinutes" format="integer" />
         <attr name="picker_stepSizeHours" format="integer" />
+        <attr name="picker_monthFormat" format="string"/>
     </declare-styleable>
 </resources>

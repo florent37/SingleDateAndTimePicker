@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -47,7 +48,6 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     private static final CharSequence FORMAT_24_HOUR = "EEE d MMM H:mm";
     private static final CharSequence FORMAT_12_HOUR = "EEE d MMM h:mm a";
-
 
     @NonNull
     private final WheelYearPicker yearsPicker;
@@ -287,6 +287,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setDisplayMonthNumbers(boolean displayMonthNumbers) {
         this.monthPicker.setDisplayMonthNumbers(displayMonthNumbers);
+        this.monthPicker.updateAdapter();
+    }
+
+    public void setMonthFormat(String monthFormat) {
+        this.monthPicker.setMonthFormat(monthFormat);
         this.monthPicker.updateAdapter();
     }
 
@@ -613,6 +618,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setDisplayYears(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
         setDisplayDaysOfMonth(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDaysOfMonth, displayDaysOfMonth));
         setDisplayMonthNumbers(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonthNumbers, monthPicker.displayMonthNumbers()));
+        setDisplayMonthNumbers(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonthNumbers, monthPicker.displayMonthNumbers()));
+        String monthFormat = a.getString(R.styleable.SingleDateAndTimePicker_picker_monthFormat);
+        setMonthFormat(TextUtils.isEmpty(monthFormat) ? WheelMonthPicker.MONTH_FORMAT : monthFormat);
 
         checkSettings();
         setMinYear();
