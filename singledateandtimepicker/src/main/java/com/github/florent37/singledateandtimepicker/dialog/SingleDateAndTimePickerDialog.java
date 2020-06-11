@@ -292,6 +292,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setFocusable(boolean focusable) {
+        bottomSheetHelper.setFocusable(focusable);
+        return this;
+    }
+
     private SingleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
         dateHelper.setTimeZone(timeZone);
         return this;
@@ -361,6 +366,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean displayDaysOfMonth = false;
         private boolean displayYears = false;
         private boolean displayMonthNumbers = false;
+        private boolean focusable = false;
 
         @Nullable
         private Boolean isAmPm;
@@ -530,6 +536,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder focusable() {
+            this.focusable = true;
+            return this;
+        }
+
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -552,7 +563,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDayFormatter(dayFormatter)
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
-                    .setTimeZone(timeZone);
+                    .setTimeZone(timeZone)
+                    .setFocusable(focusable);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);

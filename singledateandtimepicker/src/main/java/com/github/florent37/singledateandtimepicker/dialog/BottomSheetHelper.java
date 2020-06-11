@@ -28,6 +28,8 @@ public class BottomSheetHelper {
   private Handler handler;
   private WindowManager windowManager;
 
+  private boolean focusable;
+
   public BottomSheetHelper(Context context, int layoutId) {
     this.context = context;
     this.layoutId = layoutId;
@@ -43,12 +45,14 @@ public class BottomSheetHelper {
 
           view = LayoutInflater.from(context).inflate(layoutId, null, true);
 
+          // Don't let it grab the input focus if focusable is false
+          int flags = focusable ? 0 : WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
           WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
               // Shrink the window to wrap the content rather than filling the screen
               WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT,
               WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
-              // Don't let it grab the input focus
-              WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+              flags,
               // Make the underlying application window visible through any transparent parts
               PixelFormat.TRANSLUCENT);
 
@@ -89,6 +93,10 @@ public class BottomSheetHelper {
   public BottomSheetHelper setListener(Listener listener) {
     this.listener = listener;
     return this;
+  }
+
+  public void setFocusable(boolean focusable) {
+    this.focusable = focusable;
   }
 
   public void display() {
