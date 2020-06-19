@@ -417,6 +417,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public DoubleDateAndTimePickerDialog setFocusable(boolean focusable) {
+        bottomSheetHelper.setFocusable(focusable);
+        return this;
+    }
+
     private DoubleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
         dateHelper.setTimeZone(timeZone);
         pickerTab0.setTimeZone(timeZone);
@@ -538,6 +543,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private boolean tab1Days = true;
         private boolean tab1Hours = true;
         private boolean tab1Minutes = true;
+        private boolean focusable = false;
         private TimeZone timeZone;
 
         public Builder(Context context) {
@@ -695,6 +701,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public DoubleDateAndTimePickerDialog.Builder focusable() {
+            this.focusable = true;
+            return this;
+        }
+
         public DoubleDateAndTimePickerDialog build() {
             final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -722,7 +733,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
                     .setSecondDateAfterFirst(secondDateAfterFirst)
-                    .setTimeZone(timeZone);
+                    .setTimeZone(timeZone)
+                    .setFocusable(focusable);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
