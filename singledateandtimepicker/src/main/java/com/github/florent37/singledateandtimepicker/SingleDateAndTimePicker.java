@@ -43,6 +43,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public static final int DELAY_BEFORE_CHECK_PAST = 200;
     private static final int VISIBLE_ITEM_COUNT_DEFAULT = 7;
     private static final int PM_HOUR_ADDITION = 12;
+    public static final int ALIGN_CENTER = 0;
+    public static final int ALIGN_LEFT = 1;
+    public static final int ALIGN_RIGHT = 2;
     private DateHelper dateHelper = new DateHelper();
 
     private static final CharSequence FORMAT_24_HOUR = "EEE d MMM H:mm";
@@ -338,6 +341,12 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
+    public void setTextAlign(int align) {
+        for (WheelPicker picker : pickers) {
+            picker.setItemAlign(align);
+        }
+    }
+
     public void setSelectorColor(int selectorColor) {
         dtSelector.setBackgroundColor(selectorColor);
     }
@@ -613,6 +622,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setDisplayYears(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
         setDisplayDaysOfMonth(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDaysOfMonth, displayDaysOfMonth));
         setDisplayMonthNumbers(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonthNumbers, monthPicker.displayMonthNumbers()));
+        setTextAlign(a.getInt(R.styleable.SingleDateAndTimePicker_picker_textAlign, ALIGN_CENTER));
 
         checkSettings();
         setMinYear();
