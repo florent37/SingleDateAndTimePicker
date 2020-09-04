@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
@@ -349,6 +350,13 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setTextAlign(int align) {
         for (WheelPicker picker : pickers) {
             picker.setItemAlign(align);
+        }
+    }
+
+    public void setTypeface(Typeface typeface) {
+        if(typeface == null) return;
+        for (WheelPicker picker : pickers) {
+            picker.setTypeface(typeface);
         }
     }
 
