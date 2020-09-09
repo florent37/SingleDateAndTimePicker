@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="picker_today">오늘</string>
+    <string name="picker_am">오전</string>
+    <string name="picker_pm">오후</string>
+</resources>
