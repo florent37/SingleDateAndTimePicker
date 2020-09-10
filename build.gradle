@@ -30,6 +30,6 @@ ext {
 
     libraryGroup = 'com.github.florent37'
     libraryName = 'singledateandtimepicker'
-    libraryVersion = "2.2.6"
+    libraryVersion = "2.2.7"
     libraryDescription = 'SingleDateAndTimePicker'
 }
