@@ -25,6 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:text="Full half-circle wheel, with only future selection" />
 
+    <!-- divider color is overridden with picker_default_divider_color in the app-projcet, giving us the top+bottom divider around Today  -->
     <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
         android:id="@+id/single_day_picker"
         android:layout_width="wrap_content"
@@ -34,6 +35,7 @@
         app:picker_dayCount="31"
         app:picker_itemSpacing="6dp"
         app:picker_mustBeOnFuture="true"
+        app:picker_selectorColor="@android:color/transparent"
         app:picker_textAlign="center"
         app:picker_visibleItemCount="9" />
 
