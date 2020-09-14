@@ -229,6 +229,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         pickerTab0.setStepSizeMinutes(minutesStep);
         pickerTab1.setStepSizeMinutes(minutesStep);
 
+        pickerTab0.setTimeZone(dateHelper.getTimeZone());
+        pickerTab1.setTimeZone(dateHelper.getTimeZone());
+
         if (mainColor != null) {
             pickerTab0.setSelectedTextColor(mainColor);
             pickerTab1.setSelectedTextColor(mainColor);
@@ -424,8 +427,6 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
     private DoubleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
         dateHelper.setTimeZone(timeZone);
-        pickerTab0.setTimeZone(timeZone);
-        pickerTab1.setTimeZone(timeZone);
         return this;
     }
 
