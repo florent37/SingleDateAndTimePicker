@@ -422,6 +422,16 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public DoubleDateAndTimePickerDialog setDimBackground(boolean dimBackground) {
+        bottomSheetHelper.setDimBackground(dimBackground);
+        return this;
+    }
+
+    public DoubleDateAndTimePickerDialog setDimAmount(float dimAmount) {
+        bottomSheetHelper.setDimAmount(dimAmount);
+        return this;
+    }
+
     private DoubleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
         dateHelper.setTimeZone(timeZone);
         pickerTab0.setTimeZone(timeZone);
@@ -544,6 +554,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private boolean tab1Hours = true;
         private boolean tab1Minutes = true;
         private boolean focusable = false;
+        private boolean dimBackground = false;
+        private float dimAmount = 0;
         private TimeZone timeZone;
 
         public Builder(Context context) {
@@ -706,6 +718,16 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public DoubleDateAndTimePickerDialog.Builder dimBackground() {
+            this.dimBackground = true;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder dimAmount(float dimAmount) {
+            this.dimAmount = dimAmount;
+            return this;
+        }
+
         public DoubleDateAndTimePickerDialog build() {
             final DoubleDateAndTimePickerDialog dialog = new DoubleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -734,7 +756,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                     .setMustBeOnFuture(mustBeOnFuture)
                     .setSecondDateAfterFirst(secondDateAfterFirst)
                     .setTimeZone(timeZone)
-                    .setFocusable(focusable);
+                    .setFocusable(focusable)
+                    .setDimBackground(dimBackground)
+                    .setDimAmount(dimAmount);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);

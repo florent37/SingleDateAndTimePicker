@@ -297,6 +297,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    public SingleDateAndTimePickerDialog setDimBackground(boolean dimBackground) {
+        bottomSheetHelper.setDimBackground(dimBackground);
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setDimAmount(float dimAmount) {
+        bottomSheetHelper.setDimAmount(dimAmount);
+        return this;
+    }
+
     private SingleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
         dateHelper.setTimeZone(timeZone);
         return this;
@@ -367,6 +377,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean displayYears = false;
         private boolean displayMonthNumbers = false;
         private boolean focusable = false;
+        private boolean dimBackground = false;
+        private float dimAmount = 0;
 
         @Nullable
         private Boolean isAmPm;
@@ -541,6 +553,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder dimBackground() {
+            this.dimBackground = true;
+            return this;
+        }
+
+        public Builder dimAmount(float dimAmount) {
+            this.dimAmount = dimAmount;
+            return this;
+        }
+
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -564,7 +586,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
                     .setTimeZone(timeZone)
-                    .setFocusable(focusable);
+                    .setFocusable(focusable)
+                    .setDimBackground(dimBackground)
+                    .setDimAmount(dimAmount);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
