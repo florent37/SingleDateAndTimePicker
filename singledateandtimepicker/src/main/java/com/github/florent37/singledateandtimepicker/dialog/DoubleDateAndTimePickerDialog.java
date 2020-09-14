@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker.dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -108,7 +109,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         final View titleLayout = view.findViewById(R.id.sheetTitleLayout);
         final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
-        if (title != null) {
+        if (!TextUtils.isEmpty(title)) {
             if (titleTextView != null) {
                 titleTextView.setText(title);
                 if (titleTextColor != null) {
@@ -121,7 +122,7 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             if (mainColor != null && titleLayout != null) {
                 titleLayout.setBackgroundColor(mainColor);
             }
-        } else {
+        } else if (titleLayout != null) {
             titleLayout.setVisibility(View.GONE);
         }
 
