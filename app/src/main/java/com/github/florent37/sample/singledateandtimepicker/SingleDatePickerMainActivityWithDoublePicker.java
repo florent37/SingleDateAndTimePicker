@@ -172,6 +172,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 //.backgroundColor(Color.BLACK)
                 //.mainColor(Color.GREEN)
 
+                .dimBackground()
+                .dimAmount(.25f)
+
                 .displayHours(false)
                 .displayMinutes(false)
                 .displayDays(false)
@@ -228,6 +231,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 //                .mainColor(Color.GREEN)
                 .minutesStep(15)
                 .mustBeOnFuture()
+
+                .dimBackground()
+                .dimAmount(.5f)
 
                 .minDateRange(minDate)
                 .maxDateRange(maxDate)

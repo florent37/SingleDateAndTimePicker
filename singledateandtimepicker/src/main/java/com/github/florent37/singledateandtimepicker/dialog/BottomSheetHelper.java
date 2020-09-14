@@ -29,6 +29,8 @@ public class BottomSheetHelper {
   private WindowManager windowManager;
 
   private boolean focusable;
+  private boolean dimBackground;
+  private float dimAmount;
 
   public BottomSheetHelper(Context context, int layoutId) {
     this.context = context;
@@ -47,6 +49,7 @@ public class BottomSheetHelper {
 
           // Don't let it grab the input focus if focusable is false
           int flags = focusable ? 0 : WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+          flags |= dimBackground ? WindowManager.LayoutParams.FLAG_DIM_BEHIND : 0;
 
           WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
               // Shrink the window to wrap the content rather than filling the screen
@@ -55,6 +58,9 @@ public class BottomSheetHelper {
               flags,
               // Make the underlying application window visible through any transparent parts
               PixelFormat.TRANSLUCENT);
+
+          // set dim amount of underlying views
+          layoutParams.dimAmount = dimBackground ? dimAmount : 0;
 
           if ((layoutParams.softInputMode
               & WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION) == 0) {
@@ -97,6 +103,14 @@ public class BottomSheetHelper {
 
   public void setFocusable(boolean focusable) {
     this.focusable = focusable;
+  }
+
+  public void setDimBackground(boolean dimBackground) {
+    this.dimBackground = dimBackground;
+  }
+
+  public void setDimAmount(float dimAmount) {
+    this.dimAmount = dimAmount;
   }
 
   public void display() {
