@@ -1,6 +1,7 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -113,25 +114,28 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
+        final View pickerTitleHeader = view.findViewById(R.id.pickerTitleHeader);
         final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
-        if (titleTextView != null) {
-            titleTextView.setText(title);
+        if (!TextUtils.isEmpty(title)) {
+            if (titleTextView != null) {
+                titleTextView.setText(title);
 
-            if (titleTextColor != null) {
-                titleTextView.setTextColor(titleTextColor);
-            }
+                if (titleTextColor != null) {
+                    titleTextView.setTextColor(titleTextColor);
+                }
 
-            if (titleTextSize != null) {
-                titleTextView.setTextSize(titleTextSize);
+                if (titleTextSize != null) {
+                    titleTextView.setTextSize(titleTextSize);
+                }
             }
+            if (mainColor != null && pickerTitleHeader != null) {
+                pickerTitleHeader.setBackgroundColor(mainColor);
+            }
+        } else if (pickerTitleHeader != null) {
+            pickerTitleHeader.setVisibility(View.GONE);
         }
 
         picker.setTodayText(new DateWithLabel(todayText, new Date()));
-
-        final View pickerTitleHeader = view.findViewById(R.id.pickerTitleHeader);
-        if (mainColor != null && pickerTitleHeader != null) {
-            pickerTitleHeader.setBackgroundColor(mainColor);
-        }
 
         if (curved) {
             picker.setCurved(true);
