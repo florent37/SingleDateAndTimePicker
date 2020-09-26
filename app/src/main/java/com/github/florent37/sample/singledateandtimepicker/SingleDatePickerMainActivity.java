@@ -1,13 +1,12 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
 public class SingleDatePickerMainActivity extends AppCompatActivity {
 
@@ -26,8 +25,8 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
         singleDateAndTimePicker.addOnDateChangedListener(changeListener);
         singleDateAndTimePicker2.addOnDateChangedListener(changeListener);
 
-        singleDateAndTimePicker.setTypeface(Typeface.DEFAULT);
-        singleDateAndTimePicker2.setTypeface(ResourcesCompat.getFont(this, R.font.dinot_bold));
+        //singleDateAndTimePicker.setTypeface(Typeface.DEFAULT);
+        singleDateAndTimePicker2.setTypeface(ResourcesCompat.getFont(this, R.font.dinot_regular));
 
         findViewById(R.id.toggleEnabled).setOnClickListener(v -> {
             singleDateAndTimePicker.setEnabled(!singleDateAndTimePicker.isEnabled());
