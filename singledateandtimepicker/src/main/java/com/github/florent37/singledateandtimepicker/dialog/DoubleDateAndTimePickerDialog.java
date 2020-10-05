@@ -424,8 +424,8 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
     private DoubleDateAndTimePickerDialog setTimeZone(TimeZone timeZone) {
         dateHelper.setTimeZone(timeZone);
-        pickerTab0.setTimeZone(timeZone);
-        pickerTab1.setTimeZone(timeZone);
+//        pickerTab0.setTimeZone(timeZone);
+//        pickerTab1.setTimeZone(timeZone);
         return this;
     }
 
