@@ -26,8 +26,12 @@ new SingleDateAndTimePickerDialog.Builder(context)
                                 public void onDisplayed(SingleDateAndTimePicker picker) {
                                      //retrieve the SingleDateAndTimePicker
                                 }
-                            })
-            
+                                
+                                @Override
+                                public void onClosed(SingleDateAndTimePicker picker) {
+    
+                                }
+            })
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override
