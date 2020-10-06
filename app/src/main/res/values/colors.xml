@@ -6,4 +6,7 @@
     <color name="colorInnactive">#AAA</color>
     <color name="textColor">#6E6E6E</color>
 
+    <!-- Override divider color -->
+    <color name="picker_default_divider_color">#E3E3E3</color>
+
 </resources>
