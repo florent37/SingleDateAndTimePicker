@@ -11,6 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+
 import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 import com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker;
@@ -29,10 +34,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.DAYS_PADDING;
 
@@ -360,6 +361,14 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
     }
 
+    private void setFontToAllPickers(int resourceId) {
+        if (resourceId > 0) {
+            for (int i = 0; i< pickers.size();i++) {
+                pickers.get(i).setTypeface(ResourcesCompat.getFont(getContext(), resourceId));
+            }
+        }
+    }
+
     public void setSelectorColor(int selectorColor) {
         dtSelector.setBackgroundColor(selectorColor);
     }
@@ -635,6 +644,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
         setDisplayYears(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayYears, displayYears));
         setDisplayDaysOfMonth(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayDaysOfMonth, displayDaysOfMonth));
         setDisplayMonthNumbers(a.getBoolean(R.styleable.SingleDateAndTimePicker_picker_displayMonthNumbers, monthPicker.displayMonthNumbers()));
+        setFontToAllPickers(a.getResourceId(R.styleable.SingleDateAndTimePicker_fontFamily,0));
+        setFontToAllPickers(a.getResourceId(R.styleable.SingleDateAndTimePicker_android_fontFamily,0));
         String monthFormat = a.getString(R.styleable.SingleDateAndTimePicker_picker_monthFormat);
         setMonthFormat(TextUtils.isEmpty(monthFormat) ? WheelMonthPicker.MONTH_FORMAT : monthFormat);
         setTextAlign(a.getInt(R.styleable.SingleDateAndTimePicker_picker_textAlign, ALIGN_CENTER));

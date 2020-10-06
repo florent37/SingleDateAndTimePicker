@@ -147,6 +147,15 @@ new SingleDateAndTimePickerDialog.Builder(context)
             .display();
 ```
 
+# Changing typeface
+
+```java
+final SingleDateAndTimePicker singleDateAndTimePicker2 = findViewById(R.id.single_day_picker2);
+singleDateAndTimePicker2.setTypeface(ResourcesCompat.getFont(this, R.font.dinot_regular));
+```
+
+Or pass it as an attribute in the XML layout. (See XML section on how to use it.)
+
 # XML
 
 Some/most options are also available via XML:
@@ -166,6 +175,7 @@ Some/most options are also available via XML:
         app:picker_dayCount="31"
         app:picker_mustBeOnFuture="true"
         app:picker_visibleItemCount="7"
+        app:fontFamily="@font/dinot_bold"
         />
 ```
 
@@ -174,6 +184,9 @@ Some/most options are also available via XML:
 * picker_curvedMaxAngle sets the max angle of top/bottom items. If 45
   then the visible 'window' of the wheel is a 'quarter' of the circle.
   If 90 (default) its rolling on a half-circle
+* `app:fontFamily` or `android:fontFamily` sets the typeface/font to be
+  used with the date picker.
+  Note - For api below v-16 use `app:fontFamily`
 
 Get divider lines around selected by overwriting one or more of
 ```

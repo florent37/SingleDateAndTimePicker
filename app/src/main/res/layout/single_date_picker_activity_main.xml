@@ -35,7 +35,8 @@
         app:picker_itemSpacing="6dp"
         app:picker_mustBeOnFuture="true"
         app:picker_textAlign="center"
-        app:picker_visibleItemCount="9" />
+        app:picker_visibleItemCount="9"
+        app:fontFamily="@font/dinot_bold"/>
 
     <TextView
         android:layout_width="wrap_content"
