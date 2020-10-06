@@ -1,7 +1,9 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
@@ -44,6 +46,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     SimpleDateFormat simpleDateLocaleFormat;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
     DoubleDateAndTimePickerDialog.Builder doubleBuilder;
+
+    private static String TAG = "SingleDatePickerMainActivityWithDoublePicker";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +98,19 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 .displayMinutes(true)
                 .displayHours(true)
-                .displayDays(true)
+                .displayDays(false)
                 //.displayMonth(true)
                 //.displayYears(true)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 
@@ -138,7 +147,12 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 
@@ -192,7 +206,12 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 
@@ -268,7 +287,12 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 

@@ -22,12 +22,16 @@ new SingleDateAndTimePickerDialog.Builder(context)
             //.displayMinutes(false)
             //.todayText("aujourd'hui")
             .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
-                                @Override
-                                public void onDisplayed(SingleDateAndTimePicker picker) {
-                                     //retrieve the SingleDateAndTimePicker
-                                }
-                            })
-            
+                @Override
+                public void onDisplayed(SingleDateAndTimePicker picker) {
+                    // Retrieve the SingleDateAndTimePicker
+                }
+                                
+                @Override
+                public void onClosed(SingleDateAndTimePicker picker) {
+                    // On dialog closed 
+                }
+            })
             .title("Simple")
             .listener(new SingleDateAndTimePickerDialog.Listener() {
                 @Override
