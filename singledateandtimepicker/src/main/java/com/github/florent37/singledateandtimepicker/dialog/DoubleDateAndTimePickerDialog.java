@@ -29,7 +29,6 @@ import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndT
 
 public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
-
     private Listener listener;
     private BottomSheetHelper bottomSheetHelper;
     private TextView buttonTab0;
@@ -234,16 +233,6 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             pickerTab1.setSelectedTextColor(mainColor);
         }
 
-        if (minDate != null) {
-            pickerTab0.setMinDate(minDate);
-            pickerTab1.setMinDate(minDate);
-        }
-
-        if (maxDate != null) {
-            pickerTab0.setMaxDate(maxDate);
-            pickerTab1.setMaxDate(maxDate);
-        }
-
         if (defaultDate != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(defaultDate);
@@ -261,6 +250,16 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(tab1Date);
             pickerTab1.selectDate(calendar);
+        }
+
+        if (minDate != null) {
+            pickerTab0.setMinDate(minDate);
+            pickerTab1.setMinDate(minDate);
+        }
+
+        if (maxDate != null) {
+            pickerTab0.setMaxDate(maxDate);
+            pickerTab1.setMaxDate(maxDate);
         }
 
         if (dayFormatter != null) {
@@ -282,6 +281,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
                 }
             });
         }
+
+        pickerTab0.checkPickersMinMax();
+        pickerTab1.checkPickersMinMax();
     }
 
     @NonNull

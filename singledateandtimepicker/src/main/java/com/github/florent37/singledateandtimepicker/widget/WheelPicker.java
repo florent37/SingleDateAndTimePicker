@@ -52,6 +52,8 @@ public abstract class WheelPicker<V> extends View {
     protected int lastScrollPosition;
     protected Listener<WheelPicker, V> listener;
     protected Adapter<V> adapter = new Adapter<>();
+    protected DateWithLabel today;
+    protected int todayItemPosition = -1;
     private Locale customLocale;
     private Paint paint;
     private Scroller scroller;
@@ -664,7 +666,6 @@ public abstract class WheelPicker<V> extends View {
         }
     }
 
-
     protected void onItemCurrentScroll(int position, V item) {
         if (lastScrollPosition != position) {
             if (listener != null) {
@@ -733,16 +734,26 @@ public abstract class WheelPicker<V> extends View {
     }
 
     public int getTodayItemPosition() {
-        List<V> list = adapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) instanceof DateWithLabel) {
-                DateWithLabel dwl = (DateWithLabel) list.get(i);
-                if (dwl.label.equals(getLocalizedString(R.string.picker_today))) {
-                    return i;
+        if (todayItemPosition == -1) {
+            todayItemPosition = 0;
+            List<V> list = adapter.getData();
+            String todayText = getTodayText();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) instanceof DateWithLabel) {
+                    DateWithLabel dwl = (DateWithLabel) list.get(i);
+                    if (dwl.label.equals(todayText)) {
+                        todayItemPosition = i;
+                        break;
+                    }
                 }
             }
         }
-        return 0;
+        return todayItemPosition;
+    }
+
+    @NonNull
+    public String getTodayText() {
+        return today == null || TextUtils.isEmpty(today.label) ? getLocalizedString(R.string.picker_today) : today.label;
     }
 
     public void setAdapter(Adapter adapter) {
