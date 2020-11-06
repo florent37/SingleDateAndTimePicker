@@ -55,13 +55,13 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         setContentView(R.layout.single_date_picker_activity_main_double_picker);
         ButterKnife.bind(this);
 
-        this.simpleDateFormat = new SimpleDateFormat("EEE d MMM HH:mm", Locale.getDefault());
+        this.simpleDateFormat = new SimpleDateFormat("EEE d MMM yyyy", Locale.getDefault());
 
         this.simpleTimeFormat = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
 
-        this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
+        this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM yyyy", Locale.getDefault());
 
-        this.simpleDateLocaleFormat = new SimpleDateFormat("EEE d MMM", Locale.GERMAN);
+        this.simpleDateLocaleFormat = new SimpleDateFormat("EEE d MMM yyyy", Locale.GERMAN);
     }
 
     @Override
@@ -196,12 +196,11 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayMonthNumbers(true)
 
                 //.mustBeOnFuture()
-
                 //.minutesStep(15)
                 //.mustBeOnFuture()
                 //.defaultDate(defaultDate)
-               // .minDateRange(minDate)
-               // .maxDateRange(maxDate)
+                //.minDateRange(minDate)
+                //.maxDateRange(maxDate)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
@@ -233,6 +232,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Calendar calendarMax = Calendar.getInstance();
 
         calendarMin.setTime(now); // Set min now
+        calendarMin.set(Calendar.DAY_OF_MONTH, calendarMin.get(Calendar.DAY_OF_MONTH) + 2);
         calendarMax.setTime(new Date(now.getTime() + TimeUnit.DAYS.toMillis(150))); // Set max now + 150 days
 
         final Date minDate = calendarMin.getTime();
@@ -243,8 +243,9 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 //.bottomSheet()
                 //.curved()
 
-//                .backgroundColor(Color.BLACK)
-//                .mainColor(Color.GREEN)
+                //.backgroundColor(Color.BLACK)
+                //.mainColor(Color.GREEN)
+
                 .minutesStep(15)
                 .mustBeOnFuture()
 
@@ -257,6 +258,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .tab0Date(now)
                 .tab1Date(new Date(now.getTime() + TimeUnit.HOURS.toMillis(1)))
 
+                //.todayText("Today")
                 .title("Double")
 
                 .tab0Text("Depart")

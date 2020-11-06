@@ -45,11 +45,6 @@ public class WheelYearPicker extends WheelPicker<String> {
         return getTodayText();
     }
 
-    @NonNull
-    private String getTodayText() {
-        return getLocalizedString(R.string.picker_today);
-    }
-
     @Override
     protected void onItemSelected(int position, String item) {
         if (onYearSelectedListener != null) {
