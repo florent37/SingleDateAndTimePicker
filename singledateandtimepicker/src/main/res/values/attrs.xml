@@ -32,10 +32,12 @@
         <attr name="picker_selectedTextColor" format="color"/>
         <attr name="picker_textSize" format="dimension"/>
         <attr name="picker_curved" format="boolean"/>
+        <attr name="picker_curvedMaxAngle" format="integer"/>
         <attr name="picker_cyclic" format="boolean"/>
         <attr name="picker_mustBeOnFuture" format="boolean"/>
+        <attr name="picker_itemSpacing" format="dimension"/>
         <attr name="picker_visibleItemCount" format="integer"/>
-        <attr name="picker_selectorColor" format="integer"/>
+        <attr name="picker_selectorColor" format="color"/>
         <attr name="picker_selectorHeight" format="dimension"/>
         <attr name="picker_displayMonth" format="boolean"/>
         <attr name="picker_displayYears" format="boolean"/>
@@ -44,5 +46,16 @@
         <attr name="picker_displayMinutes" format="boolean"/>
         <attr name="picker_displayHours" format="boolean"/>
         <attr name="picker_displayMonthNumbers" format="boolean" />
+        <attr name="picker_dayCount" format="integer" />
+        <attr name="picker_stepSizeMinutes" format="integer" />
+        <attr name="picker_stepSizeHours" format="integer" />
+        <attr name="picker_monthFormat" format="string"/>
+        <attr name="picker_textAlign" format="enum">
+            <enum name="center" value="0"/>
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+        <attr name="android:fontFamily"/>
+        <attr name="fontFamily"/>
     </declare-styleable>
 </resources>

@@ -1,28 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF"
     android:gravity="center"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <Button
+        android:id="@+id/toggleEnabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/toggleEnabled"
-        android:text="toggle enabled"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="50dp"
+        android:text="toggle enabled" />
 
+    <!-- See also
+        app:picker_selectorColor="@android:color/transparent"
+        app:picker_stepSizeHours="2"
+        app:picker_stepSizeMinutes="5"
+        -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Full half-circle wheel, with only future selection" />
+
+    <!-- divider color is overridden with picker_default_divider_color in the app-projcet, giving us the top+bottom divider around Today  -->
     <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
         android:id="@+id/single_day_picker"
         android:layout_width="wrap_content"
-        android:layout_height="230dp"
+        android:layout_height="wrap_content"
         app:picker_curved="true"
-        app:picker_cyclic="true"
+        app:picker_cyclic="false"
+        app:picker_dayCount="31"
+        app:picker_itemSpacing="6dp"
         app:picker_mustBeOnFuture="true"
-        app:picker_visibleItemCount="7"
-        />
+        app:picker_selectorColor="@android:color/transparent"
+        app:picker_textAlign="center"
+        app:picker_visibleItemCount="9"
+        app:fontFamily="@font/dinot_bold"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:text="Quarter-circle wheel, with cyclic and past date selection, and larger item spacing. 365 days" />
+
+    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+        android:id="@+id/single_day_picker2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:picker_curved="true"
+        app:picker_curvedMaxAngle="45"
+        app:picker_cyclic="true"
+        app:picker_dayCount="365"
+        app:picker_itemSpacing="9dp"
+        app:picker_mustBeOnFuture="false"
+        app:picker_textAlign="center"
+        app:picker_visibleItemCount="9" />
 
 </LinearLayout>

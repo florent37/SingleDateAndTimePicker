@@ -28,6 +28,8 @@ public class BottomSheetHelper {
   private Handler handler;
   private WindowManager windowManager;
 
+  private boolean focusable;
+
   public BottomSheetHelper(Context context, int layoutId) {
     this.context = context;
     this.layoutId = layoutId;
@@ -43,12 +45,14 @@ public class BottomSheetHelper {
 
           view = LayoutInflater.from(context).inflate(layoutId, null, true);
 
+          // Don't let it grab the input focus if focusable is false
+          int flags = focusable ? 0 : WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
           WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
               // Shrink the window to wrap the content rather than filling the screen
               WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT,
               WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
-              // Don't let it grab the input focus
-              WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+              flags,
               // Make the underlying application window visible through any transparent parts
               PixelFormat.TRANSLUCENT);
 
@@ -74,10 +78,11 @@ public class BottomSheetHelper {
             @Override
             public boolean onPreDraw() {
               view.getViewTreeObserver().removeOnPreDrawListener(this);
-                if (listener != null) {
-                    listener.onLoaded(view);
-                }
-              return true;
+              if (listener != null) {
+                listener.onLoaded(view);
+              }
+              animateBottomSheet();
+              return false;
             }
           });
         }
@@ -90,25 +95,12 @@ public class BottomSheetHelper {
     return this;
   }
 
+  public void setFocusable(boolean focusable) {
+    this.focusable = focusable;
+  }
+
   public void display() {
     init();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        final ObjectAnimator objectAnimator =
-            ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getHeight(), 0);
-        objectAnimator.addListener(new AnimatorListenerAdapter() {
-
-          @Override
-          public void onAnimationEnd(Animator animation) {
-            if (listener != null) {
-              listener.onOpen();
-            }
-          }
-        });
-        objectAnimator.start();
-      }
-    }, 200);
   }
 
   public void hide() {
@@ -138,6 +130,21 @@ public class BottomSheetHelper {
 
   private void remove() {
     if (view.getWindowToken() != null) windowManager.removeView(view);
+  }
+
+  private void animateBottomSheet() {
+    final ObjectAnimator objectAnimator =
+        ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.getHeight(), 0);
+    objectAnimator.addListener(new AnimatorListenerAdapter() {
+
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        if (listener != null) {
+          listener.onOpen();
+        }
+      }
+    });
+    objectAnimator.start();
   }
 
   public interface Listener {

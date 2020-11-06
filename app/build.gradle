@@ -14,7 +14,11 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
-
+    // The demo-app uses butterknife which require java8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     android {
         lintOptions {
             abortOnError false
@@ -24,9 +28,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:' + project.supportVersion
-    implementation 'com.android.support:design:' + project.supportVersion
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation project(':singledateandtimepicker')
 }

@@ -1,9 +1,9 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
@@ -14,8 +14,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,6 +26,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
     @BindView(R.id.doubleText)
     TextView doubleText;
+
     @BindView(R.id.singleText)
     TextView singleText;
 
@@ -33,13 +36,18 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     @BindView(R.id.singleDateText)
     TextView singleDateText;
 
+    @BindView(R.id.singleDateLocaleText)
+    TextView singleDateLocaleText;
 
 
     SimpleDateFormat simpleDateFormat;
     SimpleDateFormat simpleTimeFormat;
     SimpleDateFormat simpleDateOnlyFormat;
+    SimpleDateFormat simpleDateLocaleFormat;
     SingleDateAndTimePickerDialog.Builder singleBuilder;
     DoubleDateAndTimePickerDialog.Builder doubleBuilder;
+
+    private static String TAG = "SingleDatePickerMainActivityWithDoublePicker";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +60,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         this.simpleTimeFormat = new SimpleDateFormat("hh:mm aa", Locale.getDefault());
 
         this.simpleDateOnlyFormat = new SimpleDateFormat("EEE d MMM", Locale.getDefault());
+
+        this.simpleDateLocaleFormat = new SimpleDateFormat("EEE d MMM", Locale.GERMAN);
     }
 
     @Override
@@ -76,7 +86,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
-
+                .setTimeZone(TimeZone.getDefault())
                 .bottomSheet()
                 .curved()
 
@@ -88,14 +98,19 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
                 .displayMinutes(true)
                 .displayHours(true)
-                .displayDays(true)
+                .displayDays(false)
                 //.displayMonth(true)
                 //.displayYears(true)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 
@@ -117,7 +132,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
-
+                .setTimeZone(TimeZone.getDefault())
                 .bottomSheet()
                 .curved()
 
@@ -132,7 +147,12 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 
@@ -159,6 +179,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date defaultDate = calendar.getTime();
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+                .setTimeZone(TimeZone.getDefault())
                 .bottomSheet()
                 .curved()
 
@@ -185,7 +206,12 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
                     public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
 
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
                     }
                 })
 
@@ -213,6 +239,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         final Date maxDate = calendarMax.getTime();
 
         doubleBuilder = new DoubleDateAndTimePickerDialog.Builder(this)
+                .setTimeZone(TimeZone.getDefault())
                 //.bottomSheet()
                 //.curved()
 
@@ -245,5 +272,37 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                     }
                 });
         doubleBuilder.display();
+    }
+
+    @OnClick(R.id.singleDateLocaleLayout)
+    public void singleDateLocaleClicked() {
+        singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+                .customLocale(Locale.GERMAN)
+                .bottomSheet()
+                .curved()
+                .displayHours(false)
+                .displayMinutes(false)
+                .displayDays(true)
+
+                .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                    @Override
+                    public void onDisplayed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog displayed");
+                    }
+
+                    @Override
+                    public void onClosed(SingleDateAndTimePicker picker) {
+                        Log.d(TAG, "Dialog closed");
+                    }
+                })
+
+                .title("")
+                .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    @Override
+                    public void onDateSelected(Date date) {
+                        singleDateLocaleText.setText(simpleDateLocaleFormat.format(date));
+                    }
+                });
+        singleBuilder.display();
     }
 }

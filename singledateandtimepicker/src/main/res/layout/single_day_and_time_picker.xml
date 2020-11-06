@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelDayPicker
+            android:id="@+id/daysPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right" />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelDayOfMonthPicker
+            android:id="@+id/daysOfMonthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right" />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker
+            android:id="@+id/monthPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right" />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelYearPicker
+            android:id="@+id/yearPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="right"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelHourPicker
+            android:id="@+id/hoursPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="center" />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelMinutePicker
+            android:id="@+id/minutesPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="center" />
+
+        <com.github.florent37.singledateandtimepicker.widget.WheelAmPmPicker
+            android:id="@+id/amPmPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="30dp"
+            app:wheel_atmospheric="true"
+            app:wheel_item_align="center"
+            app:wheel_visible_item_count="2" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/dtSelector"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wheelSelectorHeight"
+        android:layout_gravity="center_vertical"
+        android:alpha="0.2"
+        android:background="@color/picker_default_selector_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wheelSelectorHeight"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/picker_divider_1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picker_default_divider_height"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/picker_default_divider"/>
+
+        <View
+            android:id="@+id/picker_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/picker_default_divider_height"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/picker_default_divider"/>
+    </RelativeLayout>
+</FrameLayout>

@@ -28,3 +28,5 @@ freeline/
 freeline_project_description.json
 SingleDateAndTimePicker.iml
 app/app.iml
+# OS specific (mac)
+.DS_Store

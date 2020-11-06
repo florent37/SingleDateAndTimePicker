@@ -1,15 +1,14 @@
 package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-
-import com.github.florent37.singledateandtimepicker.DateHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MAX_MINUTES;
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.MIN_MINUTES;
@@ -37,11 +36,13 @@ public class WheelMinutePicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        return getFormattedValue(Calendar.getInstance().get(Calendar.MINUTE));
+        Calendar now = Calendar.getInstance();
+        now.setTimeZone(dateHelper.getTimeZone());
+        return getFormattedValue(now.get(Calendar.MINUTE));
     }
 
     @Override
-    protected List<String> generateAdapterValues() {
+    protected List<String> generateAdapterValues(boolean showOnlyFutureDates) {
         final List<String> minutes = new ArrayList<>();
         for (int min = MIN_MINUTES; min <= MAX_MINUTES; min += stepMinutes) {
             minutes.add(getFormattedValue(min));
@@ -54,29 +55,36 @@ public class WheelMinutePicker extends WheelPicker<String> {
         for (int i = 0; i < itemCount; ++i) {
             final String object = adapter.getItemText(i);
             final Integer value = Integer.valueOf(object);
+
+            if (minute == value) {
+                return i;
+            }
+
             if (minute < value) {
                 return i - 1;
             }
         }
-        return 0;
+        return itemCount - 1;
+
     }
 
     @Override
     public int findIndexOfDate(@NonNull Date date) {
-        return findIndexOfMinute(DateHelper.getMinuteOf(date));
+        return findIndexOfMinute(dateHelper.getMinuteOf(date));
     }
 
     protected String getFormattedValue(Object value) {
         Object valueItem = value;
         if (value instanceof Date) {
             final Calendar instance = Calendar.getInstance();
+            instance.setTimeZone(dateHelper.getTimeZone());
             instance.setTime((Date) value);
             valueItem = instance.get(Calendar.MINUTE);
         }
         return String.format(getCurrentLocale(), FORMAT, valueItem);
     }
 
-    public void setStepMinutes(int stepMinutes) {
+    public void setStepSizeMinutes(int stepMinutes) {
         if (stepMinutes < 60 && stepMinutes > 0) {
             this.stepMinutes = stepMinutes;
             updateAdapter();

@@ -15,7 +15,6 @@ import android.graphics.Region;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,6 +23,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
+import com.github.florent37.singledateandtimepicker.DateHelper;
+import com.github.florent37.singledateandtimepicker.LocaleHelper;
 import com.github.florent37.singledateandtimepicker.R;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 public abstract class WheelPicker<V> extends View {
 
@@ -40,12 +44,15 @@ public abstract class WheelPicker<V> extends View {
     public static final int ALIGN_CENTER = 0;
     public static final int ALIGN_LEFT = 1;
     public static final int ALIGN_RIGHT = 2;
+    public static final int MAX_ANGLE = 90;
     protected final static String FORMAT = "%1$02d"; // two digits
+    protected DateHelper dateHelper = new DateHelper(); // Overwritten from Single..Picker
     private final Handler handler = new Handler();
     protected V defaultValue;
     protected int lastScrollPosition;
     protected Listener<WheelPicker, V> listener;
     protected Adapter<V> adapter = new Adapter<>();
+    private Locale customLocale;
     private Paint paint;
     private Scroller scroller;
     private VelocityTracker tracker;
@@ -69,6 +76,7 @@ public abstract class WheelPicker<V> extends View {
     private int mIndicatorColor;
     private int mCurtainColor;
     private int mItemSpace;
+    private int mMaxAngle = MAX_ANGLE;
     private int mItemAlign;
     private int mItemHeight, mHalfItemHeight;
     private int mHalfWheelHeight;
@@ -90,6 +98,7 @@ public abstract class WheelPicker<V> extends View {
     private boolean hasAtmospheric;
     private boolean isCyclic;
     private boolean isCurved;
+    private boolean showOnlyFutureDate;
 
     private boolean isClick;
     private boolean isForceFinishScroll;
@@ -174,7 +183,7 @@ public abstract class WheelPicker<V> extends View {
 
         init();
         defaultValue = initDefault();
-        adapter.setData(generateAdapterValues());
+        adapter.setData(generateAdapterValues(showOnlyFutureDate));
         currentItemPosition = adapter.getItemPosition(defaultValue);
         selectedItemPosition = currentItemPosition;
     }
@@ -184,11 +193,11 @@ public abstract class WheelPicker<V> extends View {
     protected abstract V initDefault();
 
     public void updateAdapter() {
-        adapter.setData(generateAdapterValues());
+        adapter.setData(generateAdapterValues(showOnlyFutureDate));
         notifyDatasetChanged();
     }
 
-    protected abstract List<V> generateAdapterValues();
+    protected abstract List<V> generateAdapterValues(boolean showOnlyFutureDates);
 
     @Override
     protected void onAttachedToWindow() {
@@ -253,8 +262,10 @@ public abstract class WheelPicker<V> extends View {
     public void setDefaultDate(Date date) {
         if (adapter != null && adapter.getItemCount() > 0) {
             final int indexOfDate = findIndexOfDate(date);
-            this.defaultValue = adapter.getData().get(indexOfDate);
-            setSelectedItemPosition(indexOfDate);
+            if (indexOfDate >= 0) {
+                this.defaultValue = adapter.getData().get(indexOfDate);
+                setSelectedItemPosition(indexOfDate);
+            }
         }
     }
 
@@ -264,6 +275,10 @@ public abstract class WheelPicker<V> extends View {
 
     public void setListener(Listener listener) {
         this.listener = listener;
+    }
+
+    public void setCustomLocale(Locale customLocale) {
+        this.customLocale = customLocale;
     }
 
     @Override
@@ -280,7 +295,10 @@ public abstract class WheelPicker<V> extends View {
 
         // Correct view sizes again if curved is enable
         if (isCurved) {
-            resultHeight = (int) (2 * resultHeight / Math.PI);
+            // The text is written on the circle circumference from -mMaxAngle to mMaxAngle.
+            // 2 * sinDegree(mMaxAngle): Height of drawn circle
+            // Math.PI: Circumference of half unit circle, `mMaxAngle / 90f`: The ratio of half-circle we draw on
+            resultHeight = (int) (2 * sinDegree(mMaxAngle) / (Math.PI * mMaxAngle / 90f) * resultHeight);
         }
 
         // Consideration padding influence the view sizes
@@ -375,8 +393,9 @@ public abstract class WheelPicker<V> extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (null != onWheelChangeListener) onWheelChangeListener.onWheelScrolled(scrollOffsetY);
-        if (mItemHeight - mHalfDrawnItemCount <= 0)
+        if (mItemHeight - mHalfDrawnItemCount <= 0) {
             return;
+        }
         int drawnDataStartPos = -scrollOffsetY / mItemHeight - mHalfDrawnItemCount;
         for (int drawnDataPos = drawnDataStartPos + selectedItemPosition,
              drawnOffsetPos = -mHalfDrawnItemCount;
@@ -398,7 +417,7 @@ public abstract class WheelPicker<V> extends View {
             int mDrawnItemCenterY = drawnCenterY + (drawnOffsetPos * mItemHeight) +
                     scrollOffsetY % mItemHeight;
 
-            int distanceToCenter = 0;
+            float distanceToCenter = 0;
             if (isCurved) {
                 // Correct ratio of item's drawn center to wheel center
                 float ratio = (drawnCenterY - Math.abs(drawnCenterY - mDrawnItemCenterY) -
@@ -410,12 +429,10 @@ public abstract class WheelPicker<V> extends View {
                     unit = 1;
                 } else if (mDrawnItemCenterY < drawnCenterY) unit = -1;
 
-                float degree = (-(1 - ratio) * 90 * unit);
-                if (degree < -90) degree = -90;
-                if (degree > 90) degree = 90;
-                distanceToCenter = computeSpace((int) degree);
+                float degree = clamp((-(1 - ratio) * mMaxAngle * unit), -mMaxAngle, mMaxAngle);
+                distanceToCenter = computeYCoordinateAtAngle(degree);
 
-                int transX = wheelCenterX;
+                float transX = wheelCenterX;
                 switch (mItemAlign) {
                     case ALIGN_LEFT:
                         transX = rectDrawn.left;
@@ -424,7 +441,7 @@ public abstract class WheelPicker<V> extends View {
                         transX = rectDrawn.right;
                         break;
                 }
-                int transY = wheelCenterY - distanceToCenter;
+                float transY = wheelCenterY - distanceToCenter;
 
                 camera.save();
                 camera.rotateX(degree);
@@ -450,7 +467,7 @@ public abstract class WheelPicker<V> extends View {
                 paint.setAlpha(alpha);
             }
             // Correct item's drawn centerY base on curved state
-            int drawnCenterY = isCurved ? this.drawnCenterY - distanceToCenter : mDrawnItemCenterY;
+            float drawnCenterY = isCurved ? this.drawnCenterY - distanceToCenter : mDrawnItemCenterY;
 
             // Judges need to draw different color for current item or not
             if (mSelectedItemTextColor != -1) {
@@ -493,12 +510,23 @@ public abstract class WheelPicker<V> extends View {
         return position >= 0 && position < adapter.getItemCount();
     }
 
-    private int computeSpace(int degree) {
-        return (int) (Math.sin(Math.toRadians(degree)) * mHalfWheelHeight);
+    private float computeYCoordinateAtAngle(float degree) {
+        // Compute y-coordinate for item at degree. mMaxAngle is at mHalfWheelHeight
+        return sinDegree(degree) / sinDegree(mMaxAngle) * mHalfWheelHeight;
     }
 
-    private int computeDepth(int degree) {
-        return (int) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
+    private float sinDegree(float degree) {
+        return (float) Math.sin(Math.toRadians(degree));
+    }
+
+    private float computeDepth(float degree) {
+        return (float) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
+    }
+
+    private float clamp(float value, float min, float max) {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
     }
 
     @Override
@@ -704,6 +732,19 @@ public abstract class WheelPicker<V> extends View {
         return adapter.getData().indexOf(defaultValue);
     }
 
+    public int getTodayItemPosition() {
+        List<V> list = adapter.getData();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) instanceof DateWithLabel) {
+                DateWithLabel dwl = (DateWithLabel) list.get(i);
+                if (dwl.label.equals(getLocalizedString(R.string.picker_today))) {
+                    return i;
+                }
+            }
+        }
+        return 0;
+    }
+
     public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
 
@@ -814,6 +855,12 @@ public abstract class WheelPicker<V> extends View {
         postInvalidate();
     }
 
+    public void setCurvedMaxAngle(int maxAngle) {
+        this.mMaxAngle = maxAngle;
+        requestLayout();
+        postInvalidate();
+    }
+
     public void setIndicator(boolean hasIndicator) {
         this.hasIndicator = hasIndicator;
         computeIndicatorRect();
@@ -918,21 +965,23 @@ public abstract class WheelPicker<V> extends View {
     public int findIndexOfDate(@NonNull Date date) {
         String formatItem = getFormattedValue(date);
 
-        if(this instanceof WheelDayOfMonthPicker){
+        if (this instanceof WheelDayOfMonthPicker) {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
-            return calendar.get(Calendar.DAY_OF_MONTH) - 1 ;
+            return calendar.get(Calendar.DAY_OF_MONTH) - 1;
         }
 
         if (this instanceof WheelDayPicker) {
             String today = getFormattedValue(new Date());
             if (today.equals(formatItem)) {
-                return ((WheelDayPicker)this).getTodayTextPosition();
+                return getTodayItemPosition();
             }
         }
 
         if (this instanceof WheelMonthPicker) {
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.MONTH);
         }
@@ -940,6 +989,7 @@ public abstract class WheelPicker<V> extends View {
         if (this instanceof WheelYearPicker) {
             WheelYearPicker yearPick = (WheelYearPicker) this;
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             return calendar.get(Calendar.YEAR) - yearPick.minYear;
         }
@@ -972,14 +1022,37 @@ public abstract class WheelPicker<V> extends View {
         return index;
     }
 
+    public String getLocalizedString(@StringRes int stringRes) {
+        return LocaleHelper.getString(getContext(), getCurrentLocale(), stringRes);
+    }
+
     @TargetApi(Build.VERSION_CODES.N)
     public Locale getCurrentLocale() {
+        if (customLocale != null) {
+            return customLocale;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return getResources().getConfiguration().getLocales().get(0);
         } else {
             //noinspection deprecation
             return getResources().getConfiguration().locale;
         }
+    }
+
+    public void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
+    public DateHelper getDateHelper() {
+        return dateHelper;
+    }
+
+    public void setShowOnlyFutureDate(boolean showOnlyFutureDate) {
+        this.showOnlyFutureDate = showOnlyFutureDate;
+    }
+
+    public boolean getShowOnlyFutureDate() {
+        return showOnlyFutureDate;
     }
 
     public interface BaseAdapter<V> {
@@ -1068,12 +1141,16 @@ public abstract class WheelPicker<V> extends View {
         @Override
         public V getItem(int position) {
             final int itemCount = getItemCount();
-            return itemCount != 0 ? data.get((position + itemCount) % itemCount) : null;
+            return itemCount == 0 ? null : data.get((position + itemCount) % itemCount);
         }
 
         @Override
         public String getItemText(int position) {
-            return String.valueOf(data.get(position));
+            try {
+                return String.valueOf(data.get(position));
+            } catch (Throwable t) {
+                return "";
+            }
         }
 
         public List<V> getData() {
