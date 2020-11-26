@@ -18,6 +18,8 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -214,8 +216,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                         Log.d(TAG, "Dialog closed");
                     }
                 })
-
                 .title("Simple")
+                .titleTypeFace(ResourcesCompat.getFont(getBaseContext(), R.font.dinot_bold))
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {
