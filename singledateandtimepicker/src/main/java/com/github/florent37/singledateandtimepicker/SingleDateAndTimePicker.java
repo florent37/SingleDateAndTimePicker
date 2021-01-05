@@ -85,6 +85,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private Date maxDate;
     @NonNull
     private Date defaultDate;
+    @NonNull
+    private Calendar currentDateCalendar;
 
     private boolean displayYears = false;
     private boolean displayMonth = false;
@@ -107,6 +109,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
         super(context, attrs, defStyleAttr);
 
         defaultDate = new Date();
+        currentDateCalendar = Calendar.getInstance();
+        currentDateCalendar.setTime(defaultDate);
+
         isAmPm = !(DateFormat.is24HourFormat(context));
 
         inflate(context, R.layout.single_day_and_time_picker, this);
@@ -493,34 +498,58 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
         final int minute = minutesPicker.getCurrentMinute();
 
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(dateHelper.getTimeZone());
+        currentDateCalendar.setTimeZone(dateHelper.getTimeZone());
         if (displayDays) {
             final Date dayDate = daysPicker.getCurrentDate();
-            calendar.setTime(dayDate);
+            currentDateCalendar.setTime(dayDate);
         } else {
-            if (displayMonth) {
-                calendar.set(Calendar.MONTH, monthPicker.getCurrentMonth());
+            if (displayYears && currentDateCalendar.get(Calendar.YEAR) != yearsPicker.getCurrentYear()) {
+                int currentMonth = currentDateCalendar.get(Calendar.MONTH);
+                int daysInMonth = currentDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                currentDateCalendar.set(Calendar.YEAR, yearsPicker.getCurrentYear());
+                int newMonth = currentDateCalendar.get(Calendar.MONTH);
+                if (newMonth != currentMonth) {
+                    // This is for handling case like changing the year from 2000 to 1999
+                    // And, the selected month and day was Feb, 29, so after changing year to 1999
+                    // We want to set the month to be Feb. and the day of month to be 28.
+                    currentDateCalendar.set(Calendar.MONTH, currentMonth); // keep the month
+                    currentDateCalendar.set(Calendar.DAY_OF_MONTH, daysInMonth); // Move to the last day of month
+                }
             }
 
-            if (displayYears) {
-                calendar.set(Calendar.YEAR, yearsPicker.getCurrentYear());
+            if (displayMonth && currentDateCalendar.get(Calendar.MONTH) != monthPicker.getCurrentMonth()) {
+                int selectedDayOfMonth = daysOfMonthPicker.getCurrentDay() + 1;
+                Calendar tmpCalendar = Calendar.getInstance();
+                tmpCalendar.setTimeZone(dateHelper.getTimeZone());
+                tmpCalendar.set(Calendar.DAY_OF_MONTH, 1);
+                tmpCalendar.set(Calendar.YEAR, currentDateCalendar.get(Calendar.YEAR));
+                tmpCalendar.set(Calendar.MONTH, monthPicker.getCurrentMonth());
+
+                int daysInMonth = tmpCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                if (daysInMonth >= selectedDayOfMonth) {
+                    // It's OK: e.g.: daysInMonth = 28; selectedDayOfMonth 28 or 27 or smaller
+                    currentDateCalendar.set(Calendar.MONTH, monthPicker.getCurrentMonth());
+                } else {
+                    // It's not OK: e.g.: daysInMonth = 28; selectedDayOfMonth 29 / 30 / 31
+                    currentDateCalendar.set(Calendar.DAY_OF_MONTH, daysInMonth);
+                    currentDateCalendar.set(Calendar.MONTH, monthPicker.getCurrentMonth());
+                }
             }
 
             if (displayDaysOfMonth) {
-                int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                int daysInMonth = currentDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
                 if (daysOfMonthPicker.getCurrentDay() >= daysInMonth) {
-                    calendar.set(Calendar.DAY_OF_MONTH, daysInMonth);
+                    currentDateCalendar.set(Calendar.DAY_OF_MONTH, daysInMonth);
                 } else {
-                    calendar.set(Calendar.DAY_OF_MONTH, daysOfMonthPicker.getCurrentDay() + 1);
+                    currentDateCalendar.set(Calendar.DAY_OF_MONTH, daysOfMonthPicker.getCurrentDay() + 1);
                 }
             }
         }
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
+        currentDateCalendar.set(Calendar.HOUR_OF_DAY, hour);
+        currentDateCalendar.set(Calendar.MINUTE, minute);
+        currentDateCalendar.set(Calendar.SECOND, 0);
+        currentDateCalendar.set(Calendar.MILLISECOND, 0);
+        return currentDateCalendar.getTime();
     }
 
     public void setStepSizeMinutes(int minutesStep) {
@@ -537,6 +566,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
             calendar.setTimeZone(dateHelper.getTimeZone());
             calendar.setTime(date);
             this.defaultDate = calendar.getTime();
+            currentDateCalendar = Calendar.getInstance();
+            currentDateCalendar.setTime(defaultDate);
             
             updateDaysOfMonth(calendar);
 
