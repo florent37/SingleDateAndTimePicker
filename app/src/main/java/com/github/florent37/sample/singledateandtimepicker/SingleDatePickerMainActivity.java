@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 
 public class SingleDatePickerMainActivity extends AppCompatActivity {
 
@@ -32,6 +33,19 @@ public class SingleDatePickerMainActivity extends AppCompatActivity {
             singleDateAndTimePicker.setEnabled(!singleDateAndTimePicker.isEnabled());
             singleDateAndTimePicker2.setEnabled(!singleDateAndTimePicker2.isEnabled());
         });
+
+
+
+        new SingleDateAndTimePickerDialog.Builder(this)
+                .bottomSheet()
+                .curved()
+                .displayMinutes(false)
+                .displayHours(false)
+                .displayDays(false)
+                .displayMonth(true)
+                .displayYears(true)
+                .displayDaysOfMonth(true)
+                .display();
     }
 
     private void display(String toDisplay) {
