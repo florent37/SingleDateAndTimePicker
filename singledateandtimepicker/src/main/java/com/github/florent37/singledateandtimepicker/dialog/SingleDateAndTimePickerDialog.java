@@ -1,8 +1,12 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -16,8 +20,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -39,14 +45,27 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private DisplayListener displayListener;
 
+    @Nullable
+    private String buttonName;
+
+    @Nullable
+    private int backgroundShape;
+
+    @Nullable
+    private int buttonIconRight;
+
+    private Context mContext;
+
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
+        this.mContext = context;
     }
 
     private SingleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
         final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet :
                 R.layout.bottom_sheet_picker;
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
+        this.mContext = context;
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
             @Override
@@ -84,6 +103,12 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
+        final ImageView buttonIcon = view.findViewById(R.id.buttonIcon);
+        if (buttonIcon != null){
+            if (buttonIconRight != 0){
+                buttonIcon.setImageResource(buttonIconRight);
+            }
+        }
         final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
         if (buttonOk != null) {
             buttonOk.setOnClickListener(new View.OnClickListener() {
@@ -96,10 +121,21 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (mainColor != null) {
                 buttonOk.setTextColor(mainColor);
+                buttonIcon.setColorFilter(mainColor, PorterDuff.Mode.SRC_IN);
+
             }
 
             if (titleTextSize != null) {
                 buttonOk.setTextSize(titleTextSize);
+            }
+
+            if (buttonName != null){
+                buttonOk.setText(buttonName);
+            }
+            if (buttonTextColor != null){
+                buttonOk.setTextColor(buttonTextColor);
+                buttonIcon.setColorFilter(buttonTextColor, PorterDuff.Mode.SRC_IN);
+
             }
         }
 
@@ -114,6 +150,17 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (backgroundColor != null) {
                 sheetContentLayout.setBackgroundColor(backgroundColor);
+
+            }
+
+            /**  validation for shape customization **/
+            if (backgroundShape != 0){
+                final int sdk = android.os.Build.VERSION.SDK_INT;
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN){
+                    sheetContentLayout.setBackgroundDrawable(ContextCompat.getDrawable(mContext, backgroundShape));
+                }else {
+                    sheetContentLayout.setBackground(ContextCompat.getDrawable(mContext, backgroundShape));
+                }
             }
         }
 
@@ -306,6 +353,23 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private SingleDateAndTimePickerDialog setButtonName(@Nullable String buttonName){
+        this.buttonName = buttonName;
+        return this;
+    }
+
+    private SingleDateAndTimePickerDialog setBackgroundShape(@Nullable int backgroundShape){
+        this.backgroundShape = backgroundShape;
+        return this;
+    }
+
+    private SingleDateAndTimePickerDialog setButtonIconRight(@Nullable int buttonIconRight){
+        this.buttonIconRight = buttonIconRight;
+        return this;
+    }
+
+
+
     @Override
     public void display() {
         super.display();
@@ -401,6 +465,19 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         @Nullable
         private Locale customLocale;
         private TimeZone timeZone;
+
+        @Nullable
+        private String buttonName;
+
+        @Nullable
+        private int backgroundShape;
+
+        @ColorInt
+        @Nullable
+        private int buttonTextColor;
+
+        @Nullable
+        private int buttonIconRight = 0;
 
         public Builder(Context context) {
             this.context = context;
@@ -546,6 +623,25 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder setButtonName(@Nullable String buttonName){
+            this.buttonName = buttonName;
+            return this;
+        }
+
+        public Builder setBackgroundShape(@Nullable int backgroundShape){
+            this.backgroundShape = backgroundShape;
+            return this;
+        }
+        public Builder setButtonTextColor(@Nullable @ColorInt int buttonTextColor){
+            this.buttonTextColor = buttonTextColor;
+            return this;
+        }
+
+        public Builder setButtonIconRight(@Nullable int buttonIconRight){
+            this.buttonIconRight = buttonIconRight;
+            return this;
+        }
+
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -569,7 +665,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
                     .setTimeZone(timeZone)
-                    .setFocusable(focusable);
+                    .setFocusable(focusable)
+                    .setBackgroundShape(backgroundShape)
+                    .setButtonName(buttonName)
+                    .setButtonIconRight(buttonIconRight);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
@@ -589,6 +688,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (isAmPm != null) {
                 dialog.setIsAmPm(isAmPm);
+            }
+
+            if (buttonTextColor != 0){
+                dialog.setButtonTextColor(buttonTextColor);
             }
 
             return dialog;

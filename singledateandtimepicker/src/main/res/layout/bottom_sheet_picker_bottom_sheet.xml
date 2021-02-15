@@ -19,6 +19,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="5dp"
             >
 
             <TextView
@@ -30,7 +31,7 @@
                 android:gravity="center"
                 android:background="?android:attr/selectableItemBackground"
                 android:text="title here"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="20dp"
                 android:textColor="@color/picker_button_background_selected"
                 android:textStyle="bold"
                 />
@@ -47,8 +48,20 @@
                 android:textAllCaps="true"
                 android:textColor="@color/picker_button_background_selected"
                 android:textStyle="bold"
+                android:layout_marginRight="10dp"
                 />
 
+            <ImageView
+                android:id="@+id/buttonIcon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:tint="@color/picker_background"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginRight="12dp"
+
+                />
+<!--                android:src="@drawable/ic_right_arrow_light_blue"
+-->
         </FrameLayout>
 
         <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker

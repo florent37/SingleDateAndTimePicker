@@ -60,6 +60,10 @@ public abstract class BaseDialog {
 
     protected Locale customLocale;
 
+    @Nullable
+    @ColorInt
+    protected Integer buttonTextColor = null;
+
     public void display() {
         this.isDisplaying = true;
     }
@@ -86,6 +90,10 @@ public abstract class BaseDialog {
 
     public void setTitleTextColor(@NonNull @ColorInt int titleTextColor) {
         this.titleTextColor = titleTextColor;
+    }
+
+    public void setButtonTextColor(@ColorInt Integer buttonTextColor){
+        this.buttonTextColor = buttonTextColor;
     }
 
     protected void onClose() {
