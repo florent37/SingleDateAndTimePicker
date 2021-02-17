@@ -1,5 +1,6 @@
 package com.github.florent37.sample.singledateandtimepicker;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -99,6 +100,8 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .displayMinutes(true)
                 .displayHours(true)
                 .displayDays(false)
+                .minutesStep(15)
+                .setBackgroundShape(R.drawable.curve_shape)
                 //.displayMonth(true)
                 //.displayYears(true)
 
@@ -113,8 +116,13 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                         Log.d(TAG, "Dialog closed");
                     }
                 })
-
-                .title("Simple Time")
+                .titleTextColor(Color.parseColor("#E8EAEE"))
+                .mainColor(Color.parseColor("#FAFAFA"))
+                .backgroundColor(Color.parseColor("#1D2D51"))
+                .title("Pickup Time")
+                .setButtonName("NEXT")
+                .setButtonIconRight(R.drawable.ic_right_arrow_light_blue)
+                .setButtonTextColor(Color.parseColor("#FD9731"))
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {

@@ -54,6 +54,7 @@
         <LinearLayout
             android:id="@+id/doubleLayout"
             android:layout_width="match_parent"
+            android:visibility="visible"
             android:layout_height="60dp"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
@@ -113,6 +114,7 @@
             android:id="@+id/singleDateLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:visibility="visible"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -142,6 +144,7 @@
             android:id="@+id/singleDateLocaleLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:visibility="visible"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"

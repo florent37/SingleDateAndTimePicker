@@ -78,6 +78,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     private View dtSelector;
     private boolean mustBeOnFuture;
+    private View picker_divider_1;
+    private View picker_divider_2;
 
     @Nullable
     private Date minDate;
@@ -119,6 +121,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
         hoursPicker = findViewById(R.id.hoursPicker);
         amPmPicker = findViewById(R.id.amPmPicker);
         dtSelector = findViewById(R.id.dtSelector);
+        picker_divider_1 = findViewById(R.id.picker_divider_1);
+        picker_divider_2 = findViewById(R.id.picker_divider_2);
 
         pickers.addAll(Arrays.asList(
                 daysPicker,
@@ -371,6 +375,9 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setSelectorColor(int selectorColor) {
         dtSelector.setBackgroundColor(selectorColor);
+        picker_divider_1.setBackgroundColor(selectorColor);
+        picker_divider_2.setBackgroundColor(selectorColor);
+
     }
 
     public void setSelectorHeight(int selectorHeight) {
