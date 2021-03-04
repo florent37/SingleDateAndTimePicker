@@ -184,6 +184,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
+
+        picker.setTextAlign(textAlignment);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -306,6 +308,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private SingleDateAndTimePickerDialog setTextAlign(int alignment) {
+        this.textAlignment = alignment;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -372,6 +379,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private boolean displayYears = false;
         private boolean displayMonthNumbers = false;
         private boolean focusable = false;
+        private int textAlignment = SingleDateAndTimePicker.ALIGN_CENTER;
 
         @Nullable
         private Boolean isAmPm;
@@ -546,6 +554,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder setTextAlign(int alignment) {
+            this.textAlignment = alignment;
+            return this;
+        }
+
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
@@ -569,7 +582,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
                     .setTimeZone(timeZone)
-                    .setFocusable(focusable);
+                    .setFocusable(focusable)
+                    .setTextAlign(textAlignment);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
