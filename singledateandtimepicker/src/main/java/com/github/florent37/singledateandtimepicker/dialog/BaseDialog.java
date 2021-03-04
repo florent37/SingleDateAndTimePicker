@@ -5,6 +5,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -55,6 +57,8 @@ public abstract class BaseDialog {
 
     @Nullable
     protected Boolean isAmPm;
+
+    protected int textAlignment = SingleDateAndTimePicker.ALIGN_CENTER;
 
     protected SimpleDateFormat dayFormatter;
 

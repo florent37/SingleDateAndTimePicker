@@ -39,7 +39,6 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
     @BindView(R.id.singleDateLocaleText)
     TextView singleDateLocaleText;
 
-
     SimpleDateFormat simpleDateFormat;
     SimpleDateFormat simpleTimeFormat;
     SimpleDateFormat simpleDateOnlyFormat;
@@ -304,5 +303,24 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                     }
                 });
         singleBuilder.display();
+    }
+
+    @OnClick(R.id.datePickerAlignment)
+    public void dateAlignmentClicked() {
+        singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
+                .titleTextSize(17)
+                .bottomSheet()
+                .curved()
+                .displayMinutes(true)
+                .displayHours(true)
+                .displayAmPm(true)
+                .displayDays(false)
+                .displayDaysOfMonth(true)
+                .displayMonth(true)
+                .displayYears(true)
+                .setTextAlign(SingleDateAndTimePicker.ALIGN_LEFT);
+
+        singleBuilder.display();
+
     }
 }
