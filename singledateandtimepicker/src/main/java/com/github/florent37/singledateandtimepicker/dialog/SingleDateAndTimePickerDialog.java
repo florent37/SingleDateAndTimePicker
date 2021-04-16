@@ -1,6 +1,7 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private String title;
     @Nullable
     private Integer titleTextSize;
+    @Nullable
+    private Typeface titleTypeFace;
     @Nullable
     private Integer bottomSheetHeight;
     @Nullable
@@ -128,6 +131,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             if (titleTextSize != null) {
                 titleTextView.setTextSize(titleTextSize);
             }
+
+            if (titleTypeFace != null) {
+                titleTextView.setTypeface(titleTypeFace);
+            }
         }
 
         picker.setTodayText(new DateWithLabel(todayText, new Date()));
@@ -212,6 +219,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setTitleTextSize(@Nullable Integer titleTextSize) {
         this.titleTextSize = titleTextSize;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setTitleTypeFace(@Nullable Typeface titleTypeFace) {
+        this.titleTypeFace = titleTypeFace;
         return this;
     }
 
@@ -353,6 +365,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private Integer titleTextSize;
 
         @Nullable
+        private Typeface titleTypeFace;
+
+        @Nullable
         private Integer bottomSheetHeight;
 
         @Nullable
@@ -413,6 +428,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder titleTextSize(@Nullable Integer titleTextSize) {
             this.titleTextSize = titleTextSize;
+            return this;
+        }
+
+        public Builder titleTypeFace(@Nullable Typeface titleTypeface) {
+            this.titleTypeFace = titleTypeface;
             return this;
         }
 
@@ -549,6 +569,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
+                    .setTitleTypeFace(titleTypeFace)
                     .setTitleTextSize(titleTextSize)
                     .setBottomSheetHeight(bottomSheetHeight)
                     .setTodayText(todayText)
