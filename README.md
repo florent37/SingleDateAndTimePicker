@@ -201,38 +201,16 @@ Get divider lines around selected by overwriting one or more of
 Use in conjuction with
 `app:picker_selectorColor="@android:color/transparent"` on layout.
 
-# Download
 
-<a href='https://ko-fi.com/A160LCC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-In your module [![Download](https://api.bintray.com/packages/florent37/maven/SingleDateAndTimePicker/images/download.svg)](https://bintray.com/florent37/maven/SingleDateAndTimePicker/_latestVersion)
-```groovy
-implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
-//compatible with androidX
-```
-
-# Credits
-
-Author: Florent Champigny
-
-Blog : [http://www.tutos-android-france.com/](http://www.tutos-android-france.com/)
-
-Fiches Plateau Moto : [https://www.fiches-plateau-moto.fr/](https://www.fiches-plateau-moto.fr/)
-
-<a href="https://goo.gl/WXW8Dc">
-  <img alt="Android app on Google Play" src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png" />
-</a>
+Author: mahmoud elebiary
 
 
-<a href="https://plus.google.com/+florentchampigny">
-  <img alt="Follow me on Google+"
-       src="https://raw.githubusercontent.com/florent37/DaVinci/master/mobile/src/main/res/drawable-hdpi/gplus.png" />
-</a>
-<a href="https://twitter.com/florent_champ">
+
+<a href="https://twitter.com/Mahmod_Elebiary">
   <img alt="Follow me on Twitter"
        src="https://raw.githubusercontent.com/florent37/DaVinci/master/mobile/src/main/res/drawable-hdpi/twitter.png" />
 </a>
-<a href="https://www.linkedin.com/in/florentchampigny">
+<a href="https://www.linkedin.com/in/mahmoud-elebiary">
   <img alt="Follow me on LinkedIn"
        src="https://raw.githubusercontent.com/florent37/DaVinci/master/mobile/src/main/res/drawable-hdpi/linkedin.png" />
 </a>
