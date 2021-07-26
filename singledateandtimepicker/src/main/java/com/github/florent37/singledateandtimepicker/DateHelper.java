@@ -44,7 +44,7 @@ public class DateHelper {
     }
 
     public int getHourOfDay(Date date) {
-        return getCalendarOfDate(date).get(Calendar.HOUR);
+        return getCalendarOfDate(date).get(Calendar.HOUR_OF_DAY);
     }
 
     public int getHour(Date date, boolean isAmPm) {
