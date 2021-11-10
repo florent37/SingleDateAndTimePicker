@@ -1,0 +1,65 @@
+name: Auto deploy artifacts on release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Check out code
+        uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: '0'
+
+      - name: Release tag
+        run: |
+          git describe --tags --always --first-parent
+          git tag
+
+      - name: Setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Generate cache key
+        run: ./scripts/checksum.sh ./ checksum.txt
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/modules-*
+            ~/.gradle/caches/jars-*
+            ~/.gradle/caches/build-cache-*
+            build-cache
+          key: gradle-${{ hashFiles('checksum.txt') }}
+
+      # change to closeAndReleaseSonatypeStagingRepository once confident about the release
+      # add all the secrets to github!
+      - name: Publish application
+        run: ./gradlew publishToSonatype closeSonatypeStagingRepository
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          SONATYPE_STAGING_PROFILE_ID: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Reports
+          path: '**/build/reports/*'
+          retention-days: 2
