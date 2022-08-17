@@ -2,6 +2,7 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +44,9 @@ public class WheelHourPicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        return String.valueOf(dateHelper.getHour(dateHelper.today(), isAmPm));
+        int hour = dateHelper.getHour(dateHelper.today(), isAmPm);
+        Log.d("WheelHourPicker", "initDefault() default hour: " + hour);
+        return String.valueOf(hour);
     }
 
     @Override
@@ -95,7 +98,7 @@ public class WheelHourPicker extends WheelPicker<String> {
             if (isAmPm && hour >= MAX_HOUR_AM_PM) {
                 hour -= MAX_HOUR_AM_PM;
             }
-
+            Log.d("WheelHourPicker", "setDefault() default hour: " + hour);
             super.setDefault(getFormattedValue(hour));
         } catch (Exception e){
             e.printStackTrace();
