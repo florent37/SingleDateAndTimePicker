@@ -229,6 +229,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 .setHourChangedListener(new WheelHourPicker.OnHourChangedListener() {
                     @Override
                     public void onHourChanged(WheelHourPicker picker, int hour) {
+                        System.out.println("SingleDateAndTimePicker onHourChanged(): hour -> " + hour);
                         updateListener();
                         checkMinMaxDate(picker);
                     }
