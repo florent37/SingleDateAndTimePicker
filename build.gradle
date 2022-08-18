@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.2'
+        classpath 'com.android.tools.build:gradle:3.6.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         // NOTE: Do not place your application dependencies here; they belong
@@ -23,8 +23,8 @@ allprojects {
 }
 
 ext {
-    sdk = 28
-    minSdk = 14
+    sdk = 32
+    minSdk = 23
 
     github = 'https://github.com/florent37/SingleDateAndTimePicker'
 
