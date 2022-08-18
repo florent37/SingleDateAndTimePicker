@@ -5,12 +5,10 @@ import android.util.AttributeSet;
 
 import com.github.florent37.singledateandtimepicker.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,15 +53,10 @@ public class WheelAmPmPicker extends WheelPicker<String> {
 
     @Override
     public int findIndexOfDate(@NonNull Date date) {
-        final String formatter = "yyyy-MM-dd HH:mm:ss";
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter, Locale.getDefault());
-        System.out.println("WheelAmPmPicker findIndexOfDate(): timeZone " + dateHelper.getTimeZone().getID());
-        System.out.println("WheelAmPmPicker findIndexOfDate(): Date " + simpleDateFormat.format(date));
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(dateHelper.getTimeZone());
         calendar.setTime(date);
         final int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        System.out.println("WheelAmPmPicker findIndexOfDate(): " + hours);
         if (hours >= SingleDateAndTimeConstants.MAX_HOUR_AM_PM) {
             return 1;
         } else {

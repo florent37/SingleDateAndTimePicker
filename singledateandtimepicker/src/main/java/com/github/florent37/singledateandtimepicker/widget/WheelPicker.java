@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -263,10 +262,8 @@ public abstract class WheelPicker<V> extends View {
     public void setDefaultDate(Date date) {
         if (adapter != null && adapter.getItemCount() > 0) {
             final int indexOfDate = findIndexOfDate(date);
-            Log.d("WheelPicker", "setDefaultDate() indexOfDate: " + indexOfDate);
             if (indexOfDate >= 0) {
                 this.defaultValue = adapter.getData().get(indexOfDate);
-                Log.d("WheelPicker", "setDefaultDate() defaultValue: " + defaultValue);
                 setSelectedItemPosition(indexOfDate);
             }
         }
@@ -967,7 +964,6 @@ public abstract class WheelPicker<V> extends View {
      */
     public int findIndexOfDate(@NonNull Date date) {
         String formatItem = getFormattedValue(date);
-        System.out.println("WheelPicker findIndexOfDate(): " + formatItem);
 
         if (this instanceof WheelDayOfMonthPicker) {
             Calendar calendar = Calendar.getInstance();
@@ -1012,10 +1008,6 @@ public abstract class WheelPicker<V> extends View {
             if (formatItemInt != Integer.MIN_VALUE) {
                 // displayed values are Integers
                 int objectInt = Integer.parseInt(object);
-                if (this instanceof WheelHourPicker && ((WheelHourPicker) this).isAmPm) {
-                    // In case of hours and AM/PM mode, apply modulo 12
-                    objectInt = objectInt % 12;
-                }
                 if (objectInt <= formatItemInt) {
                     index = i;
                 }
@@ -1044,7 +1036,6 @@ public abstract class WheelPicker<V> extends View {
     }
 
     public void setDateHelper(DateHelper dateHelper) {
-        System.out.println("WheelPicker setDateHelper(): " + dateHelper.getTimeZone().getID());
         this.dateHelper = dateHelper;
     }
 

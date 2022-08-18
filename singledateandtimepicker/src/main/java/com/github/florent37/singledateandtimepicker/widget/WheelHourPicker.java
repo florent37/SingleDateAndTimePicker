@@ -2,7 +2,6 @@ package com.github.florent37.singledateandtimepicker.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,9 +43,7 @@ public class WheelHourPicker extends WheelPicker<String> {
 
     @Override
     protected String initDefault() {
-        int hour = dateHelper.getHour(dateHelper.today(), isAmPm);
-        Log.d("WheelHourPicker", "initDefault() default hour: " + hour);
-        return String.valueOf(hour);
+        return String.valueOf(dateHelper.getHour(dateHelper.today(), isAmPm));
     }
 
     @Override
@@ -98,7 +95,6 @@ public class WheelHourPicker extends WheelPicker<String> {
             if (isAmPm && hour >= MAX_HOUR_AM_PM) {
                 hour -= MAX_HOUR_AM_PM;
             }
-            Log.d("WheelHourPicker", "setDefault() default hour: " + hour);
             super.setDefault(getFormattedValue(hour));
         } catch (Exception e){
             e.printStackTrace();
@@ -109,6 +105,8 @@ public class WheelHourPicker extends WheelPicker<String> {
         this.isAmPm = isAmPm;
         if (isAmPm) {
             setMaxHour(MAX_HOUR_AM_PM);
+            // To fix NOT updating afternoon hour, by yeojong
+            setDefault(defaultValue);
         } else {
             setMaxHour(MAX_HOUR_DEFAULT);
         }
@@ -137,7 +135,7 @@ public class WheelHourPicker extends WheelPicker<String> {
     }
 
     private int convertItemToHour(Object item) {
-        Integer hour = Integer.valueOf(String.valueOf(item));
+        int hour = Integer.parseInt(String.valueOf(item));
         if (!isAmPm) {
             return hour;
         }
@@ -145,7 +143,6 @@ public class WheelHourPicker extends WheelPicker<String> {
         if (hour == 12) {
             hour = 0;
         }
-
         return hour;
     }
 
