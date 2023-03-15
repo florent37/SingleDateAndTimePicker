@@ -86,7 +86,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
         System.out.println("simpleTimeClicked() " + currentDateFormat.format(currentTime));
         date.setTime(currentTime);
 
-        TimeZone timeZone = TimeZone.getTimeZone("");
+        TimeZone timeZone = TimeZone.getTimeZone("US/Arizona");
         simpleTimeFormat.setTimeZone(timeZone);
 
         singleBuilder = new SingleDateAndTimePickerDialog.Builder(this)
