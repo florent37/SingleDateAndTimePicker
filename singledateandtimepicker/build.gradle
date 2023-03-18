@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion project.minSdk
         targetSdkVersion project.sdk
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
     }
     lintOptions {
         abortOnError false
@@ -15,7 +15,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.appcompat:appcompat:1.5.0"
 }
 
 ext {

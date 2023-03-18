@@ -95,7 +95,6 @@ public class WheelHourPicker extends WheelPicker<String> {
             if (isAmPm && hour >= MAX_HOUR_AM_PM) {
                 hour -= MAX_HOUR_AM_PM;
             }
-
             super.setDefault(getFormattedValue(hour));
         } catch (Exception e){
             e.printStackTrace();
@@ -106,6 +105,8 @@ public class WheelHourPicker extends WheelPicker<String> {
         this.isAmPm = isAmPm;
         if (isAmPm) {
             setMaxHour(MAX_HOUR_AM_PM);
+            // To fix NOT updating afternoon hour, by yeojong
+            setDefault(defaultValue);
         } else {
             setMaxHour(MAX_HOUR_DEFAULT);
         }
@@ -134,7 +135,7 @@ public class WheelHourPicker extends WheelPicker<String> {
     }
 
     private int convertItemToHour(Object item) {
-        Integer hour = Integer.valueOf(String.valueOf(item));
+        int hour = Integer.parseInt(String.valueOf(item));
         if (!isAmPm) {
             return hour;
         }
@@ -142,7 +143,6 @@ public class WheelHourPicker extends WheelPicker<String> {
         if (hour == 12) {
             hour = 0;
         }
-
         return hour;
     }
 

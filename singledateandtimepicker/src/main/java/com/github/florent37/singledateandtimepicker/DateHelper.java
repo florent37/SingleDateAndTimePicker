@@ -2,8 +2,10 @@ package com.github.florent37.singledateandtimepicker;
 
 import androidx.annotation.NonNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class DateHelper {
@@ -20,22 +22,27 @@ public class DateHelper {
 
     public void setTimeZone(TimeZone timeZoneValue) {
         timeZone = timeZoneValue;
+        System.out.println("DateHelper setTimeZone(): " + timeZoneValue.getID());
     }
 
     @NonNull
     public TimeZone getTimeZone() {
         if(this.timeZone == null) {
-            return TimeZone.getDefault();
-        } else {
-            return timeZone;
+            timeZone = TimeZone.getDefault();
         }
+        System.out.println("DateHelper getTimeZone(): " + timeZone.getID());
+        return timeZone;
     }
 
     public Calendar getCalendarOfDate(Date date) {
+        final String formatter = "yyyy-MM-dd HH:mm:ss";
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter, Locale.getDefault());
+        System.out.println("DateHelper getCalendarOfDate(): Original " + simpleDateFormat.format(date));
         final Calendar calendar = Calendar.getInstance(getTimeZone());
         calendar.setTime(date);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.SECOND, 0);
+        System.out.println("DateHelper getCalendarOfDate(): " + simpleDateFormat.format(calendar.getTime()));
         return calendar;
     }
 
@@ -44,7 +51,7 @@ public class DateHelper {
     }
 
     public int getHourOfDay(Date date) {
-        return getCalendarOfDate(date).get(Calendar.HOUR);
+        return getCalendarOfDate(date).get(Calendar.HOUR_OF_DAY);
     }
 
     public int getHour(Date date, boolean isAmPm) {

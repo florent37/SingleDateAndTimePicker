@@ -137,6 +137,10 @@ public class SingleDateAndTimePicker extends LinearLayout {
 
     public void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
+        // update DateHelper object at each Wheel view
+        for (WheelPicker wheelPicker : pickers) {
+            wheelPicker.setDateHelper(dateHelper);
+        }
     }
 
     public void setTimeZone(TimeZone timeZone) {
@@ -225,6 +229,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
                 .setHourChangedListener(new WheelHourPicker.OnHourChangedListener() {
                     @Override
                     public void onHourChanged(WheelHourPicker picker, int hour) {
+                        System.out.println("SingleDateAndTimePicker onHourChanged(): hour -> " + hour);
                         updateListener();
                         checkMinMaxDate(picker);
                     }

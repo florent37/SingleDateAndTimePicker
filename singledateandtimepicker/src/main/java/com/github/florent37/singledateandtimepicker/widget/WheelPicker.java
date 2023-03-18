@@ -1008,10 +1008,6 @@ public abstract class WheelPicker<V> extends View {
             if (formatItemInt != Integer.MIN_VALUE) {
                 // displayed values are Integers
                 int objectInt = Integer.parseInt(object);
-                if (this instanceof WheelHourPicker && ((WheelHourPicker) this).isAmPm) {
-                    // In case of hours and AM/PM mode, apply modulo 12
-                    objectInt = objectInt % 12;
-                }
                 if (objectInt <= formatItemInt) {
                     index = i;
                 }
